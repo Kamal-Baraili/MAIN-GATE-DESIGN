@@ -1,4 +1,3 @@
-import { FastForward } from "lucide-react";
 import { useState } from "react";
 
 interface Props {

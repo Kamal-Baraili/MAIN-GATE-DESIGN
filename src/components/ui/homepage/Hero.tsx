@@ -3,7 +3,6 @@ import { gsap } from "gsap";
 import Button from "../../shared/button/button";
 import { imageData } from "../../../db/mockdata";
 import Nav from "../../layout/nav";
-import { Link } from "lucide-react";
 
 const Hero = () => {
   const mainRef = useRef<HTMLDivElement | null>(null);
@@ -28,6 +27,7 @@ const Hero = () => {
     let lastScrollY = window.scrollY;
     let scrolledDistance = 0;
     let translateX = 0;
+    console.log(lastScrollY);
 
     // Track the position where Hero should be pinned
     let heroPinPosition = 0;
