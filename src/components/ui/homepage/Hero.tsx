@@ -289,7 +289,7 @@ const Hero = () => {
               Please View Our <br /> Gate Collection.
             </h2>
             <div className="mt-8 flex items-center justify-center gap-3 md:mt-14">
-              <Link to="/our work">
+              <a href="/our work">
                 <Button
                   text="View More"
                   color="text-black"
@@ -297,7 +297,7 @@ const Hero = () => {
                   src="/homepage/open-gate.svg"
                   secondSrc="/btn-handle.png"
                 />
-              </Link>
+              </a>
             </div>
           </div>
           <div className="inline-block flex-shrink-0">
