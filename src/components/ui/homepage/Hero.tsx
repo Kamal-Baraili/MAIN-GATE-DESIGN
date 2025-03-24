@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import Button from "../../shared/button/button";
 import { imageData } from "../../../db/mockdata";
 import Nav from "../../layout/nav";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const mainRef = useRef<HTMLDivElement | null>(null);
@@ -29,6 +30,8 @@ const Hero = () => {
     let isTouching = false;
     let touchStartX = 0;
     let touchStartY = 0;
+
+    console.log(lastScrollY);
 
     const updateDimensions = () => {
       totalWidth = images.scrollWidth;
@@ -241,7 +244,7 @@ const Hero = () => {
         />
         <div
           ref={redDivRef}
-          className="w-[320px] h-[420px] absolute top-[120px] left-1/2 -translate-x-1/2 z-10 opacity-0 md:w-[384px] md:h-[504px] md:top-[144px]"
+          className="w-[320px] h-[390px] absolute top-[120px] left-1/2 -translate-x-1/2 z-10 opacity-0 md:w-[384px] md:top-[144px]"
         >
           <img
             className="w-full h-full opacity-95"
@@ -286,7 +289,7 @@ const Hero = () => {
               Please View Our <br /> Gate Collection.
             </h2>
             <div className="mt-8 flex items-center justify-center gap-3 md:mt-14">
-              <a href="/our work">
+              <Link to="/our work">
                 <Button
                   text="View More"
                   color="text-black"
@@ -294,7 +297,7 @@ const Hero = () => {
                   src="/homepage/open-gate.svg"
                   secondSrc="/btn-handle.png"
                 />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="inline-block flex-shrink-0">
