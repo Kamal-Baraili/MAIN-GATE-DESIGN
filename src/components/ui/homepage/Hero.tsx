@@ -3,7 +3,6 @@ import { gsap } from "gsap";
 import Button from "../../shared/button/button";
 import { imageData } from "../../../db/mockdata";
 import Nav from "../../layout/nav";
-import { Link } from "react-router-dom";
 
 const Hero = () => {
   const mainRef = useRef<HTMLDivElement | null>(null);
