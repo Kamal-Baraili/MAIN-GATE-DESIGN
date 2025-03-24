@@ -18,45 +18,43 @@ export const imageData: string[] = [
 
 export const servicesCardData: any = [
   {
-    img: "/homepage/services/megaphone-white.svg",
+    icon: "/homepage/services/megaphone-white.svg",
     title: "Consultation and Site Assessment",
     desc: "We offer in-depth consultations and site assessments to tailor solutions precisely to your needs and property characteristics.",
+    imgSrc: "/our works/our-works-img1.jpg",
   },
   {
-    img: "/homepage/services/concept-white.svg",
+    icon: "/homepage/services/concept-white.svg",
     title: "Concept Development",
     desc: "Our expert team transforms your ideas into innovative designs, prioritizing functionality, security, and seamless integration with your property's aesthetics.",
+    imgSrc: "/our works/our-works-img2.jpg",
+    imgSrcOpt: "/our works/our-works-img4.jpg",
   },
   {
-    img: "/homepage/services/engineering-white.svg",
+    icon: "/homepage/services/engineering-white.svg",
     title: "Engineering and Structural Analysis",
     desc: "Our rigorous engineering ensures durability and safety. Using advanced techniques, we optimize the structural framework for efficiency and resilience.",
+    imgSrc: "/our works/our-works-img3.jpg",
   },
   {
-    img: "/homepage/services/design-white.svg",
+    icon: "/homepage/services/design-white.svg",
     title: "Design Development",
     desc: "Every detail of the design, from dimensions to materials, is meticulously refined for the perfect balance of form and function, exceeding your expectations.",
+    imgSrc: "/our works/our-works-img4.jpg",
+    imgSrcOpt: "/our works/our-works-img2.jpg",
   },
   {
-    img: "/homepage/services/construction-white.svg",
+    icon: "/homepage/services/construction-white.svg",
     title: "Fabrication and Construction Management",
     desc: "Skilled craftsmen use high-quality materials and advanced techniques for accurate fabrication. Our dedicated management ensures seamless execution and timely completion.",
+    imgSrc: "/our works/our-works-img1.jpg",
   },
   {
-    img: "/homepage/services/automation-white.svg",
+    icon: "/homepage/services/automation-white.svg",
     title: "Automation and Technology",
     desc: "We install smart gate systems with automated access control, remote monitoring, and motorized operation for enhanced security and convenience.",
-  },
-
-  {
-    img: "/homepage/services/engineering-white.svg",
-    title: "Engineering and Structural Analysis",
-    desc: "Our rigorous engineering ensures durability and safety. Using advanced techniques, we optimize the structural framework for efficiency and resilience.",
-  },
-  {
-    img: "/homepage/services/megaphone-white.svg",
-    title: "Consultation and Site Assessment",
-    desc: "We offer in-depth consultations and site assessments to tailor solutions precisely to your needs and property characteristics.",
+    imgSrc: "/our works/our-works-img2.jpg",
+    imgSrcOpt: "/our works/our-works-img3.jpg",
   },
 ];
 

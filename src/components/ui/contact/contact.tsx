@@ -10,7 +10,7 @@ const Contact = () => {
           </h2>
         </div>
         <div className="w-1/2 mx-auto mt-3">
-          <p className="text-center">
+          <p className="text-center text-zinc-400">
             We'd love to hear from you! Whether you have a question, need
             support, or just want to say hello, feel free to reach out. Our team
             is always here to help and we’ll get back to you as soon as

@@ -3,15 +3,12 @@ import { ourWorksData } from "../../../db/mockdata";
 const OurWorks = () => {
   return (
     <>
-      <div className="py-10 border-t border-t-zinc-800 rounded-4xl text-zinc-300">
-        <div className="w-[98%] mx-auto flex justify-center gap-50">
+      <div className="py-10 border-t border-t-zinc-800 text-zinc-300">
+        <div className="w-11/12 mx-auto flex justify-center gap-50">
           <div className="w-full mx-auto flex justify-between items-center">
             <div>
               <h4 className="text-7xl tracking-widest text-amber-50 text-center">
-                Our
-              </h4>
-              <h4 className="text-7xl tracking-widest text-amber-50 text-center">
-                Works
+                Our Works
               </h4>
             </div>
 
@@ -24,7 +21,7 @@ const OurWorks = () => {
           </div>
         </div>
 
-        <div className="w-[98%] mx-auto mt-8 mb-20 grid grid-cols-2 grid-rows-5 gap-x-10 gap-y-26 h-[250vh]">
+        <div className="w-11/12 mx-auto my-20 grid grid-cols-2 grid-rows-5 gap-x-10 gap-y-26 h-[250vh]">
           {ourWorksData.map((k: any, index: number) => (
             <div
               className={`${index === 0 && "row-span-2"} ${

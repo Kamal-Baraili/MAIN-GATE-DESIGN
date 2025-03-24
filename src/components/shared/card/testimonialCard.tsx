@@ -24,14 +24,14 @@ const TestimonialCard = ({
               />
             </div>
           </div>
-          <div className="w-1/2 flex flex-col justify-center">
-            <div className=" p-1 w-7 h-7 rounded-full bg-primary mb-10">
-              <img className="h-5" src="/homepage/quote.svg" alt="" />
+          <div className="w-1/2 flex flex-col gap-10">
+            <div className=" p-1 w-10 h-10 rounded-full bg-primary">
+              <img className="w-8 h-8" src="/homepage/quote.svg" alt="" />
             </div>
-            <p className="my-6">"{reviewDesc}"</p>
+            <p className="mt-16">"{reviewDesc}"</p>
             <div className="">
               <h3 className="font-bold text-xl">{reviewName}</h3>
-              <h4 className="mt-1 text-sm">{reviewPost}</h4>
+              <h4 className="mt-1 text-sm italic">{reviewPost}</h4>
             </div>
           </div>
         </div>

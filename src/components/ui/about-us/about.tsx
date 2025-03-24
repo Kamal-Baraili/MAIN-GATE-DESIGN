@@ -2,10 +2,10 @@ const About = () => {
   return (
     <>
       <div className="py-24 border-t border-t-zinc-800 rounded-4xl text-zinc-300">
-        <div className="w-[98%] mx-auto flex justify-center gap-50">
-          <div className="w-1/2">
-            <h4 className="text-xl text-primary mt-10">About Us</h4>
-            <h2 className="my-10 text-6xl text-amber-50">
+        <div className="w-11/12 mx-auto flex justify-center gap-50">
+          <div className="w-1/2 flex flex-col gap-2">
+            <h4 className="text-xl text-primary">About Us</h4>
+            <h2 className="text-6xl text-amber-50 tracking-wide">
               Welcome To Main Gate Design
             </h2>
             <p>
@@ -20,7 +20,7 @@ const About = () => {
           </div>
           <div className="w-1/2 relative z-0">
             <img
-              className="w-full rounded-2xl"
+              className="w-full h-[60vh] rounded-2xl"
               src="/homepage/about/about-img.jpeg"
               alt=""
             />

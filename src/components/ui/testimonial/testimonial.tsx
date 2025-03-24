@@ -46,7 +46,7 @@ const Testimonial = () => {
   return (
     <>
       <div className="pt-20 pb-30 rounded-t-4xl -mt-10 border-y border-y-zinc-800">
-        <h2 className="text-primary text-6xl text-center">
+        <h2 className="text-amber-50 text-6xl text-center">
           What Our Clients Say?
         </h2>
         <div className="w-full mx-auto mt-10 relative">
@@ -98,16 +98,6 @@ const Testimonial = () => {
             {">"}
           </div> */}
         </div>
-      </div>
-
-      <div className="w-full h-screen py-10 mb-10">
-        <iframe
-          className="w-full"
-          width="1303"
-          height="734"
-          src="https://www.youtube.com/embed/U6ixCJWPmjA?autoplay=1&loop=1&playlist=U6ixCJWPmjA&mute=1"
-          allow="autoplay; loop"
-        ></iframe>
       </div>
     </>
   );

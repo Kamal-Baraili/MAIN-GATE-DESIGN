@@ -1,13 +1,13 @@
 import Footer from "./components/layout/footer";
 import Nav from "./components/layout/nav";
 import About from "./components/ui/about-us/about";
-import { Services } from "./components/ui/our-services/services";
 import OurWorks from "./components/ui/our-work/ourWorks";
 import { blogCardData } from "./db/mockdata";
 import BlogDetail from "./pages/blog/blogDetail";
 import BlogsPage from "./pages/blog/blogsPage";
 import ContactUsPage from "./pages/contact-us/contactUsPage";
 import Homepage from "./pages/homepage/homepage";
+import ServicesPage from "./pages/our-services/servicesPage";
 import "./styles/index.css";
 import {
   BrowserRouter as Router,
@@ -34,7 +34,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
+        <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact us" element={<ContactUsPage />} />
         <Route path="/our work" element={<OurWorks />} />
         <Route path="blog" element={<BlogsPage />} />

@@ -32,31 +32,31 @@ const MainGateHero = () => {
         scrollTrigger: {
           trigger: container.current,
           start: "top top",
-          end: "+=100%", // Extended duration for smooth scrolling
-          scrub: 1, // Tie animation to scroll
-          pin: true, // Pin the container
-          toggleActions: "play none none none", // Only play on forward scroll, no reset
+          end: "+=300%", // Extended duration for multiple scrolls
+          scrub: 1,
+          pin: true,
+          toggleActions: "play none none none",
         },
       });
 
       // Animation sequence
       tl
-        // Move the gates
+        // Move the gates - 5s duration
         .to(box1.current, {
           x: "-100%",
           ease: "power2.inOut",
-          duration: 1,
+          duration: 5,
         })
         .to(
           box2.current,
           {
             x: "100%",
             ease: "power2.inOut",
-            duration: 1,
+            duration: 5,
           },
           "<" // Sync with box1
         )
-        // Fade out first text
+        // Fade out first text (Welcome)
         .to(
           textRef.current,
           {
@@ -66,9 +66,9 @@ const MainGateHero = () => {
             ease: "power2.inOut",
             duration: 2,
           },
-          ">1" // Start fading out slightly before gates finish
+          ">-1" // Starts 2s before gates finish
         )
-        // Fade in second text and lock it
+        // Fade in second text
         .to(
           textSecondRef.current,
           {
@@ -76,30 +76,33 @@ const MainGateHero = () => {
             opacity: 1,
             ease: "power2.inOut",
             duration: 2,
-            onComplete: () => {
-              // Ensure the second text stays visible after animation
-              gsap.set(textSecondRef.current, { opacity: 0 });
-            },
           },
-          ">-0.5" // Start after first text fades out
+          ">1" // 2s after first text fades
         )
-
+        // Fade out second text
+        .to(
+          textSecondRef.current,
+          {
+            y: "-20%",
+            opacity: 0,
+            ease: "power2.inOut",
+            duration: 2,
+          },
+          ">-1" // 2s after second text appears
+        )
+        // Fade in third text
         .to(
           textThirdRef.current,
           {
             y: "-10%",
             opacity: 1,
             ease: "power2.inOut",
-            duration: 0.8,
-            onComplete: () => {
-              // Ensure the second text stays visible after animation
-              gsap.set(textThirdRef.current, { opacity: 1 });
-            },
+            duration: 2,
           },
-          ">" // Start after first text fades out
+          ">1" // 2s after second text fades
         );
 
-      // Cleanup to prevent repeat on scroll back
+      // Cleanup
       return () => {
         ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       };

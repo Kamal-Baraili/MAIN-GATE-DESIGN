@@ -19,87 +19,134 @@ const Hero = () => {
 
     if (!heroContainer || !images || !redDiv || !wrapper) return;
 
-    const totalWidth = images.scrollWidth;
-    const scrollDistance = totalWidth - window.innerWidth + 400;
-
-    wrapper.style.height = `${window.innerHeight + scrollDistance}px`;
-
+    let totalWidth = images.scrollWidth;
+    let scrollDistance =
+      totalWidth - window.innerWidth + (window.innerWidth < 768 ? 200 : 400);
     let lastScrollY = window.scrollY;
     let scrolledDistance = 0;
     let translateX = 0;
-    console.log(lastScrollY);
-
-    // Track the position where Hero should be pinned
     let heroPinPosition = 0;
+    let isTouching = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
 
-    const handleScroll = () => {
+    const updateDimensions = () => {
+      totalWidth = images.scrollWidth;
+      scrollDistance =
+        totalWidth - window.innerWidth + (window.innerWidth < 768 ? 200 : 400);
+      wrapper.style.height = `${window.innerHeight + scrollDistance}px`;
+    };
+
+    const initializeScroll = () => {
+      updateDimensions();
       const currentScrollY = window.scrollY;
-      // const scrollDelta = currentScrollY - lastScrollY;
       const wrapperRect = wrapper.getBoundingClientRect();
 
-      // Calculate the point where pinning should start
-      if (heroPinPosition === 0 && wrapperRect.top <= 0) {
-        heroPinPosition = currentScrollY;
+      if (wrapperRect.top <= 0) {
+        heroPinPosition = currentScrollY - wrapperRect.top * -1;
+        const relativePosition = currentScrollY - heroPinPosition;
+
+        if (relativePosition >= 0 && relativePosition <= scrollDistance) {
+          setIsPinned(true);
+          scrolledDistance = relativePosition;
+          const progress = scrolledDistance / scrollDistance;
+          translateX = -(progress * (totalWidth - window.innerWidth));
+          gsap.set(images, { x: translateX });
+          updateSpotlight();
+        }
+      } else {
+        setIsPinned(false);
+        gsap.set(images, { x: 0 });
+        resetSpotlight();
       }
+    };
 
-      // Get the current position relative to the pin point
-      const relativePosition = currentScrollY - heroPinPosition;
+    const handleScroll = () => {
+      if (isTouching) return;
 
-      // Reset when outside the range of our component
+      const currentScrollY = window.scrollY;
+      const wrapperRect = wrapper.getBoundingClientRect();
+
       if (wrapperRect.top > 0) {
-        // Above the component - reset everything
         setIsPinned(false);
         scrolledDistance = 0;
         translateX = 0;
         gsap.set(images, { x: 0 });
         resetSpotlight();
-        heroPinPosition = 0; // Reset the pin position
+        heroPinPosition = 0;
         lastScrollY = currentScrollY;
         return;
       }
 
-      // When we're in the pinning range
+      if (heroPinPosition === 0 && wrapperRect.top <= 0) {
+        heroPinPosition = currentScrollY - wrapperRect.top * -1;
+      }
+
+      const relativePosition = currentScrollY - heroPinPosition;
+
       if (relativePosition >= 0 && relativePosition <= scrollDistance) {
         setIsPinned(true);
-
-        // Calculate scroll progress directly from relative position
         scrolledDistance = relativePosition;
-
-        // Calculate translation
         const progress = scrolledDistance / scrollDistance;
         translateX = -(progress * (totalWidth - window.innerWidth));
         gsap.set(images, { x: translateX });
-
         updateSpotlight();
-      } else if (relativePosition < 0) {
-        // Above the pinning point but still within the component
-        setIsPinned(false);
-        scrolledDistance = 0;
-        translateX = 0;
-        gsap.set(images, { x: 0 });
-        resetSpotlight();
-      } else if (relativePosition > scrollDistance) {
-        // Beyond the scroll distance, unpin
-        setIsPinned(false);
+      }
+      lastScrollY = currentScrollY;
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      isTouching = true;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isTouching) return;
+
+      const touchX = e.touches[0].clientX;
+      const touchY = e.touches[0].clientY;
+      const deltaX = touchStartX - touchX;
+      const deltaY = touchStartY - touchY;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        e.preventDefault();
       }
 
-      lastScrollY = currentScrollY;
+      const wrapperRect = wrapper.getBoundingClientRect();
+      if (wrapperRect.top <= 0) {
+        setIsPinned(true);
+        scrolledDistance += deltaX * 2;
+        scrolledDistance = Math.max(
+          0,
+          Math.min(scrolledDistance, scrollDistance)
+        );
+        const progress = scrolledDistance / scrollDistance;
+        translateX = -(progress * (totalWidth - window.innerWidth));
+        gsap.set(images, { x: translateX });
+        updateSpotlight();
+        touchStartX = touchX;
+        touchStartY = touchY;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      isTouching = false;
     };
 
     const updateSpotlight = () => {
       if (!images || !redDiv) return;
 
-      // Select the elements with the class "img" (your detection points)
       const imgDetectionPoints = Array.from(
-        images.querySelectorAll(".img")
+        images.querySelectorAll(".img-detection")
       ) as HTMLElement[];
 
       let redDivVisible = false;
       const redDivRect = redDiv.getBoundingClientRect();
 
-      // Check if any of the img detection points overlap with redDiv
       imgDetectionPoints.forEach((imgPoint) => {
         const imgPointRect = imgPoint.getBoundingClientRect();
+        const parentContainer = imgPoint.parentElement as HTMLElement;
 
         const isOverlapping =
           imgPointRect.right >= redDivRect.left &&
@@ -107,56 +154,67 @@ const Hero = () => {
           imgPointRect.bottom >= redDivRect.top &&
           imgPointRect.top <= redDivRect.bottom;
 
-        if (isOverlapping) {
+        if (isOverlapping && parentContainer) {
           redDivVisible = true;
-
-          // Find the parent container of this detection point
-          const imgContainer = imgPoint.closest(
-            ".flex-shrink-0"
-          ) as HTMLElement;
-          if (imgContainer) {
-            gsap.to(imgContainer, { opacity: 1, scale: 1.2, duration: 0.1 });
-          }
+          gsap.to(parentContainer, {
+            opacity: 1,
+            scale: 1.1,
+            duration: 0.2,
+            ease: "power2.out",
+          });
+        } else if (parentContainer) {
+          gsap.to(parentContainer, {
+            opacity: 0.6,
+            scale: 1,
+            duration: 0.2,
+            ease: "power2.out",
+          });
         }
       });
 
-      // If any detection point is overlapping, show the redDiv
-      gsap.to(redDiv, { opacity: redDivVisible ? 1 : 0, duration: 0.1 });
-
-      // For any container not marked as visible, reset its opacity and scale
-      const allContainers = Array.from(
-        images.querySelectorAll(".flex-shrink-0")
-      ) as HTMLElement[];
-
-      if (!redDivVisible) {
-        allContainers.forEach((container) => {
-          gsap.to(container, { opacity: 0.6, scale: 1, duration: 0.1 });
-        });
-      }
+      gsap.to(redDiv, {
+        opacity: redDivVisible ? 1 : 0,
+        duration: 0.2,
+        ease: "power2.out",
+      });
     };
 
     const resetSpotlight = () => {
       if (!images || !redDiv) return;
 
-      const imagesArray = Array.from(images.children).filter((child) =>
-        child.querySelector(".img")
+      const allContainers = Array.from(
+        images.querySelectorAll(".img-container")
       ) as HTMLElement[];
 
-      imagesArray.forEach((imgContainer) => {
-        gsap.to(imgContainer, { opacity: 0.6, scale: 1, duration: 0.3 });
+      allContainers.forEach((container) => {
+        gsap.to(container, {
+          opacity: 0.6,
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
       });
 
-      gsap.to(redDiv, { opacity: 0, duration: 0.3 });
+      gsap.to(redDiv, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
     };
 
-    // Run handleScroll once to initialize
-    setTimeout(handleScroll, 100);
-
+    initializeScroll();
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", updateDimensions);
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      // Reset on unmount
+      window.removeEventListener("resize", updateDimensions);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
       gsap.set(images, { x: 0 });
       resetSpotlight();
     };
@@ -167,7 +225,7 @@ const Hero = () => {
       <Nav />
       <div
         ref={heroContainerRef}
-        className="relative h-screen overflow-hidden"
+        className="relative h-screen overflow-x-hidden touch-pan-y"
         style={{
           position: isPinned ? "sticky" : "relative",
           top: isPinned ? 0 : "auto",
@@ -177,13 +235,13 @@ const Hero = () => {
         }}
       >
         <img
-          className="w-50 h-30 absolute top-0 left-1/2 transform -translate-x-1/2 z-100"
+          className="w-[200px] h-[120px] absolute top-0 left-1/2 -translate-x-1/2 z-50 md:w-[240px] md:h-[144px]"
           src="/homepage/hanging-lamp.png"
           alt="Hanging Lamp"
         />
         <div
           ref={redDivRef}
-          className="w-80 h-105 absolute top-30 left-1/2 transform -translate-x-1/2 z-10 opacity-0 transition-all duration-300"
+          className="w-[320px] h-[420px] absolute top-[120px] left-1/2 -translate-x-1/2 z-10 opacity-0 md:w-[384px] md:h-[504px] md:top-[144px]"
         >
           <img
             className="w-full h-full opacity-95"
@@ -193,43 +251,41 @@ const Hero = () => {
         </div>
         <div
           ref={mainRef}
-          className="flex pt-60 px-40 whitespace-nowrap will-change-transform"
+          className="flex pt-40 px-4 whitespace-nowrap will-change-transform md:pt-60 md:px-40"
         >
           <div className="inline-block flex-shrink-0">
-            <div className="w-[405px] h-[450px] px-20 transition-all duration-300 transform mx-4"></div>
+            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 md:w-[405px] md:h-[450px] md:mx-4"></div>
           </div>
           {imageData.map((src, index) => (
             <div key={index} className="inline-block flex-shrink-0">
-              <div className="w-[450px] h-[450px] px-5 mr-80 transition-all duration-300 transform mx-4 relative">
+              <div className="img-container w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-80 md:mx-4">
                 <img
                   className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20"
                   src={src}
                   alt={`Slide ${index}`}
                 />
-                <div className="img w-[1px] h-5 absolute top-0 left-[50%]"></div>
-
+                <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
                 <p
                   style={{
-                    WebkitTextStrokeWidth: "3px",
+                    WebkitTextStrokeWidth: "2px",
                     WebkitTextStrokeColor: "#ffffff",
                   }}
-                  className=" text-[100px] uppercase text-transparent absolute top-40 -left-12 z-50 font-bold font-ursb"
+                  className="text-[60px] uppercase text-transparent absolute top-20 -left-8 z-50 font-bold font-ursb md:text-[100px] md:top-40 md:-left-12"
                 >
                   MILD STEEL
                 </p>
-                <p className=" absolute top-40 -left-12 text-[100px] uppercase text-white font-bold -z-20 font-ursb ">
+                <p className="absolute top-20 -left-8 text-[60px] uppercase text-white font-bold -z-20 font-ursb md:text-[100px] md:top-40 md:-left-12">
                   MILD STEEL
                 </p>
               </div>
             </div>
           ))}
-
-          <div className="img flex-shrink-0 w-[450px] h-[450px] px-5 mr-80 transition-all duration-300 transform mx-4">
-            <h2 className="text-5xl text-center font-bold text-white mt-20 leading-20">
+          <div className="img-container flex-shrink-0 w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-80 md:mx-4">
+            <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
+            <h2 className="text-3xl text-center font-bold text-white mt-10 leading-10 md:text-5xl md:mt-20 md:leading-[5rem]">
               Please View Our <br /> Gate Collection.
             </h2>
-            <div className="img w-[1px] h-5 absolute top-0 left-[50%]"></div>
-            <div className="mt-14 flex items-center justify-center gap-3">
+            <div className="mt-8 flex items-center justify-center gap-3 md:mt-14">
               <a href="/our work">
                 <Button
                   text="View More"
@@ -242,10 +298,9 @@ const Hero = () => {
             </div>
           </div>
           <div className="inline-block flex-shrink-0">
-            <div className="w-[250px] h-[250px] px-20 transition-all duration-300 transform mx-4"></div>
+            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 md:w-[250px] md:h-[250px] md:mx-4"></div>
           </div>
         </div>
-        {/* {isPinned && <div style={{ height: "100vh" }}></div>} */}
       </div>
     </div>
   );
