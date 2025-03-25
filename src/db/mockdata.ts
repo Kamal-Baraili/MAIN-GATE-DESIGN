@@ -1,6 +1,7 @@
 export const navMenus: any = [
   { title: "home", path: "/" },
   { title: "about us", path: "/about" },
+  { title: "our works", path: "/works" },
   { title: "services", path: "/services" },
   { title: "blog", path: "/blog" },
 ];
@@ -14,6 +15,39 @@ export const imageData: string[] = [
   "/homepage/gate2.png",
   "/homepage/gate3.png",
   "/homepage/gate4.png",
+];
+
+export const servicesTitles = [
+  {
+    number: "01",
+    title: "Custom Gate Design",
+    imgSrc: "/our works/our-works-img1.jpg",
+  },
+  {
+    number: "02",
+    title: "Gate Installation ",
+    imgSrc: "/our works/our-works-img2.jpg",
+  },
+  {
+    number: "03",
+    title: "Gate Repair & Maintenance",
+    imgSrc: "/our works/our-works-img3.jpg",
+  },
+  {
+    number: "04",
+    title: "Automated Gate Systemsell",
+    imgSrc: "/our works/our-works-img4.jpg",
+  },
+  {
+    number: "05",
+    title: "Custom Material Options",
+    imgSrc: "/our works/our-works-img1.jpg",
+  },
+  {
+    number: "06",
+    title: "Security Gate Solutions",
+    imgSrc: "/our works/our-works-img2.jpg",
+  },
 ];
 
 export const servicesCardData: any = [
@@ -62,63 +96,72 @@ export const reviewCardData: any = [
   {
     imgSrc: "/homepage/review_img1.svg",
     reviewDesc:
-      "We offer in-depth consultations and site assessments to tailor solutions precisely to your needs and property characteristics.",
-    reviewName: "Consultation and Site Assessment",
+      "I had a custom gate installed by Elegant Gates Designs, and I'm thrilled with the result. The design is stunning, and the quality is exceptional. The team was professional and easy to work with. Highly recommended!",
+    reviewName: "Martha Thompson",
     reviewPost: "UI/UX Designer",
   },
 
   {
     imgSrc: "/homepage/review_img2.svg",
     reviewDesc:
-      "We offer in-depth consultations and site assessments to tailor solutions precisely to your needs and property characteristics.",
-    reviewName: "Consultation and Site Assessment",
-    reviewPost: "UI/UX Designer",
+      "I'm really impressed with the gate I had installed by Ironclad Gate Creations. The design is exactly what I wanted, and the craftsmanship is outstanding. The whole process was smooth and efficient. Highly recommend them!",
+    reviewName: "Mark Evans",
+    reviewPost: "Sales Executive",
   },
 
   {
     imgSrc: "/homepage/review_img3.svg",
     reviewDesc:
-      "We offer in-depth consultations and site assessments to tailor solutions precisely to your needs and property characteristics.",
-    reviewName: "Consultation and Site Assessment",
-    reviewPost: "UI/UX Designer",
+      "Working with Prestige Gate Works was a fantastic experience. The team listened to my ideas and created a beautiful, durable gate that perfectly matches my home. Great service and top-quality work. Highly recommended!",
+    reviewName: "Rachel Adams",
+    reviewPost: "Business Consultant",
   },
 ];
 
-export const ourWorksData: any = [
+export const WorkdsData = [
   {
-    imgSrc: "/our works/our-works-img2.jpg",
-    caption: "Mild Steel",
+    title: "Mild Steel",
+    desc: "Ui/Ux Design,Web Development",
+    img: "/our works/our-works-img2.jpg",
+    // path: "",
+  },
+  {
+    title: "MS Plus WPC",
+    desc: "Ui/Ux Design,Web Development",
+    img: "/our works/our-works-img3.jpg",
+    // path: "",
+  },
+  {
+    title: "Custom Gate",
+    desc: "Ui/Ux Design,Web Development",
+    img: "/our works/our-works-img4.jpg",
+    // path: "",
   },
 
   {
-    imgSrc: "/our works/our-works-img4.jpg",
-    caption: "MS Plus WPC",
+    title: "Folding Gate Design",
+    desc: "Ui/Ux Design,Web Development",
+    img: "/our works/our-works-img1.jpg",
+    // path: "",
   },
-
   {
-    imgSrc: "/our works/our-works-img3.jpg",
-    caption: "Custom Gate",
+    title: "Silver Gate Design",
+    desc: "Ui/Ux Design,Web Development",
+    img: "/our works/our-works-img2.jpg",
+    // path: "",
   },
-
   {
-    imgSrc: "/our works/our-works-img1.jpg",
-    caption: "Folding Gate Design",
-  },
-
-  {
-    imgSrc: "/our works/our-works-img5.jpg",
-    caption: "Silver Gate Design",
-  },
-
-  {
-    imgSrc: "/our works/our-works-img2.jpg",
-    caption: "Hotel Gate Design",
+    title: "Hotel Gate Design",
+    desc: "Ui/Ux Design,Web Development",
+    img: "/our works/our-works-img3.jpg",
+    // path: "",
   },
 ];
 
 export const blogCardData: any = [
   {
     imgSrc: "/our works/our-works-img1.jpg",
+    authorImg: "/homepage/review_img1.svg",
     author: "Ram Bahadur",
     date: "10 March 2025",
     title: "Unveiling the Mysteries of Vaastu Shastra for Main Gate",
@@ -127,6 +170,7 @@ export const blogCardData: any = [
 
   {
     imgSrc: "/our works/our-works-img2.jpg",
+    authorImg: "/homepage/review_img2.svg",
     author: "Shyam Bahadur",
     date: "12 March 2025",
     title: "The Importance of Main Gate Design and Fabrication in Nepal",
@@ -135,10 +179,31 @@ export const blogCardData: any = [
 
   {
     imgSrc: "/our works/our-works-img3.jpg",
+    authorImg: "/homepage/review_img3.svg",
     author: "Hari Bahadur",
     date: "14 March 2025",
     title:
       "The Art of Main Gate Design and Fabrication: Beautifying Nepal’s Entrances",
     slug: "The Art of Main Gate Design and Fabrication: Beautifying Nepal’s Entrances",
+  },
+];
+
+export const OurTeamCardData: any = [
+  {
+    imgSrc: "/our team/our-team-img1.jpg",
+    memberName: "John Doe",
+    memberPost: "CEO",
+  },
+
+  {
+    imgSrc: "/our team/our-team-img2.jpg",
+    memberName: "Mark Miller",
+    memberPost: "Manager",
+  },
+
+  {
+    imgSrc: "/our team/our-team-img3.jpg",
+    memberName: "Ken Ham",
+    memberPost: "Engineer",
   },
 ];

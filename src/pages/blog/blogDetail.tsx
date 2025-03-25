@@ -2,24 +2,25 @@ import { Link } from "react-router-dom";
 
 interface Props {
   imgSrc: string;
+  authorImg: string;
   author: string;
   date: string;
   title: string;
 }
 
-const BlogDetail = ({ imgSrc, author, date, title }: Props) => {
+const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
   return (
     <>
       <div className="w-9/11 mx-auto mt-5 mb-20">
         <div className="w-full mx-auto rounded-2xl flex justify-center gap-20 items-start">
           <div className="w-6/11 mx-auto flex flex-col gap-20">
             <Link to="/blog">
-              <div className=" flex gap-2">
-                <img src="/blog/arrow-left.svg" alt="" />
-                <span>Back</span>
+              <div className=" flex gap-2 text-zinc-300 opacity-70 hover:opacity-90 hover:text-zinc-100 hover:gap-3 transition-all ease-in-out duration-100">
+                <img className="" src="/blog/arrow-left.svg" alt="" />
+                <span className="">Back</span>
               </div>
             </Link>
-            <h3 className=" text-6xl mb-2 pt-2">{title}</h3>
+            <h3 className=" text-6xl mb-2 pt-2 text-zinc-400">{title}</h3>
           </div>
           <img
             className={`w-5/11 rounded-2xl opacity-65 h-[60vh] object-cover`}
@@ -27,11 +28,19 @@ const BlogDetail = ({ imgSrc, author, date, title }: Props) => {
             alt="blog-image"
           />
         </div>
-        <div className="w-full mx-auto my-5 flex justify-between pb-10 border-b border-b-zinc-700 text-zinc-200">
-          <span>Author- {author}</span> <span className="text-sm">{date}</span>
+        <div className="w-full mx-auto my-5 flex justify-between pb-10 border-b border-b-zinc-700 text-zinc-400">
+          <div className="flex gap-2 items-center">
+            <img
+              className="w-8 h-8 rounded-full"
+              src={authorImg}
+              alt="author-image"
+            />
+            <span>{author}</span>
+          </div>
+          <span className="text-sm">{date}</span>
         </div>
 
-        <p className="w-full mx-auto leading-7 tracking-wider text-zinc-400">
+        <p className="w-full mx-auto leading-7 tracking-wider text-zinc-500">
           Unveiling the Mysteries of Vaastu Shastra for Main Gate Are you
           seeking harmony and positive energy in your home? If so, then
           understanding the ancient art of Vaastu Shastra for your main gate

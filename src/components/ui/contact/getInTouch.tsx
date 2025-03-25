@@ -1,28 +1,28 @@
 const GetInTouch = () => {
   return (
     <>
-      <div className="relative">
-        <div className="w-full h-[54vh] bg-[url(/homepage/cta-bg.jpg)] bg-repeat-round opacity-75"></div>
-        <div className="absolute inset-0 py-20 border-t border-t-zinc-800 flex flex-col gap-6">
-          <div className="w-7/11 mx-auto flex flex-col items-center gap-5">
-            <h2 className="text-amber-50 text-6xl">Get In Touch</h2>
-            <div className="w-30 bg-primary h-1"></div>
+      <div className="w-11/12 mx-auto py-50 flex gap-16 relative">
+        <div className="w-full flex flex-col gap-10">
+          <div className="flex flex-col gap-5">
+            <h2 className="text-amber-50 text-6xl">
+              Get In <span className="text-primary">Touch</span>
+            </h2>
           </div>
-          <div className="w-4/11 mx-auto">
-            <p className="text-center text-zinc-300">
+          <div className="">
+            <p className="w-7/11 text-zinc-500">
               We'd love to hear from you! Whether you have a question, need
               support, or just want to say hello, feel free to reach out. Our
               team is always here to help and we’ll get back to you as soon as
               possible.
             </p>
           </div>
-          <div className="w-3/10 mx-auto flex gap-8">
+          <div className="flex gap-8">
             <a
-              href="https://mail.google.com/mail/u/0/#inbox?compose=new"
+              href="/contact us"
               className="px-8 py-4 rounded-4xl bg-[#18181A] hover:bg-[#27272b] flex items-center gap-2"
             >
               <img src="/footer/mail.svg" alt="" />
-              <span>Send Us an Email</span>
+              <span>Contact Us</span>
             </a>
             <a
               className="px-4 py-2 bg-green-500 hover:bg-green-400 rounded-4xl flex items-center gap-2"
@@ -33,6 +33,24 @@ const GetInTouch = () => {
               <span>Whatsapp Us</span>
             </a>
           </div>
+        </div>
+
+        <div className="w-full">
+          <img
+            className="absolute top-[35%] right-[34.5%] w-[15vw] h-[35vh] object-cover"
+            src="/homepage/cta/cta-img1.jpg"
+            alt="call-to-action-image"
+          />
+          <img
+            className="absolute top-[58%] right-[11%] w-[20vw] h-[25vh] object-cover"
+            src="/homepage/cta/cta-img2.jpg"
+            alt="call-to-action-image"
+          />
+          <img
+            className="absolute top-[10%] right-0 w-[30vw] h-[40vh]  object-cover"
+            src="/homepage/cta/cta-img3.jpg"
+            alt="call-to-action-image"
+          />
         </div>
       </div>
     </>

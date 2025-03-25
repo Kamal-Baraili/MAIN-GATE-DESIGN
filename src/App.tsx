@@ -1,8 +1,8 @@
 import Footer from "./components/layout/footer";
 import Nav from "./components/layout/nav";
-import About from "./components/ui/about-us/about";
 import OurWorks from "./components/ui/our-work/ourWorks";
 import { blogCardData } from "./db/mockdata";
+import AboutUsPage from "./pages/about-us/aboutUsPage";
 import BlogDetail from "./pages/blog/blogDetail";
 import BlogsPage from "./pages/blog/blogsPage";
 import ContactUsPage from "./pages/contact-us/contactUsPage";
@@ -33,10 +33,10 @@ const Main = () => {
 
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<AboutUsPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact us" element={<ContactUsPage />} />
-        <Route path="/our work" element={<OurWorks />} />
+        <Route path="/works" element={<OurWorks />} />
         <Route path="blog" element={<BlogsPage />} />
         {blogCardData.map((key: any, index: any) => (
           <Route
@@ -45,6 +45,7 @@ const Main = () => {
             element={
               <BlogDetail
                 imgSrc={key.imgSrc}
+                authorImg={key.authorImg}
                 author={key.author}
                 date={key.date}
                 title={key.title}

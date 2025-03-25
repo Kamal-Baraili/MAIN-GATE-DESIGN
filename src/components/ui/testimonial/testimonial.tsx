@@ -6,7 +6,6 @@ import { SetStateAction, useRef, useState } from "react";
 import { reviewCardData } from "../../../db/mockdata";
 
 const Testimonial = () => {
-  // Explicitly type the ref to Slider
   const sliderRef = useRef<Slider | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -24,19 +23,6 @@ const Testimonial = () => {
       setCurrentSlide(newIndex),
   };
 
-  // Custom next and previous functions
-  // const next = () => {
-  //   if (sliderRef.current) {
-  //     sliderRef.current.slickNext();
-  //   }
-  // };
-
-  // const prev = () => {
-  //   if (sliderRef.current) {
-  //     sliderRef.current.slickPrev();
-  //   }
-  // };
-
   const goToSlide = (index: number) => {
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(index);
@@ -47,7 +33,7 @@ const Testimonial = () => {
     <>
       <div className="pt-20 pb-30 rounded-t-4xl -mt-10 border-y border-y-zinc-800">
         <h2 className="text-amber-50 text-6xl text-center">
-          What Our Clients Say?
+          What Our <span className="text-primary">Clients</span> Say?
         </h2>
         <div className="w-full mx-auto mt-10 relative">
           <Slider {...settings} ref={sliderRef}>
@@ -81,22 +67,6 @@ const Testimonial = () => {
               </button>
             ))}
           </div>
-
-          {/* Custom Left Arrow */}
-          {/* <div
-            className="w-10 absolute left-5 top-1/2 text-2xl text-black bg-white p-2 rounded-full shadow-lg cursor-pointer"
-            onClick={prev}
-          >
-            {"<"}
-          </div> */}
-
-          {/* Custom Right Arrow */}
-          {/* <div
-            className="w-10 absolute right-5 top-1/2 text-2xl text-black bg-white p-2 rounded-full shadow-lg cursor-pointer"
-            onClick={next}
-          >
-            {">"}
-          </div> */}
         </div>
       </div>
     </>

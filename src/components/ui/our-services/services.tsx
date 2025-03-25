@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { servicesTitles } from "../../../db/mockdata";
 
 export function Services() {
   const [hoveredIndex, setHoveredIndex] = useState(0);
@@ -8,13 +9,13 @@ export function Services() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setImgSource(servicesTitles[hoveredIndex].imgSrc);
-    }, 300); // 150ms delay for image transition
+    }, 100); // 150ms delay for image transition
 
     return () => clearTimeout(timer); // Cleanup timeout on unmount or change
   }, [hoveredIndex]);
 
   return (
-    <div className="h-auto pt-10 pb-30 rounded-t-4xl border-t border-t-zinc-800">
+    <div className="h-auto py-30 rounded-t-4xl border-t border-t-zinc-800">
       <div className="w-10/11 mx-auto flex flex-row-reverse gap-10">
         <div className="w-full">
           <div className="flex flex-col gap-2">
@@ -23,10 +24,12 @@ export function Services() {
               enjoy your favourite design
             </h2>
             <p className="text-zinc-400">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
-              dignissimos dolores ex animi vel ipsum optio, assumenda laudantium
-              quos cumque neque aspernatur commodi sint nostrum officia in.
-              Commodi, autem accusamus.
+              Enjoy your favorite design with a custom gate that perfectly
+              reflects your style. Whether you prefer a modern, traditional, or
+              unique look, we offer a wide range of customizable options to suit
+              your taste. Crafted with high-quality materials and expert
+              craftsmanship, our gates provide both beauty and functionality,
+              giving you an entrance that stands out every time you come home.
             </p>
           </div>
           <div className="mt-6">
@@ -38,7 +41,7 @@ export function Services() {
                   }}
                   onMouseLeave={() => setHoveredIndex(0)}
                   className={`flex justify-between py-4 border-b border-b-zinc-800 cursor-default transition-colors duration-300 ease-in-out ${
-                    hoveredIndex === ind ? "text-white" : "text-zinc-400"
+                    hoveredIndex === ind ? "text-primary" : "text-zinc-400"
                   }`}
                 >
                   <span>{k.number}</span>
@@ -59,16 +62,3 @@ export function Services() {
     </div>
   );
 }
-
-const servicesTitles = [
-  { number: "01", title: "Cardio", imgSrc: "/our works/our-works-img1.jpg" },
-  { number: "02", title: "Lifting", imgSrc: "/our works/our-works-img2.jpg" },
-  { number: "03", title: "Exercise", imgSrc: "/our works/our-works-img3.jpg" },
-  { number: "04", title: "Dumbell", imgSrc: "/our works/our-works-img4.jpg" },
-  { number: "05", title: "Yoga", imgSrc: "/our works/our-works-img1.jpg" },
-  {
-    number: "06",
-    title: "Meditation",
-    imgSrc: "/our works/our-works-img2.jpg",
-  },
-];

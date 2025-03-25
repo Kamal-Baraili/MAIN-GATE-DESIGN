@@ -6,7 +6,7 @@ const Nav = () => {
   const location = useLocation();
   return (
     <>
-      <div className="sticky inset-0 z-60 border-b border-b-zinc-800">
+      <div className="w-full sticky top-0 left-0 z-60 border-b border-b-zinc-800">
         <div className="w-11/12 mx-auto pt-3 flex bg-black">
           <div className="w-full p-4 bg-black rounded-2xl flex gap-16 justify-start">
             <div className="flex items-center gap-24 bg-transparent">
@@ -32,7 +32,7 @@ const Nav = () => {
               ))}
             </div>
           </div>
-          <div className="w-[60%] flex justify-end items-center">
+          <div className="w-[40%] flex justify-end items-center">
             <div className="flex items-center gap-6">
               <a href="/contact us">
                 <Button
@@ -41,15 +41,6 @@ const Nav = () => {
                   bgColor="bg-amber-300"
                   src="/homepage/gate-icon.svg"
                   secondSrc="/btn-handle.png"
-                />
-              </a>
-
-              <a href="/our work">
-                <Button
-                  text="Our Work"
-                  color="text-white"
-                  bgColor="bg-black"
-                  border="border-zinc-50"
                 />
               </a>
             </div>

@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   imgSrc: string;
+  authorImg: string;
   author: string;
   date: string;
   title: string;
   slug: string;
 }
 
-const BlogCard = ({ imgSrc, author, date, title, slug }: Props) => {
+const BlogCard = ({ imgSrc, author, date, title, authorImg, slug }: Props) => {
   const [isHover, setHover] = useState(false);
   const navigate = useNavigate();
 
@@ -36,7 +37,11 @@ const BlogCard = ({ imgSrc, author, date, title, slug }: Props) => {
         />
       </div>
       <div className="w-full my-3 flex justify-between">
-        <span>Author: {author}</span> <span className="text-sm">{date}</span>
+        <div className="flex gap-2 items-center">
+          <img className="w-5 h-5 rounded-full" src={authorImg} alt="author-img" />
+          <span>{author}</span>
+        </div>{" "}
+        <span className="text-sm">{date}</span>
       </div>
       <h3 className="text-2xl mb-2 pt-2 border-t border-t-zinc-700">{title}</h3>
       <div

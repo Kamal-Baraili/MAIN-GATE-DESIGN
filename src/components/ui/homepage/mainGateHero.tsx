@@ -9,7 +9,6 @@ const MainGateHero = () => {
   const box2 = useRef<HTMLDivElement | null>(null);
   const container = useRef<HTMLDivElement | null>(null);
   const textRef = useRef<HTMLDivElement | null>(null);
-  const textSecondRef = useRef<HTMLDivElement | null>(null);
   const textThirdRef = useRef<HTMLDivElement | null>(null);
   const heading1 = useRef<HTMLHeadingElement | null>(null);
 
@@ -19,13 +18,11 @@ const MainGateHero = () => {
       box2.current &&
       container.current &&
       textRef.current &&
-      textSecondRef.current &&
       textThirdRef.current
     ) {
       // Set initial states
       gsap.set([box1.current, box2.current], { x: "0%" });
       gsap.set(textRef.current, { y: "0%", scale: 1, opacity: 1 });
-      gsap.set(textSecondRef.current, { y: "0%", opacity: 0 });
       gsap.set(textThirdRef.current, { y: "0%", opacity: 0 });
 
       const tl = gsap.timeline({
@@ -69,27 +66,27 @@ const MainGateHero = () => {
           ">-1" // Starts 2s before gates finish
         )
         // Fade in second text
-        .to(
-          textSecondRef.current,
-          {
-            y: "-10%",
-            opacity: 1,
-            ease: "power2.inOut",
-            duration: 2,
-          },
-          ">1" // 2s after first text fades
-        )
-        // Fade out second text
-        .to(
-          textSecondRef.current,
-          {
-            y: "-20%",
-            opacity: 0,
-            ease: "power2.inOut",
-            duration: 2,
-          },
-          ">-1" // 2s after second text appears
-        )
+        // .to(
+        //   textSecondRef.current,
+        //   {
+        //     y: "-10%",
+        //     opacity: 1,
+        //     ease: "power2.inOut",
+        //     duration: 2,
+        //   },
+        //   ">1" // 2s after first text fades
+        // )
+        // // Fade out second text
+        // .to(
+        //   textSecondRef.current,
+        //   {
+        //     y: "-20%",
+        //     opacity: 0,
+        //     ease: "power2.inOut",
+        //     duration: 2,
+        //   },
+        //   ">-1" // 2s after second text appears
+        // );
         // Fade in third text
         .to(
           textThirdRef.current,
@@ -133,19 +130,19 @@ const MainGateHero = () => {
           ref={textRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-0"
         >
-          <h2 ref={heading1} className="text-7xl font-bold text-[#F5C230]">
-            Welcome
+          <h2 ref={heading1} className="text-5xl font-bold text-[#F5C230]">
+            Welcome To Main Gate Design
           </h2>
         </div>
 
-        <div
+        {/* <div
           ref={textSecondRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-5 opacity-0"
         >
           <h2 className="text-4xl font-bold text-[#F5C230]">
             The Gate has been opened
           </h2>
-        </div>
+        </div> */}
 
         <div
           ref={textThirdRef}

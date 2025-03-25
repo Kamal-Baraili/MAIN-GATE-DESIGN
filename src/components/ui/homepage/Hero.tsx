@@ -224,10 +224,9 @@ const Hero = () => {
 
   return (
     <div ref={wrapperRef} className="relative">
-      <Nav />
       <div
         ref={heroContainerRef}
-        className="relative h-screen overflow-x-hidden touch-pan-y"
+        className="relative h-screen overflow-hidden touch-pan-y"
         style={{
           position: isPinned ? "sticky" : "relative",
           top: isPinned ? 0 : "auto",
@@ -236,14 +235,15 @@ const Hero = () => {
           zIndex: 10,
         }}
       >
+        <Nav />
         <img
-          className="w-[200px] h-[120px] absolute top-0 left-1/2 -translate-x-1/2 z-50 md:w-[240px] md:h-[144px]"
+          className="w-[200px] h-[120px] absolute top-24 left-1/2 -translate-x-1/2 z-50 md:w-[240px] md:h-[144px]"
           src="/homepage/hanging-lamp.png"
           alt="Hanging Lamp"
         />
         <div
           ref={redDivRef}
-          className="w-[320px] h-[390px] absolute top-[120px] left-1/2 -translate-x-1/2 z-10 opacity-0 md:w-[384px] md:top-[144px]"
+          className="w-[320px] h-[390px] absolute top-[120px] left-1/2 -translate-x-1/2 z-10 opacity-0 md:w-[384px] md:top-[235px]"
         >
           <img
             className="w-full h-full opacity-95"
@@ -288,7 +288,7 @@ const Hero = () => {
               Please View Our <br /> Gate Collection.
             </h2>
             <div className="mt-8 flex items-center justify-center gap-3 md:mt-14">
-              <a href="/our work">
+              <a href="/works">
                 <Button
                   text="View More"
                   color="text-black"

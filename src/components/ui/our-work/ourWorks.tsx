@@ -1,50 +1,143 @@
-import { ourWorksData } from "../../../db/mockdata";
+import { WorkdsData } from "../../../db/mockdata";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import React from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const OurWorks = () => {
+  const recentworkRef = React.useRef<HTMLDivElement>(null);
+  const recentRef = React.useRef<HTMLDivElement>(null);
+  const workRef = React.useRef<HTMLDivElement>(null);
+  const recentDescRef = React.useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      // Header animation
+      const headerTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: recentworkRef.current,
+          start: "top 70%",
+          end: "20% 50%",
+          scrub: 1,
+          // markers: true,
+        },
+      });
+
+      headerTl.from(recentRef.current, {
+        x: 80,
+        duration: 2,
+      });
+
+      headerTl.from(
+        workRef.current,
+        {
+          x: 120,
+          duration: 1,
+        },
+        "<"
+      );
+
+      headerTl.from(
+        recentDescRef.current,
+        {
+          height: 0,
+          transformOrigin: "bottom",
+          duration: 1,
+        },
+        "<"
+      );
+
+      // Cards animation
+      const cards = gsap.utils.toArray<HTMLDivElement>(".card");
+
+      cards.forEach((card, index) => {
+        const content = card.querySelector(".content") as HTMLDivElement;
+        const image = card.querySelector(".image") as HTMLDivElement;
+        const isEvenIndex = index % 2 === 0;
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: "top 70%",
+            end: "top 30%",
+            // markers: true,
+            scrub: 2,
+          },
+        });
+
+        tl.from(content, {
+          x: isEvenIndex ? -120 : 120,
+          opacity: 0,
+          duration: 0.2,
+        });
+
+        tl.from(
+          image,
+          {
+            x: isEvenIndex ? 200 : -200,
+            rotate: isEvenIndex ? 10 : -10,
+            duration: 0.2,
+          },
+          "<"
+        );
+      });
+    },
+    { scope: recentworkRef }
+  );
+
   return (
-    <>
-      <div className="py-10 border-t border-t-zinc-800 text-zinc-300">
-        <div className="w-11/12 mx-auto flex justify-center gap-50">
-          <div className="w-full mx-auto flex justify-between items-center">
-            <div>
-              <h4 className="text-7xl tracking-widest text-amber-50 text-center">
-                Our Works
-              </h4>
-            </div>
-
-            <p className="w-[48%]">
-              We specialize in designing, manufacturing, and installing
-              high-quality gates that combine security and style. From custom
-              wrought iron to automated systems, we deliver reliable, tailored
-              solutions to enhance the beauty and protection of any property.
-            </p>
-          </div>
+    <main
+      ref={recentworkRef}
+      className="w-11/12 mx-auto relative pt-10 text-zinc-300"
+    >
+      <header className="flex items-center gap-40">
+        <h1
+          className="uppercase leading-[1] text-7xl text-amber-50"
+          ref={recentRef}
+        >
+          Recent Works
+        </h1>
+        <div className="flex justify-end items-center">
+          <p
+            className="text-3xl w-[60%] font-light overflow-hidden"
+            ref={recentDescRef}
+          >
+            Amidst the world of creativity, our clients deeply value and admire
+            the work we craft.
+          </p>
         </div>
+      </header>
 
-        <div className="w-11/12 mx-auto my-20 grid grid-cols-2 grid-rows-5 gap-x-10 gap-y-26 h-[250vh]">
-          {ourWorksData.map((k: any, index: number) => (
+      <div className="py-32 space-y-12 relative z-[2]">
+        {WorkdsData.map((item, index) => (
+          <div key={index} className="grid grid-cols-3 items-center gap-4 card">
             <div
-              className={`${index === 0 && "row-span-2"} ${
-                index === 3 && "col-span-2 row-span-2"
-              }`}
-              key={index}
+              className={`${
+                index % 2 === 0
+                  ? "order-0 flex flex-col items-start justify-end"
+                  : "order-2 flex flex-col items-end text-right justify-end"
+              } col-span-1 content`}
             >
-              <div
-                className={`overflow-hidden h-full rounded-2xl 
-                }`}
-              >
-                <img
-                  className="w-full h-full opacity-60 hover:opacity-100 hover:scale-[1.1] transition-all duration-300 ease-in-out"
-                  src={k.imgSrc}
-                  alt=""
-                />
-              </div>
-              <h3 className="px-2 pt-5 text-xl tracking-widest">{k.caption}</h3>
+              <h1 className="uppercase text-4xl mb-4 text-left">
+                {item.title}
+              </h1>
+              <p className="text-xl text-zinc-600">{item.desc}</p>
             </div>
-          ))}
-        </div>
+            <figure className="col-span-2 w-[100%] items-end justify-end flex self-end image overflow-hidden rounded-3xl">
+              <img
+                src={item.img}
+                alt={item.title}
+                width={1000}
+                height={1000}
+                className="rounded-3xl h-[70vh] object-cover hover:scale-[1.3] opacity-65 hover:opacity-80 transition-all ease-in-out duration-200"
+              />
+            </figure>
+          </div>
+        ))}
       </div>
-    </>
+    </main>
   );
 };
 

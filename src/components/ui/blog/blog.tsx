@@ -25,6 +25,7 @@ const Blog = () => {
                 date={key.date}
                 title={key.title}
                 slug={key.slug}
+                authorImg={key.authorImg}
               />
             </div>
           ))}
