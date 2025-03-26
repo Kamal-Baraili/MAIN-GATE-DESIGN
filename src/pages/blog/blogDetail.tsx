@@ -11,7 +11,7 @@ interface Props {
 const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
   return (
     <>
-      <div className="w-9/11 mx-auto mt-5 mb-20">
+      <div className="w-9/11 mx-auto mt-25 mb-20">
         <div className="w-full mx-auto rounded-2xl flex justify-center gap-20 items-start">
           <div className="w-6/11 mx-auto flex flex-col gap-20">
             <Link to="/blog">

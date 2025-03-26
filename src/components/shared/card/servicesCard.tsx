@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface Props {
   icon: string;
   title: string;
@@ -12,6 +14,7 @@ interface Item {
 }
 
 const ServicesCard = ({ item, index }: Item) => {
+  const [isCardHover, setCardHover] = useState(false);
   return (
     <>
       <div className={`grid grid-cols-3 gap-8`}>
@@ -25,16 +28,34 @@ const ServicesCard = ({ item, index }: Item) => {
           alt=""
         />
         <div
-          className={`p-8 border border-zinc-600 rounded-3xl ${
+          onMouseEnter={() => setCardHover(true)}
+          onMouseLeave={() => setCardHover(false)}
+          className={`p-8 border border-zinc-600 rounded-3xl transition-all ease-in-out duration-400 cursor-default ${
             index === 2 && "order-first"
+          } ${index === 0 && "hover:bg-[#C93202]"} ${
+            index === 1 && "hover:bg-[#A1C9B8]"
+          } ${index === 2 && "hover:bg-[#C8D1D1]"} ${
+            index === 3 && "hover:bg-[#DECF3E]"
+          } ${index === 4 && "hover:bg-[#A1C9B8]"} ${
+            index === 5 && "hover:bg-[#C8D1D1]"
           }`}
         >
           <div className={``}>
             <img className="w-16 h-16 opacity-75" src={item.icon} alt="" />
-            <h3 className="text-xl font-semibold text-zinc-300 my-8">
+            <h3
+              className={`text-xl font-semibold ${
+                isCardHover ? "text-black" : "text-zinc-300"
+              } my-8 transition-all ease-in-out duration-400`}
+            >
               {item.title}
             </h3>
-            <p className="text-md text-zinc-400">{item.desc}</p>
+            <p
+              className={`text-md transition-all ease-in-out duration-400 ${
+                isCardHover ? "text-black" : "text-zinc-400"
+              }`}
+            >
+              {item.desc}
+            </p>
           </div>
         </div>
         {(index === 1 || index === 3 || index === 5) && (

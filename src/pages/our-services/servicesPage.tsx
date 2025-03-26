@@ -4,7 +4,7 @@ import { servicesCardData } from "../../db/mockdata";
 const ServicesPage = () => {
   return (
     <>
-      <div className="w-11/12 mx-auto mt-5">
+      <div className="w-11/12 mx-auto mt-25">
         <header className="flex items-center gap-40">
           <h1 className="uppercase leading-[1] text-7xl text-amber-50">
             Our Services

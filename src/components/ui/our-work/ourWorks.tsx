@@ -90,7 +90,7 @@ const OurWorks = () => {
   return (
     <main
       ref={recentworkRef}
-      className="w-11/12 mx-auto relative pt-10 text-zinc-300"
+      className="w-11/12 mx-auto mt-20 relative pt-10 text-zinc-300"
     >
       <header className="flex items-center gap-40">
         <h1
@@ -112,7 +112,7 @@ const OurWorks = () => {
 
       <div className="py-32 space-y-12 relative z-[2]">
         {WorkdsData.map((item, index) => (
-          <div key={index} className="grid grid-cols-3 items-center gap-4 card">
+          <div key={index} className="grid grid-cols-2 items-center gap-4 card">
             <div
               className={`${
                 index % 2 === 0
@@ -125,13 +125,12 @@ const OurWorks = () => {
               </h1>
               <p className="text-xl text-zinc-600">{item.desc}</p>
             </div>
-            <figure className="col-span-2 w-[100%] items-end justify-end flex self-end image overflow-hidden rounded-3xl">
+            <figure className=" w-[100%] items-end justify-end flex self-end image overflow-hidden rounded-3xl">
               <img
                 src={item.img}
                 alt={item.title}
-                width={1000}
-                height={1000}
-                className="rounded-3xl h-[70vh] object-cover hover:scale-[1.3] opacity-65 hover:opacity-80 transition-all ease-in-out duration-200"
+                width={700}
+                className="rounded-3xl h-[40vh] object-cover hover:scale-[1.3] opacity-65 hover:opacity-80 transition-all ease-in-out duration-200"
               />
             </figure>
           </div>

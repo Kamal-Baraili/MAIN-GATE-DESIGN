@@ -6,8 +6,8 @@ const Nav = () => {
   const location = useLocation();
   return (
     <>
-      <div className="w-full sticky top-0 left-0 z-60 border-b border-b-zinc-800">
-        <div className="w-11/12 mx-auto pt-3 flex bg-black">
+      <div className="w-full fixed top-0 left-0 z-60 border-b border-b-zinc-800 bg-black">
+        <div className="w-11/12 mx-auto flex">
           <div className="w-full p-4 bg-black rounded-2xl flex gap-16 justify-start">
             <div className="flex items-center gap-24 bg-transparent">
               <a href="/">

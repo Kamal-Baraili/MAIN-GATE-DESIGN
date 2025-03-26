@@ -62,7 +62,7 @@ const CountUp = () => {
             } ${index === 3 && "hover:bg-[#DECF3E]"} `}
           >
             <div className="flex items-start">
-              <h2 className="text-8xl">20</h2>
+              <h2 className="text-8xl">10</h2>
               <span className="text-5xl">+</span>
             </div>
             <div className="flex flex-col justify-end h-full">

@@ -31,7 +31,7 @@ const Testimonial = () => {
 
   return (
     <>
-      <div className="pt-20 pb-30 rounded-t-4xl -mt-10 border-y border-y-zinc-800">
+      <div className="pt-20 pb-10 rounded-t-4xl -mt-10">
         <h2 className="text-amber-50 text-6xl text-center">
           What Our <span className="text-primary">Clients</span> Say?
         </h2>

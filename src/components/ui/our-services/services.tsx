@@ -9,7 +9,7 @@ export function Services() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setImgSource(servicesTitles[hoveredIndex].imgSrc);
-    }, 100); // 150ms delay for image transition
+    }, 10); // 150ms delay for image transition
 
     return () => clearTimeout(timer); // Cleanup timeout on unmount or change
   }, [hoveredIndex]);
@@ -51,9 +51,9 @@ export function Services() {
             ))}
           </div>
         </div>
-        <div className="w-full">
+        <div className="w-full flex items-center">
           <img
-            className="w-full h-full rounded-4xl object-cover transition-opacity duration-300 ease-in-out"
+            className="w-full h-[60vh] rounded-4xl object-cover transition-opacity duration-300 ease-in-out"
             src={imgSource}
             alt=""
           />

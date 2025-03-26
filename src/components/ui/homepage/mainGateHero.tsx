@@ -23,13 +23,13 @@ const MainGateHero = () => {
       // Set initial states
       gsap.set([box1.current, box2.current], { x: "0%" });
       gsap.set(textRef.current, { y: "0%", scale: 1, opacity: 1 });
-      gsap.set(textThirdRef.current, { y: "0%", opacity: 0 });
+      gsap.set(textThirdRef.current, { opacity: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
           start: "top top",
-          end: "+=300%", // Extended duration for multiple scrolls
+          end: "+=400%",
           scrub: 1,
           pin: true,
           toggleActions: "play none none none",
@@ -91,7 +91,6 @@ const MainGateHero = () => {
         .to(
           textThirdRef.current,
           {
-            y: "-10%",
             opacity: 1,
             ease: "power2.inOut",
             duration: 2,
@@ -128,10 +127,10 @@ const MainGateHero = () => {
 
         <div
           ref={textRef}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-0"
+          className="absolute inset-0 flex items-center justify-center pointer-events-none -z-70 opacity-0"
         >
           <h2 ref={heading1} className="text-5xl font-bold text-[#F5C230]">
-            Welcome To Main Gate Design
+            Welcome
           </h2>
         </div>
 
@@ -148,9 +147,14 @@ const MainGateHero = () => {
           ref={textThirdRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-5 opacity-0"
         >
-          <h2 className="text-4xl font-bold text-[#F5C230]">
-            You've Entered inside the heaven of gates.
-          </h2>
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-4xl font-medium text-[#F5C230]">
+              Step Into a World of Unmatched Gate Designs.
+            </h2>
+            <h2 className="text-4xl font-medium text-[#F5C230]">
+              Your Ultimate Destination for Style and Protection.
+            </h2>
+          </div>
         </div>
       </div>
     </>

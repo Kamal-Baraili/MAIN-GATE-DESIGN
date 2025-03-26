@@ -38,7 +38,11 @@ const BlogCard = ({ imgSrc, author, date, title, authorImg, slug }: Props) => {
       </div>
       <div className="w-full my-3 flex justify-between">
         <div className="flex gap-2 items-center">
-          <img className="w-5 h-5 rounded-full" src={authorImg} alt="author-img" />
+          <img
+            className="w-5 h-5 rounded-full"
+            src={authorImg}
+            alt="author-img"
+          />
           <span>{author}</span>
         </div>{" "}
         <span className="text-sm">{date}</span>
@@ -46,11 +50,16 @@ const BlogCard = ({ imgSrc, author, date, title, authorImg, slug }: Props) => {
       <h3 className="text-2xl mb-2 pt-2 border-t border-t-zinc-700">{title}</h3>
       <div
         onClick={handleReadMoreClick} // Replace Link with clickable div
-        className={`mt-2 px-3 py-2 text-sm text-zinc-200 bg-[#303030] ${
-          isHover && "bg-[#636363]"
-        } rounded cursor-pointer`}
+        className={`mt-2 px-3 py-2 text-sm text-zinc-200 rounded cursor-pointer flex gap-2 items-center`}
       >
-        Read More
+        <h4 className={`${isHover && "text-primary"}`}>Read More</h4>
+        <img
+          className={`transition-all ease-in-out duration-300 ${
+            isHover && "-rotate-45"
+          }`}
+          src="/blog/blog-arrow-right.svg"
+          alt=""
+        />
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Button from "../../shared/button/button";
 import { imageData } from "../../../db/mockdata";
-import Nav from "../../layout/nav";
 
 const Hero = () => {
   const mainRef = useRef<HTMLDivElement | null>(null);
@@ -10,6 +9,7 @@ const Hero = () => {
   const redDivRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isPinned, setIsPinned] = useState(false);
+  const [isLightOn, setIsLightOn] = useState(true);
 
   useEffect(() => {
     const heroContainer = heroContainerRef.current;
@@ -30,8 +30,6 @@ const Hero = () => {
     let touchStartX = 0;
     let touchStartY = 0;
 
-    console.log(lastScrollY);
-
     const updateDimensions = () => {
       totalWidth = images.scrollWidth;
       scrollDistance =
@@ -41,26 +39,7 @@ const Hero = () => {
 
     const initializeScroll = () => {
       updateDimensions();
-      const currentScrollY = window.scrollY;
-      const wrapperRect = wrapper.getBoundingClientRect();
-
-      if (wrapperRect.top <= 0) {
-        heroPinPosition = currentScrollY - wrapperRect.top * -1;
-        const relativePosition = currentScrollY - heroPinPosition;
-
-        if (relativePosition >= 0 && relativePosition <= scrollDistance) {
-          setIsPinned(true);
-          scrolledDistance = relativePosition;
-          const progress = scrolledDistance / scrollDistance;
-          translateX = -(progress * (totalWidth - window.innerWidth));
-          gsap.set(images, { x: translateX });
-          updateSpotlight();
-        }
-      } else {
-        setIsPinned(false);
-        gsap.set(images, { x: 0 });
-        resetSpotlight();
-      }
+      handleScroll(); // Call handleScroll to set initial state
     };
 
     const handleScroll = () => {
@@ -123,8 +102,7 @@ const Hero = () => {
           0,
           Math.min(scrolledDistance, scrollDistance)
         );
-        const progress = scrolledDistance / scrollDistance;
-        translateX = -(progress * (totalWidth - window.innerWidth));
+        translateX = totalWidth + (window.innerWidth < 768 ? 200 : 400);
         gsap.set(images, { x: translateX });
         updateSpotlight();
         touchStartX = touchX;
@@ -137,27 +115,29 @@ const Hero = () => {
     };
 
     const updateSpotlight = () => {
-      if (!images || !redDiv) return;
+      if (!images || !redDiv || !isLightOn) {
+        gsap.to(redDiv, { opacity: 0, duration: 0.2 });
+        return;
+      }
 
       const imgDetectionPoints = Array.from(
         images.querySelectorAll(".img-detection")
       ) as HTMLElement[];
-
-      let redDivVisible = false;
       const redDivRect = redDiv.getBoundingClientRect();
+      let isOverlapping = false;
 
       imgDetectionPoints.forEach((imgPoint) => {
         const imgPointRect = imgPoint.getBoundingClientRect();
         const parentContainer = imgPoint.parentElement as HTMLElement;
 
-        const isOverlapping =
+        const overlapping =
           imgPointRect.right >= redDivRect.left &&
           imgPointRect.left <= redDivRect.right &&
           imgPointRect.bottom >= redDivRect.top &&
           imgPointRect.top <= redDivRect.bottom;
 
-        if (isOverlapping && parentContainer) {
-          redDivVisible = true;
+        if (overlapping && parentContainer) {
+          isOverlapping = true;
           gsap.to(parentContainer, {
             opacity: 1,
             scale: 1.1,
@@ -175,7 +155,7 @@ const Hero = () => {
       });
 
       gsap.to(redDiv, {
-        opacity: redDivVisible ? 1 : 0,
+        opacity: isOverlapping ? 1 : 0,
         duration: 0.2,
         ease: "power2.out",
       });
@@ -197,14 +177,14 @@ const Hero = () => {
         });
       });
 
-      gsap.to(redDiv, {
-        opacity: 0,
-        duration: 0.3,
-        ease: "power2.out",
-      });
+      if (!isLightOn) {
+        gsap.to(redDiv, { opacity: 0, duration: 0.3 });
+      }
     };
 
+    gsap.set(redDiv, { opacity: 0 });
     initializeScroll();
+
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", updateDimensions);
     window.addEventListener("touchstart", handleTouchStart, { passive: false });
@@ -220,7 +200,21 @@ const Hero = () => {
       gsap.set(images, { x: 0 });
       resetSpotlight();
     };
-  }, []);
+  }, [isLightOn]);
+
+  const toggleLight = () => {
+    setIsLightOn((prev) => !prev);
+    const redDiv = redDivRef.current;
+    if (redDiv) {
+      if (!isLightOn) {
+        // Turning ON - check spotlight immediately
+        updateSpotlight();
+      } else {
+        // Turning OFF - hide immediately
+        gsap.to(redDiv, { opacity: 0, duration: 0.2 });
+      }
+    }
+  };
 
   return (
     <div ref={wrapperRef} className="relative">
@@ -235,32 +229,37 @@ const Hero = () => {
           zIndex: 10,
         }}
       >
-        <Nav />
         <img
-          className="w-[200px] h-[120px] absolute top-24 left-1/2 -translate-x-1/2 z-50 md:w-[240px] md:h-[144px]"
+          className="w-[200px] h-[120px] absolute top-21 left-1/2 -translate-x-1/2 z-70 md:w-[170px] md:h-[50px] object-cover"
           src="/homepage/hanging-lamp.png"
           alt="Hanging Lamp"
         />
         <div
           ref={redDivRef}
-          className="w-[320px] h-[390px] absolute top-[120px] left-1/2 -translate-x-1/2 z-10 opacity-0 md:w-[384px] md:top-[235px]"
+          className="w-[450px] h-[800px] absolute top-[120px] left-1/2 -translate-x-1/2 z-10 md:w-[750px] md:top-[40px]"
         >
           <img
-            className="w-full h-full opacity-95"
-            src="/homepage/light-beam.png"
+            className="w-full h-full"
+            src="/homepage/light-beam2.png"
             alt=""
           />
         </div>
+        <button
+          onClick={toggleLight}
+          className="absolute top-[100px] right-0 -translate-x-1/2 z-10 cursor-pointer hover:text-primary"
+        >
+          {isLightOn ? "Turn OFF" : "Turn ON"}
+        </button>
         <div
           ref={mainRef}
-          className="flex pt-40 px-4 whitespace-nowrap will-change-transform md:pt-60 md:px-40"
+          className="flex pt-50 px-4 whitespace-nowrap will-change-transform md:pt-70 md:px-40"
         >
           <div className="inline-block flex-shrink-0">
             <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 md:w-[405px] md:h-[450px] md:mx-4"></div>
           </div>
           {imageData.map((src, index) => (
             <div key={index} className="inline-block flex-shrink-0">
-              <div className="img-container w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-80 md:mx-4">
+              <div className="img-container w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-120 md:mx-4">
                 <img
                   className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20"
                   src={src}
@@ -284,10 +283,10 @@ const Hero = () => {
           ))}
           <div className="img-container flex-shrink-0 w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-80 md:mx-4">
             <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
-            <h2 className="text-3xl text-center font-bold text-white mt-10 leading-10 md:text-5xl md:mt-20 md:leading-[5rem]">
+            <h2 className="text-3xl text-center font-bold text-white mt-10 md:text-5xl md:mt-20">
               Please View Our <br /> Gate Collection.
             </h2>
-            <div className="mt-8 flex items-center justify-center gap-3 md:mt-14">
+            <div className="mt-8 flex items-center justify-center gap-3 md:mt-14 absolute inset-0 z-20">
               <a href="/works">
                 <Button
                   text="View More"
@@ -309,3 +308,6 @@ const Hero = () => {
 };
 
 export default Hero;
+function updateSpotlight() {
+  throw new Error("Function not implemented.");
+}

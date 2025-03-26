@@ -10,8 +10,12 @@ import Video from "../../components/ui/video/video";
 const Homepage = () => {
   return (
     <>
-      <MainGateHero />
-      <Hero />
+      <div className="relative -top-21 z-100">
+        <MainGateHero />
+      </div>
+      <div className="relative -top-21">
+        <Hero />
+      </div>
       <About />
       <Parallax />
       <Services />

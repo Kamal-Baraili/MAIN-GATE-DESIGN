@@ -5,7 +5,7 @@ const About = () => {
   const location = useLocation();
   return (
     <>
-      <div className="py-30 border-t border-t-zinc-800 rounded-4xl text-zinc-300">
+      <div className="mt-20 py-30 text-zinc-300">
         <div className="w-11/12 mx-auto flex justify-center gap-50">
           <div className="w-1/2 flex flex-col gap-3 items-start">
             <h4 className="text-xl text-primary">About Us</h4>
@@ -24,7 +24,7 @@ const About = () => {
             <a className="mt-12" href="/about">
               {location.pathname !== "/about" && (
                 <Button
-                  text="Read More"
+                  text="Know More"
                   color="text-black"
                   bgColor="bg-amber-300"
                   src="/homepage/gate-icon.svg"
@@ -46,7 +46,7 @@ const About = () => {
                 alt=""
               />
             </div>
-            <div className="p-4 bg-black absolute -top-20 -right-5 z-20">
+            <div className="p-4 bg-black absolute -top-20 -right-3 z-20">
               <img
                 className="w-70 h-50 rounded-2xl"
                 src="homepage/about/about-img3.png"

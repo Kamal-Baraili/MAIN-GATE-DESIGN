@@ -3,7 +3,7 @@ import Button from "../../shared/button/button";
 const Contact = () => {
   return (
     <>
-      <div className="w-10/11 mx-auto py-10">
+      <div className="w-10/11 mx-auto py-10 mt-20">
         <div className="w-full">
           <h2 className="text-amber-50 text-6xl text-center">
             Need help? Get in touch

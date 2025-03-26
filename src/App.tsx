@@ -9,12 +9,7 @@ import ContactUsPage from "./pages/contact-us/contactUsPage";
 import Homepage from "./pages/homepage/homepage";
 import ServicesPage from "./pages/our-services/servicesPage";
 import "./styles/index.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
   return (
@@ -25,11 +20,9 @@ const App = () => {
 };
 
 const Main = () => {
-  const location = useLocation();
-
   return (
     <>
-      {location.pathname !== "/" && <Nav />}
+      <Nav />
 
       <Routes>
         <Route path="/" element={<Homepage />} />

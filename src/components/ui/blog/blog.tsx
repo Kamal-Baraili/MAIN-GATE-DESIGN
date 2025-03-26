@@ -4,7 +4,7 @@ import BlogCard from "../../shared/card/blogCard";
 const Blog = () => {
   return (
     <>
-      <div className="border-t border-t-zinc-800 pt-5">
+      <div className="border-t border-t-zinc-800 pt-5 mt-20">
         <div className="">
           <h2 className="w-[98%] mx-auto text-6xl text-center">
             Latest from news
