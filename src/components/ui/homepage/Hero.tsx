@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../../shared/button/button";
 import { imageData } from "../../../db/mockdata";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const mainRef = useRef<HTMLDivElement | null>(null);
@@ -9,7 +12,6 @@ const Hero = () => {
   const redDivRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isPinned, setIsPinned] = useState(false);
-  const [isLightOn, setIsLightOn] = useState(true);
 
   useEffect(() => {
     const heroContainer = heroContainerRef.current;
@@ -18,6 +20,12 @@ const Hero = () => {
     const wrapper = wrapperRef.current;
 
     if (!heroContainer || !images || !redDiv || !wrapper) return;
+
+    // Store scroll position in sessionStorage to handle page reload
+    const savedScrollPosition = sessionStorage.getItem("heroScrollPosition");
+
+    // Set initial state of Hero to be invisible
+    gsap.set(wrapper, { opacity: 0 });
 
     let totalWidth = images.scrollWidth;
     let scrollDistance =
@@ -39,7 +47,18 @@ const Hero = () => {
 
     const initializeScroll = () => {
       updateDimensions();
-      handleScroll(); // Call handleScroll to set initial state
+      console.log(lastScrollY);
+
+      // If there's a saved scroll position, use it
+      if (savedScrollPosition) {
+        const savedPosition = parseInt(savedScrollPosition, 10);
+        window.scrollTo(0, savedPosition);
+
+        // Manually trigger scroll handling for the saved position
+        handleScroll();
+      } else {
+        handleScroll();
+      }
     };
 
     const handleScroll = () => {
@@ -47,6 +66,9 @@ const Hero = () => {
 
       const currentScrollY = window.scrollY;
       const wrapperRect = wrapper.getBoundingClientRect();
+
+      // Save current scroll position to sessionStorage
+      sessionStorage.setItem("heroScrollPosition", currentScrollY.toString());
 
       if (wrapperRect.top > 0) {
         setIsPinned(false);
@@ -115,7 +137,7 @@ const Hero = () => {
     };
 
     const updateSpotlight = () => {
-      if (!images || !redDiv || !isLightOn) {
+      if (!images || !redDiv) {
         gsap.to(redDiv, { opacity: 0, duration: 0.2 });
         return;
       }
@@ -176,11 +198,44 @@ const Hero = () => {
           ease: "power2.out",
         });
       });
-
-      if (!isLightOn) {
-        gsap.to(redDiv, { opacity: 0, duration: 0.3 });
-      }
     };
+
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: "top top",
+      end: `+=${scrollDistance + 10}`,
+      pin: true,
+      onEnter: () => {
+        gsap.to(wrapper, {
+          opacity: 1,
+          duration: 1,
+          ease: "power2.inOut",
+          onComplete: () => {
+            setIsPinned(true);
+          },
+        });
+      },
+      onEnterBack: () => {
+        gsap.to(wrapper, {
+          opacity: 1,
+          duration: 1,
+          ease: "power2.inOut",
+          onComplete: () => {
+            setIsPinned(true);
+          },
+        });
+      },
+      onLeaveBack: () => {
+        gsap.to(wrapper, {
+          opacity: 0,
+          duration: 1,
+          ease: "power2.inOut",
+          onComplete: () => {
+            setIsPinned(false);
+          },
+        });
+      },
+    });
 
     gsap.set(redDiv, { opacity: 0 });
     initializeScroll();
@@ -191,30 +246,32 @@ const Hero = () => {
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("touchend", handleTouchEnd);
 
+    // Add event listener for page visibility changes
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        // Reinitialize scroll when page becomes visible again
+        initializeScroll();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
+      // Clean up event listeners
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateDimensions);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+
+      // Clear saved scroll position on component unmount
+      sessionStorage.removeItem("heroScrollPosition");
+
       gsap.set(images, { x: 0 });
       resetSpotlight();
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, [isLightOn]);
-
-  const toggleLight = () => {
-    setIsLightOn((prev) => !prev);
-    const redDiv = redDivRef.current;
-    if (redDiv) {
-      if (!isLightOn) {
-        // Turning ON - check spotlight immediately
-        updateSpotlight();
-      } else {
-        // Turning OFF - hide immediately
-        gsap.to(redDiv, { opacity: 0, duration: 0.2 });
-      }
-    }
-  };
+  }, []);
 
   return (
     <div ref={wrapperRef} className="relative">
@@ -244,41 +301,35 @@ const Hero = () => {
             alt=""
           />
         </div>
-        <button
-          onClick={toggleLight}
-          className="absolute top-[100px] right-0 -translate-x-1/2 z-10 cursor-pointer hover:text-primary"
-        >
-          {isLightOn ? "Turn OFF" : "Turn ON"}
-        </button>
         <div
           ref={mainRef}
-          className="flex pt-50 px-4 whitespace-nowrap will-change-transform md:pt-70 md:px-40"
+          className="flex pt-40 px-4 whitespace-nowrap will-change-transform md:pt-50 md:px-40 relative z-20"
         >
           <div className="inline-block flex-shrink-0">
             <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 md:w-[405px] md:h-[450px] md:mx-4"></div>
           </div>
-          {imageData.map((src, index) => (
+          {imageData.map((item, index) => (
             <div key={index} className="inline-block flex-shrink-0">
               <div className="img-container w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-120 md:mx-4">
                 <img
                   className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20"
-                  src={src}
+                  src={item.src}
                   alt={`Slide ${index}`}
                 />
                 <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
-                <p
+                {/* <p
                   style={{
                     WebkitTextStrokeWidth: "2px",
                     WebkitTextStrokeColor: "#ffffff",
                   }}
-                  className="text-[60px] uppercase text-transparent absolute top-20 -left-8 z-50 font-bold font-ursb md:text-[100px] md:top-40 md:-left-12"
+                  className="w-full text-[60px] uppercase text-wrap text-center leading-25 text-transparent absolute top-20 -left-8 z-50 font-bold font-ursb md:text-[100px] md:top-10 md:-left-[1%]"
                 >
-                  MILD STEEL
-                </p>
-                <p className="absolute top-20 -left-8 text-[60px] uppercase text-white font-bold -z-20 font-ursb md:text-[100px] md:top-40 md:-left-12">
-                  MILD STEEL
-                </p>
+                  {item.gateName}
+                </p> */}
               </div>
+              <p className="w-1/2 uppercase text-wrap leading-25 text-center text-white font-bold -z-20 font-ursb md:text-4xl">
+                {item.gateName}
+              </p>
             </div>
           ))}
           <div className="img-container flex-shrink-0 w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-80 md:mx-4">
@@ -286,8 +337,8 @@ const Hero = () => {
             <h2 className="text-3xl text-center font-bold text-white mt-10 md:text-5xl md:mt-20">
               Please View Our <br /> Gate Collection.
             </h2>
-            <div className="mt-8 flex items-center justify-center gap-3 md:mt-14 absolute inset-0 z-20">
-              <a href="/works">
+            <div className="mt-8 flex items-center justify-center gap-3 md:mt-14 absolute bottom-30 left-0 right-0 z-40">
+              <a href="/works" className="inline-block">
                 <Button
                   text="View More"
                   color="text-black"
@@ -308,6 +359,3 @@ const Hero = () => {
 };
 
 export default Hero;
-function updateSpotlight() {
-  throw new Error("Function not implemented.");
-}

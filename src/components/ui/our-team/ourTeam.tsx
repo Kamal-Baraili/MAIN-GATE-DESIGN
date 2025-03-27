@@ -4,12 +4,10 @@ import TeamCard from "../../shared/card/teamCard";
 const OurTeam = () => {
   return (
     <>
-      <div className="py-24 border-t border-t-zinc-800 rounded-4xl text-zinc-300">
+      <div className="pt-24 text-zinc-300">
         <div className="w-11/12 mx-auto flex flex-col gap-2">
-          <h2 className="text-6xl text-amber-50 tracking-wide text-center">
-            Our Team
-          </h2>
-          <p className="text-center w-7/11 mx-auto">
+          <h2 className="text-6xl text-amber-50 tracking-wide">Our Team</h2>
+          <p className="w-3/11 text-zinc-400">
             Our expert designers and craftsmen work together to create custom
             gates that blend style, functionality, and security. With years of
             experience, we deliver high-quality solutions tailored to your
@@ -17,9 +15,9 @@ const OurTeam = () => {
           </p>
         </div>
 
-        <div className="w-7/11 mx-auto mt-20 grid grid-cols-3 gap-10">
+        <div className="w-11/12 mx-auto mt-10 grid grid-cols-3 gap-20">
           {OurTeamCardData.map((item: any, index: number) => (
-            <TeamCard key={index} item={item} />
+            <TeamCard key={index} item={item} index={index} />
           ))}
         </div>
       </div>

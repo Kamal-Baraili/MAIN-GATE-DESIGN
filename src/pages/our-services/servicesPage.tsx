@@ -10,17 +10,15 @@ const ServicesPage = () => {
             Our Services
           </h1>
           <div className="flex justify-end items-center">
-            <p className="text-3xl w-[70%] font-light overflow-hidden">
+            <p className="text-3xl w-[70%] font-light text-zinc-400 overflow-hidden">
               Main Gate Design offers custom gates, expert installation, and
               reliable repairs for enhanced security and style.
             </p>
           </div>
         </header>
-        <div className="py-30 grid grid-cols-1 gap-y-10">
+        <div className="pt-30 grid grid-cols-3 gap-8">
           {servicesCardData.map((item: any, index: any) => (
-            <div key={index}>
-              <ServicesCard index={index} item={item} />
-            </div>
+            <ServicesCard key={index} item={item} />
           ))}
         </div>
       </div>

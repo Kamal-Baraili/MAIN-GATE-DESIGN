@@ -12,7 +12,7 @@ const About = () => {
             <h2 className="text-6xl text-amber-50 tracking-wide">
               Welcome To Main Gate Design
             </h2>
-            <p>
+            <p className="text-zinc-400">
               Our team of experienced professionals will work closely with you
               to understand your requirements and provide innovative solutions
               that align with your vision. With our expertise and commitment to

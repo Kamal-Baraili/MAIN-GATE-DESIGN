@@ -1,5 +1,4 @@
 import About from "../../components/ui/about-us/about";
-import GetInTouch from "../../components/ui/contact/getInTouch";
 import Hero from "../../components/ui/homepage/Hero";
 import MainGateHero from "../../components/ui/homepage/mainGateHero";
 import { Services } from "../../components/ui/our-services/services";
@@ -10,7 +9,7 @@ import Video from "../../components/ui/video/video";
 const Homepage = () => {
   return (
     <>
-      <div className="relative -top-21 z-100">
+      <div className="relative -top-21 z-100 main-gate-hero">
         <MainGateHero />
       </div>
       <div className="relative -top-21">
@@ -21,7 +20,6 @@ const Homepage = () => {
       <Services />
       <Video />
       <Testimonial />
-      <GetInTouch />
     </>
   );
 };

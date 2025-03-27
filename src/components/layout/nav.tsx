@@ -22,8 +22,8 @@ const Nav = () => {
               {navMenus.map((k: any, ind: any) => (
                 <div key={ind}>
                   <a
-                    className={`hover:text-amber-100 
-                   ${location.pathname === k.path && "text-amber-100"}`}
+                    className={`hover:text-primary
+                   ${location.pathname === k.path && "text-primary"}`}
                     href={k.path}
                   >
                     {k.title}

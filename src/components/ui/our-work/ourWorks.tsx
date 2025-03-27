@@ -61,7 +61,7 @@ const OurWorks = () => {
           scrollTrigger: {
             trigger: card,
             start: "top 70%",
-            end: "top 30%",
+            end: "top 40%",
             // markers: true,
             scrub: 2,
           },
@@ -101,7 +101,7 @@ const OurWorks = () => {
         </h1>
         <div className="flex justify-end items-center">
           <p
-            className="text-3xl w-[60%] font-light overflow-hidden"
+            className="text-3xl w-[60%] font-light text-zinc-400 overflow-hidden"
             ref={recentDescRef}
           >
             Amidst the world of creativity, our clients deeply value and admire
@@ -112,25 +112,28 @@ const OurWorks = () => {
 
       <div className="py-32 space-y-12 relative z-[2]">
         {WorkdsData.map((item, index) => (
-          <div key={index} className="grid grid-cols-2 items-center gap-4 card">
+          <div
+            key={index}
+            className="flex justify-between items-center gap-4 card"
+          >
             <div
               className={`${
                 index % 2 === 0
                   ? "order-0 flex flex-col items-start justify-end"
                   : "order-2 flex flex-col items-end text-right justify-end"
-              } col-span-1 content`}
+              } content`}
             >
               <h1 className="uppercase text-4xl mb-4 text-left">
                 {item.title}
               </h1>
-              <p className="text-xl text-zinc-600">{item.desc}</p>
+              <p className="text-xl text-zinc-400">{item.desc}</p>
             </div>
-            <figure className=" w-[100%] items-end justify-end flex self-end image overflow-hidden rounded-3xl">
+            <figure className="items-end justify-end flex self-end image overflow-hidden rounded-3xl">
               <img
                 src={item.img}
                 alt={item.title}
-                width={700}
-                className="rounded-3xl h-[40vh] object-cover hover:scale-[1.3] opacity-65 hover:opacity-80 transition-all ease-in-out duration-200"
+                width={800}
+                className="rounded-3xl h-[60vh] object-cover hover:scale-[1.3] opacity-65 hover:opacity-80 transition-all ease-in-out duration-200"
               />
             </figure>
           </div>

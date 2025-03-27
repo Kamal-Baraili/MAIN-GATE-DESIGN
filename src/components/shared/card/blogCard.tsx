@@ -24,11 +24,11 @@ const BlogCard = ({ imgSrc, author, date, title, authorImg, slug }: Props) => {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="p-6 bg-[#121212] rounded-xl text-zinc-300 flex flex-col items-start cursor-pointer"
+      className="p-6 hover:bg-[#121212] rounded-2xl text-zinc-300 flex flex-col items-start cursor-pointer"
     >
-      <div className="overflow-hidden rounded-2xl">
+      <div className="overflow-hidden rounded-lg">
         <img
-          className={`rounded-2xl opacity-65 ${
+          className={`rounded-lg opacity-65 ${
             isHover &&
             "scale-[1.1] opacity-100 transition-all ease-in-out duration-300"
           }`}

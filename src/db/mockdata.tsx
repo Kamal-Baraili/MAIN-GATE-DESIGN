@@ -1,3 +1,5 @@
+import { Icon } from "@iconify/react";
+
 export const navMenus: any = [
   { title: "home", path: "/" },
   { title: "about us", path: "/about" },
@@ -6,15 +8,46 @@ export const navMenus: any = [
   { title: "blog", path: "/blog" },
 ];
 
-export const imageData: string[] = [
-  "/homepage/gate1.png",
-  "/homepage/gate2.png",
-  "/homepage/gate3.png",
-  "/homepage/gate4.png",
-  "/homepage/gate1.png",
-  "/homepage/gate2.png",
-  "/homepage/gate3.png",
-  "/homepage/gate4.png",
+export const imageData = [
+  {
+    gateName: "mild gate",
+    src: "/homepage/gate1.png",
+  },
+
+  {
+    gateName: "steel gate",
+    src: "/homepage/gate2.png",
+  },
+
+  {
+    gateName: "iron gate",
+    src: "/homepage/gate3.png",
+  },
+
+  {
+    gateName: "sliding gate",
+    src: "/homepage/gate4.png",
+  },
+
+  {
+    gateName: "Vertical pivot gate",
+    src: "/homepage/gate1.png",
+  },
+
+  {
+    gateName: "folding gate",
+    src: "/homepage/gate2.png",
+  },
+
+  {
+    gateName: "swing gate",
+    src: "/homepage/gate3.png",
+  },
+
+  {
+    gateName: "aluminium gate",
+    src: "/homepage/gate4.png",
+  },
 ];
 
 export const servicesTitles = [
@@ -50,45 +83,36 @@ export const servicesTitles = [
   },
 ];
 
-export const servicesCardData: any = [
+export const servicesCardData = [
   {
-    icon: "/homepage/services/megaphone-white.svg",
+    icon: <Icon icon="iconoir:megaphone" />,
     title: "Consultation and Site Assessment",
     desc: "We offer in-depth consultations and site assessments to tailor solutions precisely to your needs and property characteristics.",
-    imgSrc: "/our works/our-works-img1.jpg",
   },
   {
-    icon: "/homepage/services/concept-white.svg",
+    icon: <Icon icon="icon-park-outline:concept-sharing" />,
     title: "Concept Development",
     desc: "Our expert team transforms your ideas into innovative designs, prioritizing functionality, security, and seamless integration with your property's aesthetics.",
-    imgSrc: "/our works/our-works-img2.jpg",
-    imgSrcOpt: "/our works/our-works-img4.jpg",
   },
   {
-    icon: "/homepage/services/engineering-white.svg",
+    icon: <Icon icon="streamline:industry-innovation-and-infrastructure" />,
     title: "Engineering and Structural Analysis",
     desc: "Our rigorous engineering ensures durability and safety. Using advanced techniques, we optimize the structural framework for efficiency and resilience.",
-    imgSrc: "/our works/our-works-img3.jpg",
   },
   {
-    icon: "/homepage/services/design-white.svg",
+    icon: <Icon icon="iconoir:design-pencil" />,
     title: "Design Development",
     desc: "Every detail of the design, from dimensions to materials, is meticulously refined for the perfect balance of form and function, exceeding your expectations.",
-    imgSrc: "/our works/our-works-img4.jpg",
-    imgSrcOpt: "/our works/our-works-img2.jpg",
   },
   {
-    icon: "/homepage/services/construction-white.svg",
+    icon: <Icon icon="fluent-mdl2:construction-cone" />,
     title: "Fabrication and Construction Management",
     desc: "Skilled craftsmen use high-quality materials and advanced techniques for accurate fabrication. Our dedicated management ensures seamless execution and timely completion.",
-    imgSrc: "/our works/our-works-img1.jpg",
   },
   {
-    icon: "/homepage/services/automation-white.svg",
+    icon: <Icon icon="tabler:settings-automation" />,
     title: "Automation and Technology",
     desc: "We install smart gate systems with automated access control, remote monitoring, and motorized operation for enhanced security and convenience.",
-    imgSrc: "/our works/our-works-img2.jpg",
-    imgSrcOpt: "/our works/our-works-img3.jpg",
   },
 ];
 
@@ -186,6 +210,33 @@ export const blogCardData: any = [
       "The Art of Main Gate Design and Fabrication: Beautifying Nepal’s Entrances",
     slug: "The Art of Main Gate Design and Fabrication: Beautifying Nepal’s Entrances",
   },
+
+  {
+    imgSrc: "/our works/our-works-img2.jpg",
+    authorImg: "/homepage/review_img2.svg",
+    author: "Shyam Bahadur",
+    date: "12 March 2025",
+    title: "The Importance of Main Gate Design and Fabrication in Nepal",
+    slug: "The Importance of Main Gate Design and Fabrication in Nepal",
+  },
+  {
+    imgSrc: "/our works/our-works-img1.jpg",
+    authorImg: "/homepage/review_img1.svg",
+    author: "Ram Bahadur",
+    date: "10 March 2025",
+    title: "Unveiling the Mysteries of Vaastu Shastra for Main Gate",
+    slug: "Unveiling the Mysteries of Vaastu Shastra for Main Gate",
+  },
+
+  {
+    imgSrc: "/our works/our-works-img3.jpg",
+    authorImg: "/homepage/review_img3.svg",
+    author: "Hari Bahadur",
+    date: "14 March 2025",
+    title:
+      "The Art of Main Gate Design and Fabrication: Beautifying Nepal’s Entrances",
+    slug: "The Art of Main Gate Design and Fabrication: Beautifying Nepal’s Entrances",
+  },
 ];
 
 export const OurTeamCardData: any = [
@@ -205,5 +256,23 @@ export const OurTeamCardData: any = [
     imgSrc: "/our team/our-team-img3.jpg",
     memberName: "Ken Ham",
     memberPost: "Engineer",
+  },
+
+  {
+    imgSrc: "/our team/our-team-img3.jpg",
+    memberName: "Ken Ham",
+    memberPost: "Engineer",
+  },
+
+  {
+    imgSrc: "/our team/our-team-img2.jpg",
+    memberName: "Mark Miller",
+    memberPost: "Manager",
+  },
+
+  {
+    imgSrc: "/our team/our-team-img1.jpg",
+    memberName: "John Doe",
+    memberPost: "CEO",
   },
 ];

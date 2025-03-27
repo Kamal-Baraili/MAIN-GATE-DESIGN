@@ -6,31 +6,35 @@ interface Props {
 
 interface Item {
   item: Props;
+  index: number;
 }
 
-const TeamCard = ({ item }: Item) => {
+const TeamCard = ({ item, index }: Item) => {
   return (
     <>
-      <div className={`relative`}>
-        <div className="w-full overflow-hidden">
+      <div
+        className={`${(index === 1 || index === 4) && "mt-30"} ${
+          (index === 2 || index === 5) && "-mt-40"
+        }`}
+      >
+        <div className="w-full rounded-2xl overflow-hidden">
           <img
-            className={`w-full h-[55vh] object-cover opacity-70 rounded hover:opacity-90 hover:scale-[1.1] transition-all ease-in-out duration-200`}
+            className={`w-full h-[50vh] object-cover opacity-60 rounded-2xl hover:opacity-85 hover:scale-[1.1] transition-all ease-in-out duration-200`}
             src={item.imgSrc}
             alt={item.imgSrc}
           />
         </div>
-        <div className="absolute bottom-0 left-[10%] px-2 flex flex-col gap-3">
-          <h3 className="text-[#fff] text-4xl font-semibold">
+        <div className="py-5 flex justify-between items-center gap-3 border-b border-b-zinc-600">
+          <h3 className="text-3xl text-zinc-400 font-semibold">
             {item.memberName}
           </h3>
-          <div className="flex items-center gap-14">
-            <h4 className="text-[#fff] italic text-lg">{item.memberPost}</h4>
-            <div className="p-2 w-full flex justify-center gap-10">
-              <img src="/footer/twitter.svg" alt="" />
-              <img src="/footer/instagram.svg" alt="" />
-            </div>
-          </div>
+          <img
+            className="w-6 h-6 opacity-65"
+            src="/footer/instagram.svg"
+            alt=""
+          />
         </div>
+        <h4 className="pt-2 text-zinc-400 italic text-lg">{item.memberPost}</h4>
       </div>
     </>
   );

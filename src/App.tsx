@@ -6,6 +6,7 @@ import AboutUsPage from "./pages/about-us/aboutUsPage";
 import BlogDetail from "./pages/blog/blogDetail";
 import BlogsPage from "./pages/blog/blogsPage";
 import ContactUsPage from "./pages/contact-us/contactUsPage";
+import GetInTouch from "./components/ui/contact/getInTouch";
 import Homepage from "./pages/homepage/homepage";
 import ServicesPage from "./pages/our-services/servicesPage";
 import "./styles/index.css";
@@ -22,6 +23,7 @@ const App = () => {
 const Main = () => {
   return (
     <>
+      <audio className="hidden" controls autoPlay loop src="/main-hero-sound.mp3"></audio>
       <Nav />
 
       <Routes>
@@ -47,7 +49,7 @@ const Main = () => {
           />
         ))}
       </Routes>
-
+      <GetInTouch />
       <Footer />
     </>
   );
