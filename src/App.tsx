@@ -1,36 +1,89 @@
+import { lazy, Suspense, useEffect, useState } from "react";
 import Footer from "./components/layout/footer";
 import Nav from "./components/layout/nav";
-import OurWorks from "./components/ui/our-work/ourWorks";
 import { blogCardData } from "./db/mockdata";
-import AboutUsPage from "./pages/about-us/aboutUsPage";
-import BlogDetail from "./pages/blog/blogDetail";
-import BlogsPage from "./pages/blog/blogsPage";
-import ContactUsPage from "./pages/contact-us/contactUsPage";
-import GetInTouch from "./components/ui/contact/getInTouch";
-import Homepage from "./pages/homepage/homepage";
-import ServicesPage from "./pages/our-services/servicesPage";
-import "./styles/index.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import Loading from "./loading";
+
+// Lazy load the pages and components
+const AboutUsPage = lazy(() => import("./pages/about-us/aboutUsPage"));
+const BlogDetail = lazy(() => import("./pages/blog/blogDetail"));
+const BlogsPage = lazy(() => import("./pages/blog/blogsPage"));
+const ContactUsPage = lazy(() => import("./pages/contact-us/contactUsPage"));
+const GetInTouch = lazy(() => import("./components/ui/contact/getInTouch"));
+const Homepage = lazy(() => import("./pages/homepage/homepage"));
+const ServicesPage = lazy(() => import("./pages/our-services/servicesPage"));
+const OurWorks = lazy(() => import("./components/ui/our-work/ourWorks"));
+const NotFound = lazy(() => import("./not-found"));
 
 const App = () => {
+  const [audioReady, setAudioReady] = useState(false);
+
+  useEffect(() => {
+    const audio = document.getElementById(
+      "main-hero-audio"
+    ) as HTMLAudioElement | null;
+
+    if (audio) {
+      const playAudio = () => {
+        audio.play().catch((error) => {
+          console.log("Audio playback failed:", error);
+        });
+      };
+
+      audio.addEventListener("canplay", () => {
+        setAudioReady(true);
+      });
+
+      window.addEventListener("click", playAudio);
+      window.addEventListener("touchstart", playAudio);
+
+      return () => {
+        window.removeEventListener("click", playAudio);
+        window.removeEventListener("touchstart", playAudio);
+      };
+    } else {
+      console.log("Audio element not found");
+    }
+  }, []);
+
   return (
-    <Router>
-      <Main />
-    </Router>
+    <>
+      <audio
+        id="main-hero-audio"
+        className="hidden"
+        autoPlay
+        loop
+        muted={false}
+        src="/main-hero-sound.mp3"
+      ></audio>
+      <Router>
+        <Suspense fallback={<Loading />}>
+          <Main />
+        </Suspense>
+      </Router>
+    </>
   );
 };
 
 const Main = () => {
+  const location = useLocation();
+  const isNotFoundPage =
+    location.pathname === "/404" || location.pathname === "/*";
+
   return (
     <>
-      <audio className="hidden" controls autoPlay loop src="/main-hero-sound.mp3"></audio>
-      <Nav />
-
+      {!isNotFoundPage && <Nav />}
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/services" element={<ServicesPage />} />
-        <Route path="/contact us" element={<ContactUsPage />} />
+        <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/works" element={<OurWorks />} />
         <Route path="blog" element={<BlogsPage />} />
         {blogCardData.map((key: any, index: any) => (
@@ -48,9 +101,10 @@ const Main = () => {
             }
           />
         ))}
+        <Route path="/*" element={<NotFound />} />
       </Routes>
-      <GetInTouch />
-      <Footer />
+      {!isNotFoundPage && <GetInTouch />}
+      {!isNotFoundPage && <Footer />}
     </>
   );
 };

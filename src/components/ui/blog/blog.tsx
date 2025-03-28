@@ -16,9 +16,7 @@ const Blog = () => {
           </div>
           <p className="w-[70%] mx-auto my-3 text-3xl font-light text-zinc-400">
             Stay informed with the latest updates and insights from around the
-            world. Our 'Latest from News' section provides you with the
-            essential stories, trends, and events, keeping you connected and
-            up-to-date with the world around you.
+            world. 
           </p>
         </div>
         <div className="w-full mx-auto mt-20 grid grid-cols-3 gap-10">

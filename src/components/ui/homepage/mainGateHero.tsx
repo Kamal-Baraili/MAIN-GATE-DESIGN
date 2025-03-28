@@ -28,13 +28,12 @@ const MainGateHero = () => {
       gsap.set(textRef.current, { y: "0%", opacity: 1 });
       gsap.set(heading1.current, { opacity: 1, y: "0%" });
       gsap.set(heading2.current, {
-        opacity: 1,
+        opacity: 0, // Start invisible
+        y: "100%", // Start below
         position: "absolute",
         top: "50%",
         left: "50%",
         xPercent: -50,
-        yPercent: 50,
-        clipPath: "inset(0 0 50% 0)",
         transformOrigin: "center center",
       });
       gsap.set(textThirdRef.current, { y: "2%", opacity: 0 });
@@ -47,21 +46,23 @@ const MainGateHero = () => {
           end: "+=600%",
           scrub: 1,
           pin: true,
-          toggleActions: "play none none reverse", // Reverse animation when scrolling back up
+          toggleActions: "play none none reverse",
           onLeave: () => {
-            gsap.to(container.current, { opacity: 0, duration: 1 }); // Ensure fade-out
+            gsap.to(container.current, { opacity: 0, duration: 1 });
           },
           onEnterBack: () => {
-            gsap.to(container.current, { opacity: 1, duration: 1 }); // Fade in when scrolling back up
+            gsap.to(container.current, { opacity: 1, duration: 1 });
           },
         },
       });
 
-      tl.to(box1.current, {
-        x: "-100%",
-        ease: "power2.inOut",
-        duration: 5,
-      })
+      tl
+        // Gates open first
+        .to(box1.current, {
+          x: "-100%",
+          ease: "power2.inOut",
+          duration: 5,
+        })
         .to(
           box2.current,
           {
@@ -69,48 +70,51 @@ const MainGateHero = () => {
             ease: "power2.inOut",
             duration: 5,
           },
-          "<"
+          "<" // Simultaneous with box1
         )
+        // Welcome fades out after gates are gone
         .to(
           heading1.current,
           {
-            y: "-10%",
             opacity: 0,
             ease: "power2.inOut",
             duration: 2,
           },
-          ">-3"
+          ">" // Start after previous animation completes
         )
+        // To Main Gate Design slides up and fades in
         .to(
           heading2.current,
           {
-            yPercent: -50,
-            clipPath: "inset(0 0 -30% 0)",
-            ease: "power1.inOut",
+            y: "0%",
+            opacity: 1,
+            ease: "power2.inOut",
             duration: 2,
           },
-          "<1"
+          "-=1.5" // Overlap with Welcome fade-out for smooth transition
         )
+        // Heading2 fades out
         .to(
           heading2.current,
           {
-            y: "-10%",
             opacity: 0,
             ease: "power2.inOut",
             duration: 2,
           },
-          ">1"
+          ">0.5" // Small delay after heading2 arrives
         )
+        // Third text fades in
         .to(
           textThirdRef.current,
           {
-            y: 0,
+            y: "0%",
             opacity: 1,
             ease: "power2.inOut",
             duration: 2,
           },
           ">0.1"
         )
+        // Container fades out
         .to(
           container.current,
           {
@@ -153,8 +157,13 @@ const MainGateHero = () => {
         <h2 ref={heading1} className="text-5xl font-bold text-[#F5C230]">
           Welcome
         </h2>
-        <h2 ref={heading2} className="text-5xl font-bold text-[#F5C230]">
-          To Main Gate design
+      </div>
+      <div
+        ref={textRef}
+        className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none -z-70"
+      >
+        <h2 ref={heading2} className="text-5xl -mt-5 font-bold text-[#F5C230]">
+          To Main Gate Design
         </h2>
       </div>
 

@@ -41,7 +41,7 @@ const Hero = () => {
     const updateDimensions = () => {
       totalWidth = images.scrollWidth;
       scrollDistance =
-        totalWidth - window.innerWidth + (window.innerWidth < 768 ? 200 : 400);
+        totalWidth - window.innerWidth + (window.innerWidth < 768 ? 200 : 400)-60;
       wrapper.style.height = `${window.innerHeight + scrollDistance}px`;
     };
 
