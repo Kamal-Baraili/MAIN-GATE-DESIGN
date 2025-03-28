@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import RelatedBlogs from "../../components/ui/related-blogs/relatedBlogs";
 
 interface Props {
   imgSrc: string;
@@ -105,6 +106,7 @@ const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
           that nurtures well-being and prosperity for you and your loved ones.
         </p>
       </div>
+      <RelatedBlogs />
     </>
   );
 };

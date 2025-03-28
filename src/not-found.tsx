@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./components/shared/button/button";
-import { useEffect } from "react";
 
 const NotFound = () => {
   const navigate = useNavigate();

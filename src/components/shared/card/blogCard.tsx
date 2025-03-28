@@ -22,6 +22,7 @@ const BlogCard = ({ imgSrc, author, date, title, authorImg, slug }: Props) => {
 
   return (
     <div
+      onClick={handleReadMoreClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       className="p-6 hover:bg-[#121212] rounded-2xl text-zinc-300 flex flex-col items-start cursor-pointer"
@@ -49,7 +50,6 @@ const BlogCard = ({ imgSrc, author, date, title, authorImg, slug }: Props) => {
       </div>
       <h3 className="text-2xl mb-2 pt-2 border-t border-t-zinc-700">{title}</h3>
       <div
-        onClick={handleReadMoreClick} // Replace Link with clickable div
         className={`mt-2 px-3 py-2 text-sm text-zinc-200 rounded cursor-pointer flex gap-2 items-center`}
       >
         <h4 className={`${isHover && "text-primary"}`}>Read More</h4>

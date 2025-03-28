@@ -17,10 +17,12 @@ const ServicesCard = ({ item }: Item) => {
       <div
         onMouseEnter={() => setCardHover(true)}
         onMouseLeave={() => setCardHover(false)}
-        className={`p-8 bg-[#121212] hover:bg-[#0e0e0e] rounded transition-all ease-in-out cursor-default group
+        className={`p-8 bg-[#0e0e0e] hover:bg-[#121212] rounded transition-all ease-in-out cursor-default group
         `}
       >
-        <span className={`text-5xl text-zinc-400 group-hover:text-primary`}>{item.icon}</span>
+        <span className={`text-5xl text-zinc-400 group-hover:text-primary`}>
+          {item.icon}
+        </span>
         <h3
           className={`text-lg ${
             isCardHover ? "text-zinc-200" : "text-zinc-400"

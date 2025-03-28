@@ -2,11 +2,16 @@ import TestimonialCard from "../../shared/card/testimonialCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { SetStateAction, useRef, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { reviewCardData } from "../../../db/mockdata";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Testimonial = () => {
   const sliderRef = useRef<Slider | null>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const settings = {
@@ -29,10 +34,31 @@ const Testimonial = () => {
     }
   };
 
+  useEffect(() => {
+    if (titleRef.current) {
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 90%",
+            end: "bottom 20%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+    }
+  }, []);
+
   return (
     <>
       <div className="pt-20 pb-10 rounded-t-4xl -mt-10">
-        <h2 className="text-amber-50 text-6xl text-center">
+        <h2 ref={titleRef} className="text-amber-50 text-6xl text-center">
           What Our <span className="text-primary">Clients</span> Say?
         </h2>
         <div className="w-full mx-auto mt-10 relative">

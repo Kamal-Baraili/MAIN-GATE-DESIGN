@@ -9,6 +9,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Loading from "./loading";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 // Lazy load the pages and components
 const AboutUsPage = lazy(() => import("./pages/about-us/aboutUsPage"));
@@ -23,6 +24,7 @@ const NotFound = lazy(() => import("./not-found"));
 
 const App = () => {
   const [audioReady, setAudioReady] = useState(false);
+  const [isClicked, setIsClicked] = useState<boolean>(true); // Control the audio play/pause
 
   useEffect(() => {
     const audio = document.getElementById(
@@ -30,15 +32,26 @@ const App = () => {
     ) as HTMLAudioElement | null;
 
     if (audio) {
-      const playAudio = () => {
-        audio.play().catch((error) => {
-          console.log("Audio playback failed:", error);
-        });
-      };
+      // Automatically play audio once it's ready
+      audio.play().catch((error) => {
+        console.log("Audio playback failed:", error);
+        console.log(audioReady);
+      });
 
       audio.addEventListener("canplay", () => {
         setAudioReady(true);
       });
+
+      // Add event listeners for click or touch to toggle audio play/pause
+      const playAudio = () => {
+        if (audio) {
+          if (isClicked) {
+            audio.pause(); // Mute/Stop the audio
+          } else {
+            audio.play(); // Start playing the audio
+          }
+        }
+      };
 
       window.addEventListener("click", playAudio);
       window.addEventListener("touchstart", playAudio);
@@ -50,28 +63,49 @@ const App = () => {
     } else {
       console.log("Audio element not found");
     }
-  }, []);
+  }, [isClicked]); // Re-run when isClicked changes
 
   return (
     <>
-      <audio
-        id="main-hero-audio"
-        className="hidden"
-        autoPlay
-        loop
-        muted={false}
-        src="/main-hero-sound.mp3"
-      ></audio>
+      <div className="w-1/12 h-[20vh] bg-transparent fixed bottom-0 right-0 z-30 ">
+        <audio
+          id="main-hero-audio"
+          className="hidden relative"
+          autoPlay
+          loop
+          muted={isClicked ? true : false}
+          src="/main-hero-sound.mp3"
+        ></audio>
+        <div
+          className="cursor-pointer absolute bottom-20 z-40"
+          onClick={(prev) => {
+            setIsClicked(!prev);
+            console.log("clicked");
+          }}
+        >
+          {isClicked ? (
+            <Icon
+              className="text-2xl text-primary"
+              icon="streamline:volume-mute-solid"
+            />
+          ) : (
+            <Icon
+              className="text-2xl text-primary"
+              icon="garden:volume-unmuted-fill-16"
+            />
+          )}
+        </div>
+      </div>
       <Router>
         <Suspense fallback={<Loading />}>
-          <Main />
+          <Main isClicked={isClicked} setIsClicked={setIsClicked} />
         </Suspense>
       </Router>
     </>
   );
 };
 
-const Main = () => {
+const Main = ({ isClicked, setIsClicked }: any) => {
   const location = useLocation();
   const isNotFoundPage =
     location.pathname === "/404" || location.pathname === "/*";
@@ -80,7 +114,12 @@ const Main = () => {
     <>
       {!isNotFoundPage && <Nav />}
       <Routes>
-        <Route path="/" element={<Homepage />} />
+        <Route
+          path="/"
+          element={
+            <Homepage isClicked={isClicked} setIsClicked={setIsClicked} />
+          }
+        />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactUsPage />} />

@@ -7,7 +7,7 @@ import Testimonial from "../../components/ui/testimonial/testimonial";
 import Video from "../../components/ui/video/video";
 import { Helmet } from "react-helmet";
 
-const Homepage = () => {
+const Homepage = ({isClicked, setIsClicked}: any) => {
   return (
     <>
       <Helmet>
@@ -53,8 +53,8 @@ const Homepage = () => {
         <meta property="twitter:image" content="/og/home.png" />
         <link rel="canonical" href="https://main-gate-two.vercel.app/" />
       </Helmet>
-      <div className="relative -top-21 z-100 main-gate-hero">
-        <MainGateHero />
+      <div className="relative -top-21 z-70 main-gate-hero">
+        <MainGateHero isClicked={isClicked} setIsClicked={setIsClicked} />
       </div>
       <div className="relative -top-21">
         <Hero />
