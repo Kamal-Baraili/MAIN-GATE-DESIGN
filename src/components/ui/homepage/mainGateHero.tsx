@@ -71,6 +71,7 @@ const MainGateHero = ({ isClicked, setIsClicked }: any) => {
           localStorage.setItem("hasViewedMainGateHero", "true");
           setHasViewed(true);
           setShowSkipButton(false);
+          console.log(isClicked);
         },
       });
 

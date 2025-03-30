@@ -246,6 +246,8 @@ const Hero = () => {
         handleScroll();
       } else {
         handleScroll();
+        console.log(lastScrollY);
+        console.log(isPinned);
       }
     };
 
