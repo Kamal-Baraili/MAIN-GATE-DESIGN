@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import Footer from "./components/layout/footer";
 import Nav from "./components/layout/nav";
-import { blogCardData } from "./db/mockdata";
+import { blogCardData, WorksData } from "./db/mockdata";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Loading from "./loading";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import OurWorkDetails from "./pages/our-work/ourWorkDetails";
 
 // Lazy load the pages and components
 const AboutUsPage = lazy(() => import("./pages/about-us/aboutUsPage"));
@@ -25,6 +26,7 @@ const NotFound = lazy(() => import("./not-found"));
 const App = () => {
   const [audioReady, setAudioReady] = useState(false);
   const [isClicked, setIsClicked] = useState<boolean>(true); // Control the audio play/pause
+  const [isMuted, setIsMuted] = useState<boolean>(false);
 
   useEffect(() => {
     const audio = document.getElementById(
@@ -65,25 +67,34 @@ const App = () => {
     }
   }, [isClicked]); // Re-run when isClicked changes
 
+  // Function to handle audio mute/unmute
+  const toggleMute = () => {
+    const audio = document.getElementById(
+      "main-hero-audio"
+    ) as HTMLAudioElement | null;
+
+    if (audio) {
+      setIsMuted(!isMuted);
+      audio.muted = !isMuted;
+    }
+  };
+
   return (
     <>
-      <div className="w-1/12 h-[20vh] bg-transparent fixed bottom-0 right-0 z-30 ">
+      <div className="w-full lg:w-1/12 h-[4vh] xl:h-[6vh] bg-transparent opacity-35 hover:opacity-100 fixed bottom-0 right-0 z-30 ">
         <audio
           id="main-hero-audio"
           className="hidden relative"
           autoPlay
           loop
-          muted={isClicked ? true : false}
+          muted={isMuted}
           src="/main-hero-sound.mp3"
         ></audio>
         <div
-          className="cursor-pointer absolute bottom-20 z-40"
-          onClick={(prev) => {
-            setIsClicked(!prev);
-            console.log("clicked");
-          }}
+          className="cursor-pointer absolute -top-[60%] xl:-top-0 lg:bottom-10 right-[5%] xl:right-0 lg:left-10 z-40"
+          onClick={toggleMute}
         >
-          {isClicked ? (
+          {isMuted ? (
             <Icon
               className="text-2xl text-primary"
               icon="streamline:volume-mute-solid"
@@ -125,19 +136,27 @@ const Main = ({ isClicked, setIsClicked }: any) => {
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/works" element={<OurWorks />} />
         <Route path="blog" element={<BlogsPage />} />
-        {blogCardData.map((key: any, index: any) => (
+        {blogCardData.map((item: any, index: any) => (
           <Route
             key={index}
-            path={`/blog/${key.slug.replace(/\s+/g, "-")}`}
+            path={`/blog/${item.slug.replace(/\s+/g, "-")}`}
             element={
               <BlogDetail
-                imgSrc={key.imgSrc}
-                authorImg={key.authorImg}
-                author={key.author}
-                date={key.date}
-                title={key.title}
+                imgSrc={item.imgSrc}
+                authorImg={item.authorImg}
+                author={item.author}
+                date={item.date}
+                title={item.title}
               />
             }
+          />
+        ))}
+
+        {WorksData.map((item: any, index: any) => (
+          <Route
+            key={index}
+            path={`/works/${item.slug.replace(/\s+/g, "-")}`}
+            element={<OurWorkDetails item={item} />}
           />
         ))}
         <Route path="/*" element={<NotFound />} />

@@ -43,66 +43,68 @@ const Contact = () => {
           </div>
           <div className="">
             <h2 className="text-4xl text-zinc-300">Send us a message</h2>
-            <div className="rounded-xl p-4 mt-5 border border-zinc-900 text-amber-50">
-              <form
-                className=" text-zinc-500 flex flex-col items-start"
-                action=""
-              >
-                <div className="w-full flex gap-8">
-                  <div className="w-full">
-                    <h3 className="text-lg">Full Name</h3>{" "}
-                    <input
-                      className="w-full mt-1.5 p-3 rounded-xl border border-zinc-800 outline-none"
-                      type="text"
-                      placeholder="Enter your full name"
-                    />
+            <div className="p-[1px] mt-5 rounded-md bg-gradient-to-r from-yellow-200 via-amber-50 to-amber-300">
+              <div className="rounded-lg bg-black p-4 text-amber-50">
+                <form
+                  className=" text-zinc-500 flex flex-col items-start"
+                  action=""
+                >
+                  <div className="w-full flex gap-8">
+                    <div className="w-full">
+                      <h3 className="text-lg">Full Name</h3>{" "}
+                      <input
+                        className="w-full mt-1.5 p-3 rounded-xl border border-zinc-800 outline-none"
+                        type="text"
+                        placeholder="Enter your full name"
+                      />
+                    </div>
+                    <div className="w-full">
+                      <h3 className="text-lg">Email</h3>{" "}
+                      <input
+                        className="w-full mt-1.5 p-3 rounded-xl border border-zinc-800 outline-none"
+                        type="email"
+                        placeholder="Enter your email"
+                      />
+                    </div>
                   </div>
-                  <div className="w-full">
-                    <h3 className="text-lg">Email</h3>{" "}
-                    <input
-                      className="w-full mt-1.5 p-3 rounded-xl border border-zinc-800 outline-none"
-                      type="email"
-                      placeholder="Enter your email"
-                    />
-                  </div>
-                </div>
 
-                <div className="w-full mt-5">
-                  <h3 className="text-lg">
-                    What kind of service are you looking for?
-                  </h3>
-                  <select
-                    className="w-full mt-1.5 p-3 rounded-xl border bg-black border-zinc-800 outline-none"
-                    name="cars"
-                    id="cars"
-                  >
-                    <option
-                      className="hover:bg-black"
-                      value=""
-                      disabled
-                      selected
+                  <div className="w-full mt-5">
+                    <h3 className="text-lg">
+                      What kind of service are you looking for?
+                    </h3>
+                    <select
+                      className="w-full mt-1.5 p-3 rounded-xl border bg-black border-zinc-800 outline-none"
+                      name="cars"
+                      id="cars"
                     >
-                      Select your subject
-                    </option>
-                    <option value="General Enquiry">General Enquiry</option>
-                  </select>
-                </div>
+                      <option
+                        className="hover:bg-black"
+                        value=""
+                        disabled
+                        selected
+                      >
+                        Select your subject
+                      </option>
+                      <option value="General Enquiry">General Enquiry</option>
+                    </select>
+                  </div>
 
-                <div className="w-full mt-5">
-                  <h3 className="text-lg">Message</h3>{" "}
-                  <textarea
-                    className="w-full mt-1.5 p-3 h-[30vh] rounded-xl border border-zinc-800 outline-none resize-none"
-                    placeholder="Message"
-                  />
-                </div>
-                <div className="mt-5">
-                  <Button
-                    text="Send Message"
-                    color="text-black"
-                    bgColor="bg-amber-300"
-                  />
-                </div>
-              </form>
+                  <div className="w-full mt-5">
+                    <h3 className="text-lg">Message</h3>{" "}
+                    <textarea
+                      className="w-full mt-1.5 p-3 h-[30vh] rounded-xl border border-zinc-800 outline-none resize-none"
+                      placeholder="Message"
+                    />
+                  </div>
+                  <div className="mt-5">
+                    <Button
+                      text="Send Message"
+                      color="text-black"
+                      bgColor="bg-amber-300"
+                    />
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

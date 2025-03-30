@@ -12,7 +12,7 @@ const NotFound = () => {
 
   return (
     <>
-      <div className="w-full h-screen bg-[#161616] z-100 fixed top-0 flex justify-center items-center">
+      <div className="w-full h-screen bg-[#161616] z-90 fixed top-0 flex justify-center items-center">
         <div className="flex flex-col gap-5 items-center leading-none relative">
           <img
             className="absolute -top-40 -z-10"

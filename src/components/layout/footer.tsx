@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "../icons/socialHandles";
 
 const Footer = () => {
@@ -88,13 +89,15 @@ const Footer = () => {
           </div>
         </div>
         <div className="w-full mt-5 pt-8 flex flex-col gap-2 items-center border-t border-t-zinc-800">
-          <p className="text-zinc-400 capitalize text-sm">
+          <p className="text-zinc-400 capitalize text-sm text-center sm:text-left">
             &copy; Copyright {currentYear} | All Rights Reserved | Main Gate
             Design Pvt. Ltd.
           </p>
           <div className="flex items-center justify-end gap-2 text-zinc-300 text-sm">
             <span>Designed & Developed by</span>
-            <img className="w-12" src="/footer/webxlogo.svg" alt="" />
+            <a href="https://www.webxnep.com/" target="blank">
+              <img className="w-12" src="/footer/webxlogo.svg" alt="" />
+            </a>
           </div>
         </div>
       </div>

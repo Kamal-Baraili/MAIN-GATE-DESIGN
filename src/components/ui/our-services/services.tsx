@@ -12,6 +12,7 @@ export function Services() {
   const [imgSource, setImgSource] = useState<string>(
     "/our works/our-works-img1.jpg"
   );
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(false); // Track screen size
 
   // Refs for animation targets
   const subtitleRef = useRef<HTMLHeadingElement>(null);
@@ -27,17 +28,36 @@ export function Services() {
     }
   };
 
+  // Detect screen width change (greater than 1024px)
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    setIsLargeScreen(mediaQuery.matches);
+
+    const handleMediaQueryChange = (e: MediaQueryListEvent) => {
+      setIsLargeScreen(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+
+    // Clean up on unmount
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    };
+  }, []);
+
   // Handle image transition with delay
   useGSAP(() => {
     const timer = setTimeout(() => {
       setImgSource(servicesTitles[hoveredIndex].imgSrc);
-    }, 10);
+    }, 1);
 
     return () => clearTimeout(timer);
   }, [hoveredIndex]);
 
-  // GSAP animations
+  // GSAP animations (only trigger if isLargeScreen is true)
   useEffect(() => {
+    if (!isLargeScreen) return; // Skip animation for small screens
+
     // Animation for subtitle (h3)
     if (subtitleRef.current) {
       gsap.fromTo(
@@ -144,11 +164,11 @@ export function Services() {
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isLargeScreen]); // Re-run animations when the screen size changes
 
   return (
-    <div className="h-auto py-30 rounded-t-4xl border-t border-t-zinc-800">
-      <div className="w-10/11 mx-auto flex flex-row-reverse gap-10">
+    <div className="h-auto pb-20 py-0 md:py-30 rounded-t-4xl">
+      <div className="w-10/11 mx-auto flex flex-col-reverse lg:flex-row-reverse gap-4 md:gap-10">
         <div className="w-full">
           <div className="flex flex-col gap-2">
             <h3 ref={subtitleRef} className="text-lg text-primary">
@@ -156,11 +176,11 @@ export function Services() {
             </h3>
             <h2
               ref={titleRef}
-              className="uppercase text-6xl text-amber-50 tracking-wide"
+              className="uppercase text-3xl lg:text-6xl text-amber-50 tracking-wide text-wrap"
             >
               enjoy your favourite design
             </h2>
-            <p ref={textRef} className="text-zinc-400">
+            <p ref={textRef} className="text-sm md:text-base text-zinc-400">
               Enjoy your favorite design with a custom gate that perfectly
               reflects your style. Whether you prefer a modern, traditional, or
               unique look, we offer a wide range of customizable options to suit
@@ -187,7 +207,7 @@ export function Services() {
             ))}
           </div>
         </div>
-        <div className="w-full flex items-center">
+        <div className="w-full hidden md:flex items-center">
           <img
             ref={imageRef}
             className="w-full h-[60vh] rounded-4xl object-cover transition-opacity duration-300 ease-in-out"

@@ -1,8 +1,9 @@
-import { WorkdsData } from "../../../db/mockdata";
+import { WorksData } from "../../../db/mockdata";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +12,15 @@ const OurWorks = () => {
   const recentRef = React.useRef<HTMLDivElement>(null);
   const workRef = React.useRef<HTMLDivElement>(null);
   const recentDescRef = React.useRef<HTMLDivElement>(null);
+
+  const navigate = useNavigate(); // Hook to navigate programmatically
+  const locat = useLocation();
+
+  useEffect(() => {
+    if (locat.state?.scrollToTop) {
+      window.scrollTo(0, 0); // Scroll to the top of the page
+    }
+  }, [locat]);
 
   useGSAP(
     () => {
@@ -87,6 +97,15 @@ const OurWorks = () => {
     { scope: recentworkRef }
   );
 
+  const handleNavigateToDetails = (
+    slug: string,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    event.preventDefault(); // Optional, if you want to prevent the default behavior of the click.
+    navigate(`/works/${slug.replace(/\s+/g, "-")}`, { replace: true });
+    window.scrollTo(0, 0); // Scroll to top of the page
+  };
+
   return (
     <main
       ref={recentworkRef}
@@ -111,31 +130,35 @@ const OurWorks = () => {
       </header>
 
       <div className="py-32 space-y-12 relative z-[2]">
-        {WorkdsData.map((item, index) => (
+        {WorksData.map((item, index) => (
           <div
             key={index}
-            className="flex justify-between items-center gap-4 card"
+            className="flex justify-between items-center gap-8 card"
           >
             <div
-              className={`${
+              className={`w-full ${
                 index % 2 === 0
-                  ? "order-0 flex flex-col items-start justify-end"
-                  : "order-2 flex flex-col items-end text-right justify-end"
+                  ? "order-0 flex flex-col items-center justify-center"
+                  : "order-2 flex flex-col items-center text-center justify-center"
               } content`}
             >
-              <h1 className="uppercase text-4xl mb-4 text-left">
+              <h1 className="uppercase text-4xl mb-4 text-center">
                 {item.title}
               </h1>
-              <p className="text-xl text-zinc-400">{item.desc}</p>
             </div>
-            <figure className="items-end justify-end flex self-end image overflow-hidden rounded-3xl">
-              <img
-                src={item.img}
-                alt={item.title}
-                width={800}
-                className="rounded-3xl h-[60vh] object-cover hover:scale-[1.3] opacity-65 hover:opacity-80 transition-all ease-in-out duration-200"
-              />
-            </figure>
+            <div
+              className=" w-full cursor-pointer"
+              onClick={(event) => handleNavigateToDetails(item.slug, event)} // Pass event here
+            >
+              <figure className="items-end justify-end flex self-end image overflow-hidden rounded-3xl">
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  width={800}
+                  className="rounded-3xl h-[60vh] object-cover hover:scale-[1.3] opacity-65 hover:opacity-80 transition-all ease-in-out duration-200"
+                />
+              </figure>
+            </div>
           </div>
         ))}
       </div>

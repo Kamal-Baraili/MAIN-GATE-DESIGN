@@ -1,38 +1,214 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../../shared/button/button";
 import { imageData } from "../../../db/mockdata";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
+  const navigate = useNavigate();
   const mainRef = useRef<HTMLDivElement | null>(null);
   const heroContainerRef = useRef<HTMLDivElement | null>(null);
   const redDivRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const collectionDivRef = useRef<HTMLDivElement | null>(null);
   const [isPinned, setIsPinned] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [slideWidth, setSlideWidth] = useState(0);
 
-  useEffect(() => {
+  // Store scroll trigger reference to kill it when needed
+  const pinTriggerRef = useRef<ScrollTrigger | null>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  // Add this function to calculate the initial and final positions
+  const calculateSliderPositions = () => {
+    const images = mainRef.current;
+    const redDiv = redDivRef.current;
+
+    if (!images || !redDiv) return { initialOffset: 0, finalOffset: 0 };
+
+    // Get first image and collection div
+    const firstImageContainer = images.querySelector(
+      ".img-container"
+    ) as HTMLElement;
+    const collectionDiv = collectionDivRef.current;
+
+    if (!firstImageContainer || !collectionDiv)
+      return { initialOffset: 0, finalOffset: 0 };
+
+    // Calculate centers
+    const redDivRect = redDiv.getBoundingClientRect();
+    const redDivCenter = redDivRect.left + redDivRect.width / 2;
+
+    // First image center position
+    const firstImageRect = firstImageContainer.getBoundingClientRect();
+    const firstImageCenter = firstImageRect.left + firstImageRect.width / 2;
+
+    // Collection div center position
+    const collectionRect = collectionDiv.getBoundingClientRect();
+    const collectionCenter = collectionRect.left + collectionRect.width / 2;
+
+    // Calculate offsets needed to center elements
+    const initialOffset = redDivCenter - firstImageCenter;
+    const finalOffset = redDivCenter - collectionCenter;
+
+    return { initialOffset, finalOffset };
+  };
+
+  const handleViewMoreClick = () => {
+    navigate("/works", { state: { scrollToTop: true } });
+  };
+
+  // Function for mobile slider navigation
+  const handleSlideChange = (direction: "next" | "prev") => {
+    const images = mainRef.current;
+    if (!images) return;
+
+    const totalSlides = imageData.length + 1; // +1 for the collection div
+
+    let newSlide = currentSlide;
+    if (direction === "next") {
+      newSlide = Math.min(currentSlide + 1, totalSlides - 1);
+    } else {
+      newSlide = Math.max(currentSlide - 1, 0);
+    }
+
+    if (newSlide === currentSlide) return;
+
+    setCurrentSlide(newSlide);
+
+    // Get the initial offset
+    const { initialOffset } = calculateSliderPositions();
+
+    // Apply the initial offset when calculating the position
+    gsap.to(images, {
+      x: initialOffset - newSlide * slideWidth,
+      duration: 0.7,
+      ease: "power2.out",
+      onUpdate: updateSpotlight,
+    });
+  };
+
+  const updateSpotlight = () => {
+    const images = mainRef.current;
+    const redDiv = redDivRef.current;
+
+    if (!images || !redDiv) {
+      if (redDiv) {
+        gsap.to(redDiv, { opacity: 0, duration: 0.2 });
+      }
+      return;
+    }
+
+    const imgDetectionPoints = Array.from(
+      images.querySelectorAll(".img-detection")
+    ) as HTMLElement[];
+
+    const redDivRect = redDiv.getBoundingClientRect();
+    let isOverlapping = false;
+
+    imgDetectionPoints.forEach((imgPoint) => {
+      const imgPointRect = imgPoint.getBoundingClientRect();
+      const parentContainer = imgPoint.parentElement as HTMLElement;
+
+      const overlapping =
+        imgPointRect.right >= redDivRect.left &&
+        imgPointRect.left <= redDivRect.right &&
+        imgPointRect.bottom >= redDivRect.top &&
+        imgPointRect.top <= redDivRect.bottom;
+
+      if (overlapping && parentContainer) {
+        isOverlapping = true;
+        gsap.to(parentContainer, {
+          opacity: 1,
+          scale: 1.1,
+          duration: 0.2,
+          ease: "power2.out",
+        });
+      } else if (parentContainer) {
+        gsap.to(parentContainer, {
+          opacity: 0.6,
+          scale: 1,
+          duration: 0.2,
+          ease: "power2.out",
+        });
+      }
+    });
+
+    gsap.to(redDiv, {
+      opacity: isOverlapping ? 1 : 0,
+      duration: 0.2,
+      ease: "power2.out",
+    });
+  };
+
+  const resetSpotlight = () => {
+    const images = mainRef.current;
+
+    if (!images) return;
+
+    const allContainers = Array.from(
+      images.querySelectorAll(".img-container")
+    ) as HTMLElement[];
+
+    allContainers.forEach((container) => {
+      gsap.to(container, {
+        opacity: 0.6,
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+  };
+
+  // Setup for desktop scrolling behavior
+  const setupDesktopScrolling = () => {
     const heroContainer = heroContainerRef.current;
     const images = mainRef.current;
     const redDiv = redDivRef.current;
     const wrapper = wrapperRef.current;
+    const collectionDiv = collectionDivRef.current;
 
-    if (!heroContainer || !images || !redDiv || !wrapper) return;
+    if (!heroContainer || !images || !redDiv || !wrapper || !collectionDiv)
+      return;
 
     // Store scroll position in sessionStorage to handle page reload
     const savedScrollPosition = sessionStorage.getItem("heroScrollPosition");
 
+    // Calculate initial position to center first image with red beam
+    const { initialOffset } = calculateSliderPositions();
+
     // Set initial state of Hero to be invisible
     gsap.set(wrapper, { opacity: 0 });
+    // Apply initial offset to center first image
+    gsap.set(images, { x: initialOffset });
 
     let totalWidth = images.scrollWidth;
-    let scrollDistance =
-      totalWidth - window.innerWidth + (window.innerWidth < 768 ? 200 : 400);
+    let lastElementOffset = 0;
+
+    // Calculate distance to center the last element
+    const calculateScrollDistance = () => {
+      const collectionRect = collectionDiv.getBoundingClientRect();
+      const mainRect = images.getBoundingClientRect();
+
+      // Distance from the start of the container to the center of the collection div
+      lastElementOffset =
+        collectionRect.left - mainRect.left + collectionRect.width / 2;
+
+      // Distance to scroll to center the last element in the viewport
+      const scrollDistance = lastElementOffset - window.innerWidth / 2;
+
+      return scrollDistance;
+    };
+
+    let scrollDistance = calculateScrollDistance();
     let lastScrollY = window.scrollY;
     let scrolledDistance = 0;
-    let translateX = 0;
+    let translateX = initialOffset; // Start with initial offset
     let heroPinPosition = 0;
     let isTouching = false;
     let touchStartX = 0;
@@ -40,14 +216,26 @@ const Hero = () => {
 
     const updateDimensions = () => {
       totalWidth = images.scrollWidth;
-      scrollDistance =
-        totalWidth - window.innerWidth + (window.innerWidth < 768 ? 200 : 400)-60;
+      scrollDistance = calculateScrollDistance();
       wrapper.style.height = `${window.innerHeight + scrollDistance}px`;
     };
 
     const initializeScroll = () => {
       updateDimensions();
-      console.log(lastScrollY);
+      console.log(
+        "Total width:",
+        totalWidth,
+        "Scroll distance:",
+        scrollDistance,
+        "Last element offset:",
+        lastElementOffset,
+        "Initial offset:",
+        initialOffset
+      );
+
+      // Apply initial offset
+      gsap.set(images, { x: initialOffset });
+      updateSpotlight();
 
       // If there's a saved scroll position, use it
       if (savedScrollPosition) {
@@ -73,8 +261,8 @@ const Hero = () => {
       if (wrapperRect.top > 0) {
         setIsPinned(false);
         scrolledDistance = 0;
-        translateX = 0;
-        gsap.set(images, { x: 0 });
+        translateX = initialOffset; // Reset to initial offset instead of 0
+        gsap.set(images, { x: initialOffset });
         resetSpotlight();
         heroPinPosition = 0;
         lastScrollY = currentScrollY;
@@ -91,7 +279,14 @@ const Hero = () => {
         setIsPinned(true);
         scrolledDistance = relativePosition;
         const progress = scrolledDistance / scrollDistance;
-        translateX = -(progress * (totalWidth - window.innerWidth));
+
+        // Calculate final position considering initial offset
+        const { finalOffset } = calculateSliderPositions();
+        const targetX =
+          initialOffset -
+          progress * (initialOffset - finalOffset + scrollDistance);
+        translateX = targetX;
+
         gsap.set(images, { x: translateX });
         updateSpotlight();
       }
@@ -105,7 +300,7 @@ const Hero = () => {
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!isTouching) return;
+      if (!isTouching || !isDesktop) return;
 
       const touchX = e.touches[0].clientX;
       const touchY = e.touches[0].clientY;
@@ -124,7 +319,15 @@ const Hero = () => {
           0,
           Math.min(scrolledDistance, scrollDistance)
         );
-        translateX = totalWidth + (window.innerWidth < 768 ? 200 : 400);
+        const progress = scrolledDistance / scrollDistance;
+
+        // Apply initial offset to touch movement as well
+        const { finalOffset } = calculateSliderPositions();
+        const targetX =
+          initialOffset -
+          progress * (initialOffset - finalOffset + scrollDistance);
+        translateX = targetX;
+
         gsap.set(images, { x: translateX });
         updateSpotlight();
         touchStartX = touchX;
@@ -136,77 +339,16 @@ const Hero = () => {
       isTouching = false;
     };
 
-    const updateSpotlight = () => {
-      if (!images || !redDiv) {
-        gsap.to(redDiv, { opacity: 0, duration: 0.2 });
-        return;
-      }
+    const tl = gsap.timeline();
+    timelineRef.current = tl;
 
-      const imgDetectionPoints = Array.from(
-        images.querySelectorAll(".img-detection")
-      ) as HTMLElement[];
-      const redDivRect = redDiv.getBoundingClientRect();
-      let isOverlapping = false;
-
-      imgDetectionPoints.forEach((imgPoint) => {
-        const imgPointRect = imgPoint.getBoundingClientRect();
-        const parentContainer = imgPoint.parentElement as HTMLElement;
-
-        const overlapping =
-          imgPointRect.right >= redDivRect.left &&
-          imgPointRect.left <= redDivRect.right &&
-          imgPointRect.bottom >= redDivRect.top &&
-          imgPointRect.top <= redDivRect.bottom;
-
-        if (overlapping && parentContainer) {
-          isOverlapping = true;
-          gsap.to(parentContainer, {
-            opacity: 1,
-            scale: 1.1,
-            duration: 0.2,
-            ease: "power2.out",
-          });
-        } else if (parentContainer) {
-          gsap.to(parentContainer, {
-            opacity: 0.6,
-            scale: 1,
-            duration: 0.2,
-            ease: "power2.out",
-          });
-        }
-      });
-
-      gsap.to(redDiv, {
-        opacity: isOverlapping ? 1 : 0,
-        duration: 0.2,
-        ease: "power2.out",
-      });
-    };
-
-    const resetSpotlight = () => {
-      if (!images || !redDiv) return;
-
-      const allContainers = Array.from(
-        images.querySelectorAll(".img-container")
-      ) as HTMLElement[];
-
-      allContainers.forEach((container) => {
-        gsap.to(container, {
-          opacity: 0.6,
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      });
-    };
-
-    ScrollTrigger.create({
+    const pinTrigger = ScrollTrigger.create({
       trigger: wrapper,
       start: "top top",
-      end: `+=${scrollDistance + 10}`,
-      pin: true,
+      end: `+=${scrollDistance + 100}`,
+      pin: heroContainer,
       onEnter: () => {
-        gsap.to(wrapper, {
+        tl.to(wrapper, {
           opacity: 1,
           duration: 1,
           ease: "power2.inOut",
@@ -216,7 +358,7 @@ const Hero = () => {
         });
       },
       onEnterBack: () => {
-        gsap.to(wrapper, {
+        tl.to(wrapper, {
           opacity: 1,
           duration: 1,
           ease: "power2.inOut",
@@ -226,7 +368,7 @@ const Hero = () => {
         });
       },
       onLeaveBack: () => {
-        gsap.to(wrapper, {
+        tl.to(wrapper, {
           opacity: 0,
           duration: 1,
           ease: "power2.inOut",
@@ -236,6 +378,8 @@ const Hero = () => {
         });
       },
     });
+
+    pinTriggerRef.current = pinTrigger;
 
     gsap.set(redDiv, { opacity: 0 });
     initializeScroll();
@@ -269,88 +413,208 @@ const Hero = () => {
 
       gsap.set(images, { x: 0 });
       resetSpotlight();
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
+      if (pinTriggerRef.current) {
+        pinTriggerRef.current.kill();
+        pinTriggerRef.current = null;
+      }
+
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
+    };
+  };
+
+  // Setup for mobile slider behavior
+  const setupMobileSlider = () => {
+    const images = mainRef.current;
+    const redDiv = redDivRef.current;
+    const wrapper = wrapperRef.current;
+
+    if (!images || !redDiv || !wrapper) return;
+
+    // Set wrapper to be visible
+    gsap.set(wrapper, { opacity: 1 });
+
+    // Calculate slide width based on image container width and margins
+    const imageContainer = images.querySelector(
+      ".img-container"
+    ) as HTMLElement;
+    if (imageContainer) {
+      const containerWidth = imageContainer.offsetWidth;
+      const containerStyle = window.getComputedStyle(imageContainer);
+      const marginRightValue = containerStyle.marginRight || "0";
+      const marginRight = parseInt(marginRightValue, 10);
+      setSlideWidth(containerWidth + marginRight);
+    }
+
+    // Calculate initial position to center first image
+    const { initialOffset } = calculateSliderPositions();
+
+    // Reset to first slide with correct initial position
+    setCurrentSlide(0);
+    gsap.set(images, { x: initialOffset });
+
+    // Setup spotlight effect for initial slide
+    updateSpotlight();
+
+    return () => {
+      gsap.set(images, { x: 0 });
+      resetSpotlight();
+    };
+  };
+
+  // Check screen size and initialize appropriate behavior
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const isLargeScreen = window.innerWidth >= 1024;
+      setIsDesktop(isLargeScreen);
+
+      // Kill existing animations and event listeners before switching modes
+      if (pinTriggerRef.current) {
+        pinTriggerRef.current.kill();
+        pinTriggerRef.current = null;
+      }
+
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
+
+      // Reset any transformations
+      const images = mainRef.current;
+      if (images) {
+        // Calculate initial position
+        const { initialOffset } = calculateSliderPositions();
+        gsap.set(images, { x: initialOffset });
+      }
+
+      // Setup appropriate behavior based on screen size
+      if (isLargeScreen) {
+        const cleanup = setupDesktopScrolling();
+        return cleanup;
+      } else {
+        const cleanup = setupMobileSlider();
+        return cleanup;
+      }
+    };
+
+    const cleanup = checkScreenSize();
+
+    // Add resize listener to switch modes when screen size changes
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => {
+      if (cleanup) cleanup();
+      window.removeEventListener("resize", checkScreenSize);
     };
   }, []);
 
   return (
-    <div ref={wrapperRef} className="relative">
+    <div ref={wrapperRef} className="w-11/12 mx-auto relative">
       <div
         ref={heroContainerRef}
-        className="relative h-screen overflow-hidden touch-pan-y"
+        className={`relative h-screen overflow-hidden touch-pan-y ${
+          !isDesktop ? "flex flex-col items-center" : ""
+        }`}
         style={{
-          position: isPinned ? "sticky" : "relative",
-          top: isPinned ? 0 : "auto",
-          left: 0,
-          width: "100%",
           zIndex: 10,
         }}
       >
         <img
-          className="w-[200px] h-[120px] absolute top-21 left-1/2 -translate-x-1/2 z-70 md:w-[170px] md:h-[50px] object-cover"
+          className="w-[100px] h-[40px] absolute top-40 md:top-21 left-1/2 -translate-x-1/2 z-70 md:w-[170px] md:h-[50px] lg:object-cover"
           src="/homepage/hanging-lamp.png"
           alt="Hanging Lamp"
         />
         <div
           ref={redDivRef}
-          className="w-[450px] h-[800px] absolute top-[120px] left-1/2 -translate-x-1/2 z-10 md:w-[750px] md:top-[40px]"
+          className="w-[350px] h-[85vh] md:h-[800px] absolute top-25 left-1/2 -translate-x-1/2 z-10 md:w-[750px] md:top-[40px]"
         >
           <img
             className="w-full h-full"
             src="/homepage/light-beam2.png"
-            alt=""
+            alt="Light Beam"
           />
         </div>
+
+        {/* Mobile navigation buttons - only show on smaller screens */}
+        {!isDesktop && (
+          <div className="flex justify-between w-full absolute bottom-16 px-4 z-30">
+            <button
+              onClick={() => handleSlideChange("prev")}
+              className={`bg-amber-300 p-3 rounded-full shadow-lg ${
+                currentSlide === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-amber-400"
+              }`}
+              disabled={currentSlide === 0}
+            >
+              <Icon className="text-xl" icon="tabler:arrow-left" />
+            </button>
+            <button
+              onClick={() => handleSlideChange("next")}
+              className={`bg-amber-300 p-3 rounded-full shadow-lg ${
+                currentSlide === imageData.length
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-amber-400"
+              }`}
+              disabled={currentSlide === imageData.length}
+            >
+              <img
+                src="/homepage/arrow-right.svg"
+                alt="Next"
+                className="w-6 h-6"
+              />
+            </button>
+          </div>
+        )}
+
         <div
           ref={mainRef}
-          className="flex pt-40 px-4 whitespace-nowrap will-change-transform md:pt-50 md:px-40 relative z-20"
+          className="flex pt-60 px-4 whitespace-nowrap will-change-transform md:pt-50 md:px-40 relative z-20"
         >
           <div className="inline-block flex-shrink-0">
             <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 md:w-[405px] md:h-[450px] md:mx-4"></div>
           </div>
           {imageData.map((item, index) => (
             <div key={index} className="inline-block flex-shrink-0">
-              <div className="img-container w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-120 md:mx-4">
+              <div className="img-container w-[300px] h-[300px] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-120 md:mx-4">
                 <img
-                  className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20"
+                  className="w-full h-full object-cover absolute ml-5 md:ml-0 inset-0 rounded-lg shadow-lg z-20"
                   src={item.src}
                   alt={`Slide ${index}`}
                 />
                 <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
-                {/* <p
-                  style={{
-                    WebkitTextStrokeWidth: "2px",
-                    WebkitTextStrokeColor: "#ffffff",
-                  }}
-                  className="w-full text-[60px] uppercase text-wrap text-center leading-25 text-transparent absolute top-20 -left-8 z-50 font-bold font-ursb md:text-[100px] md:top-10 md:-left-[1%]"
-                >
-                  {item.gateName}
-                </p> */}
               </div>
-              <p className="w-1/2 uppercase text-wrap leading-25 text-center text-white font-bold -z-20 font-ursb md:text-4xl">
+              <p className="w-[80%] mt-5 lg:w-1/2 uppercase text-wrap text-center text-white font-bold -z-20 font-ursb text-4xl">
                 {item.gateName}
               </p>
             </div>
           ))}
-          <div className="img-container flex-shrink-0 w-[300px] h-[300px] px-2 mr-10 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-80 md:mx-4">
-            <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
-            <h2 className="text-3xl text-center font-bold text-white mt-10 md:text-5xl md:mt-20">
-              Please View Our <br /> Gate Collection.
-            </h2>
-            <div className="mt-8 flex items-center justify-center gap-3 md:mt-14 absolute bottom-30 left-0 right-0 z-40">
-              <a href="/works" className="inline-block">
-                <Button
-                  text="View More"
-                  color="text-black"
-                  bgColor="bg-amber-300"
-                  src="/homepage/open-gate.svg"
-                  secondSrc="/btn-handle.png"
-                />
-              </a>
+          <div ref={collectionDivRef} className="inline-block flex-shrink-0">
+            <div className="img-container w-[300px] h-[300px] px-2 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mx-4">
+              <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
+              <div className="w-full h-full flex flex-col items-center justify-center absolute inset-0 z-20">
+                <h2 className="text-3xl text-center font-bold text-white mt-10 md:text-5xl md:mt-0">
+                  Please View Our <br /> Gate Collection.
+                </h2>
+                <div className="mt-8 flex items-center justify-center gap-3 md:mt-14 z-40">
+                  <button
+                    onClick={handleViewMoreClick}
+                    className="inline-block"
+                  >
+                    <Button
+                      text="View More"
+                      color="text-black"
+                      bgColor="bg-amber-300"
+                      src="/homepage/open-gate.svg"
+                      secondSrc="/btn-handle.png"
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="inline-block flex-shrink-0">
-            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 md:w-[250px] md:h-[250px] md:mx-4"></div>
           </div>
         </div>
       </div>

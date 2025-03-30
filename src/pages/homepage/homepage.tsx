@@ -7,7 +7,7 @@ import Testimonial from "../../components/ui/testimonial/testimonial";
 import Video from "../../components/ui/video/video";
 import { Helmet } from "react-helmet";
 
-const Homepage = ({isClicked, setIsClicked}: any) => {
+const Homepage = ({ isClicked, setIsClicked }: any) => {
   return (
     <>
       <Helmet>

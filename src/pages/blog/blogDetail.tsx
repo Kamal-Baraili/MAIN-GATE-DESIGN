@@ -13,8 +13,8 @@ const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
   return (
     <>
       <div className="w-5/11 mx-auto mt-25">
-        <div>
-          <Link className="w-12" to="/blog">
+        <div className="w-12">
+          <Link to="/blog">
             <div className=" flex gap-2 text-zinc-300 opacity-70 hover:opacity-90 hover:text-zinc-100 hover:gap-3 transition-all ease-in-out duration-100">
               <img className="" src="/blog/arrow-left.svg" alt="" />
               <span className="">Back</span>

@@ -26,6 +26,41 @@ const Testimonial = () => {
     autoplaySpeed: 3000,
     beforeChange: (_oldIndex: any, newIndex: SetStateAction<number>) =>
       setCurrentSlide(newIndex),
+    responsive: [
+      {
+        breakpoint: 1500,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   const goToSlide = (index: number) => {
@@ -58,10 +93,10 @@ const Testimonial = () => {
   return (
     <>
       <div className="pt-20 pb-10 rounded-t-4xl -mt-10">
-        <h2 ref={titleRef} className="text-amber-50 text-6xl text-center">
+        <h2 ref={titleRef} className="text-amber-50 text-5xl lg:text-6xl text-center">
           What Our <span className="text-primary">Clients</span> Say?
         </h2>
-        <div className="w-full mx-auto mt-10 relative">
+        <div className="w-full mx-auto mt-5 md:mt-10 relative">
           <Slider {...settings} ref={sliderRef}>
             {reviewCardData.map((key: any, index: any) => (
               <TestimonialCard
@@ -74,7 +109,7 @@ const Testimonial = () => {
             ))}
           </Slider>
 
-          <div className="absolute top-0 left-[45%] flex md:gap-4 gap-2 z-[10]">
+          <div className="absolute top-0 left-[40%] flex md:gap-4 gap-2 z-[10]">
             {reviewCardData.map((k: any, index: number) => (
               <button
                 key={index}
