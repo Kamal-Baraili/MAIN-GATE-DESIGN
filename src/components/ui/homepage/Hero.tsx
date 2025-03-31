@@ -18,7 +18,7 @@ const Hero = () => {
   const [isPinned, setIsPinned] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [slideWidth, setSlideWidth] = useState(0);
+  // const [slideWidth, setSlideWidth] = useState(0);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
 
@@ -297,6 +297,8 @@ const Hero = () => {
       // Apply initial offset
       gsap.set(images, { x: initialOffset });
       updateSpotlight();
+      console.log(lastScrollY);
+      console.log(isPinned);
 
       // If there's a saved scroll position, use it
       if (savedScrollPosition) {
@@ -633,13 +635,13 @@ const Hero = () => {
         }}
       >
         <img
-          className="w-[100px] h-[40px] absolute top-40 md:top-21 left-1/2 -translate-x-1/2 z-70 md:w-[170px] md:h-[50px] lg:object-cover"
+          className="w-[100px] h-[40px] absolute top-40 lg:top-21 left-1/2 -translate-x-1/2 z-70 lg:w-[170px] lg:h-[50px] lg:object-cover"
           src="/homepage/hanging-lamp.png"
           alt="Hanging Lamp"
         />
         <div
           ref={redDivRef}
-          className="w-[350px] h-[85vh] md:h-[800px] absolute top-25 left-1/2 -translate-x-1/2 z-10 md:w-[750px] md:top-[40px]"
+          className="w-[350px] h-[85vh] lg:h-[800px] absolute top-25 left-1/2 -translate-x-1/2 z-10 lg:w-[750px] lg:top-[40px]"
         >
           <img
             className="w-full h-full"
@@ -650,7 +652,7 @@ const Hero = () => {
 
         {/* Mobile navigation buttons - only show on smaller screens */}
         {!isDesktop && (
-          <div className="flex justify-between w-full absolute bottom-16 px-4 z-30">
+          <div className="flex justify-center gap-10 md:gap-30 w-full absolute bottom-5 px-4 z-30">
             <button
               onClick={() => handleSlideChange("prev")}
               className={`bg-amber-300 p-3 rounded-full shadow-lg ${
@@ -678,17 +680,17 @@ const Hero = () => {
 
         <div
           ref={mainRef}
-          className="flex pt-60 px-4 whitespace-nowrap will-change-transform md:pt-50 md:px-40 relative z-20"
+          className="flex pt-60 px-4 whitespace-nowrap will-change-transform lg:pt-50 lg:px-40 relative z-20"
         >
           {/* Spacer for better initial positioning */}
           <div className="hidden lg:inline-block flex-shrink-0">
-            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 md:w-[405px] md:h-[450px] md:mx-4"></div>
+            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 lg:w-[405px] lg:h-[450px] lg:mx-4"></div>
           </div>
 
           {/* Map through image data with key elements fixed */}
           {imageData.map((item, index) => (
             <div key={index} className="inline-block flex-shrink-0">
-              <div className="img-container w-[300px] h-[300px] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-120 md:mx-4">
+              <div className="img-container w-[300px] h-[300px] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 lg:w-[450px] lg:h-[450px] lg:px-5 lg:mr-120 lg:mx-4">
                 <img
                   className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20"
                   src={item.src}
