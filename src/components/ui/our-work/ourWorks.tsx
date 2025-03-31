@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { WorksData } from "../../../db/mockdata";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -36,7 +37,7 @@ const OurWorks = () => {
       });
 
       headerTl.from(recentRef.current, {
-        x: 80,
+        // x: 80,
         duration: 2,
       });
 
@@ -111,16 +112,16 @@ const OurWorks = () => {
       ref={recentworkRef}
       className="w-11/12 mx-auto mt-20 relative pt-10 text-zinc-300"
     >
-      <header className="flex items-center gap-40">
+      <header className="md:flex items-center gap-40">
         <h1
-          className="uppercase leading-[1] text-7xl text-amber-50"
+          className="uppercase md:leading-[1] text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-amber-50 text-center md:text-left"
           ref={recentRef}
         >
           Recent Works
         </h1>
-        <div className="flex justify-end items-center">
+        <div className="md:flex justify-end items-center">
           <p
-            className="text-3xl w-[60%] font-light text-zinc-400 overflow-hidden"
+            className="w-full md:w-[60%] text-md md:text-lg lg:text-3xl text-center md:text-left mt-4 md:mt-0 font-light text-zinc-400 overflow-hidden"
             ref={recentDescRef}
           >
             Amidst the world of creativity, our clients deeply value and admire
@@ -129,17 +130,17 @@ const OurWorks = () => {
         </div>
       </header>
 
-      <div className="py-32 space-y-12 relative z-[2]">
+      <div className="py-10 md:pt-32 md:pb-32 space-y-12 relative z-[2] overflow-hidden">
         {WorksData.map((item, index) => (
           <div
             key={index}
-            className="flex justify-between items-center gap-8 card"
+            className="flex flex-col-reverse md:flex-row justify-between items-center gap-8 card"
           >
             <div
               className={`w-full ${
                 index % 2 === 0
-                  ? "order-0 flex flex-col items-center justify-center"
-                  : "order-2 flex flex-col items-center text-center justify-center"
+                  ? "md:order-0 flex md:flex-col items-center justify-center"
+                  : "md:order-2 flex md:flex-col items-center text-center justify-center"
               } content`}
             >
               <h1 className="uppercase text-4xl mb-4 text-center">
@@ -150,13 +151,21 @@ const OurWorks = () => {
               className=" w-full cursor-pointer"
               onClick={(event) => handleNavigateToDetails(item.slug, event)} // Pass event here
             >
-              <figure className="items-end justify-end flex self-end image overflow-hidden rounded-3xl">
+              <figure className="items-end justify-end group flex self-end image overflow-hidden rounded-3xl relative">
                 <img
                   src={item.img}
                   alt={item.title}
                   width={800}
-                  className="rounded-3xl h-[60vh] object-cover hover:scale-[1.3] opacity-65 hover:opacity-80 transition-all ease-in-out duration-200"
+                  className="rounded-3xl h-[40vh] sm:h-[50vh] md:h-[60vh] object-cover group-hover:scale-[1.3] opacity-65 group-hover:opacity-80 transition-all ease-in-out duration-200"
                 />
+                <div className="hidden w-full rounded-3xl h-[60vh] transition-all ease-in-out duration-200 absolute group-hover:flex justify-end items-start text-2xl">
+                  <div className="flex gap-2">
+                    <Icon
+                      icon="system-uicons:arrow-top-right"
+                      className="text-4xl text-zinc-400"
+                    />
+                  </div>
+                </div>
               </figure>
             </div>
           </div>

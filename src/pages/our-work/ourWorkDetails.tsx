@@ -24,8 +24,8 @@ const OurWorkDetails = ({ item }: Key) => {
             </div>
           </Link>
         </div>
-        <div className="flex items-center gap-8">
-          <div className="w-1/2">
+        <div className="flex flex-col-reverse lg:flex-row items-center gap-8">
+          <div className="w-full lg:w-1/2">
             <h2 className="text-4xl mb-2 pt-2 text-zinc-400">{item.title}</h2>
             <p className="mt-10 leading-7 tracking-wider text-zinc-500">
               {item.desc}
@@ -33,14 +33,14 @@ const OurWorkDetails = ({ item }: Key) => {
           </div>
           <div>
             <img
-              className="w-full rounded-2xl h-[60vh] object-cover opacity-85"
+              className="w-full rounded-2xl h-[40vh] sm:h-[50vh] md:h-[60vh] object-cover opacity-85"
               src={item.img}
               alt=""
             />
           </div>
         </div>
 
-        <div className="mt-20 grid grid-cols-2 gap-2">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-2">
           {item.imgCollection.map((k: any, ind: number) => (
             <div key={ind} className="overflow-hidden group">
               <img

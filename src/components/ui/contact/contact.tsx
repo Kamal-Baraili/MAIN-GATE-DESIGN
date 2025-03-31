@@ -5,20 +5,22 @@ const Contact = () => {
   return (
     <>
       <div className="w-10/11 mx-auto mt-20">
-        <div className="w-full py-10 grid grid-cols-2 gap-12">
+        <div className="w-full py-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="">
             <div className="w-full">
-              <h2 className="text-amber-50 text-6xl">Get in touch</h2>
+              <h2 className="text-amber-50 text-4xl md:text-5xl lg:text-6xl">
+                Get in touch
+              </h2>
             </div>
             <div className="mt-3">
-              <p className="text-zinc-400">
+              <p className="text-zinc-400 text-sm sm:text-base">
                 Reach out today to discover how our custom gate designs can
                 transform your property, combining security with style. We're
                 here to help safeguard your future and create a lasting
                 impression.
               </p>
             </div>
-            <div className="w-1/3 my-10 flex justify-between">
+            <div className="w-2/3 sm:w-1/3 my-10 flex justify-between">
               <span className="text-4xl text-zinc-500">
                 <Icon icon="basil:facebook-solid" />
               </span>
@@ -29,27 +31,29 @@ const Contact = () => {
                 <Icon icon="mingcute:instagram-fill" />
               </span>
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-10">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-10">
               {contactData.map((item, ind) => (
                 <div
                   className="h-[20vh] bg-[#0c0c0cd4] flex flex-col gap-2 justify-center items-center rounded-lg group cursor-default hover:bg-[#171717]"
                   key={ind}
                 >
                   <span className="text-zinc-400 text-4xl">{item.icon}</span>
-                  <h3 className="text-zinc-500 text-xl">{item.text}</h3>
+                  <h3 className="text-zinc-500 text-sm lg:text-[13px] xl:text-xl">
+                    {item.text}
+                  </h3>
                 </div>
               ))}
             </div>
           </div>
           <div className="">
-            <h2 className="text-4xl text-zinc-300">Send us a message</h2>
+            <h2 className="text-xl md:text-4xl text-zinc-300">Send us a message</h2>
             <div className="p-[1px] mt-5 rounded-md bg-gradient-to-r from-yellow-200 via-amber-50 to-amber-300">
               <div className="rounded-lg bg-black p-4 text-amber-50">
                 <form
                   className=" text-zinc-500 flex flex-col items-start"
                   action=""
                 >
-                  <div className="w-full flex gap-8">
+                  <div className="w-full flex flex-col md:flex-row gap-8">
                     <div className="w-full">
                       <h3 className="text-lg">Full Name</h3>{" "}
                       <input

@@ -13,8 +13,8 @@ const TeamCard = ({ item, index }: Item) => {
   return (
     <>
       <div
-        className={`${(index === 1 || index === 4) && "mt-30"} ${
-          (index === 2 || index === 5) && "-mt-40"
+        className={`${(index === 1 || index === 4) && "lg:mt-30"} ${
+          (index === 2 || index === 5) && "lg:-mt-40"
         }`}
       >
         <div className="w-full rounded-2xl overflow-hidden">

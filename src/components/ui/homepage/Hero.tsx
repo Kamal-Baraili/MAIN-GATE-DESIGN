@@ -19,6 +19,8 @@ const Hero = () => {
   const [isDesktop, setIsDesktop] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
 
   // Store scroll trigger reference to kill it when needed
   const pinTriggerRef = useRef<ScrollTrigger | null>(null);
@@ -63,10 +65,11 @@ const Hero = () => {
     navigate("/works", { state: { scrollToTop: true } });
   };
 
-  // Function for mobile slider navigation
+  // Updated function for mobile slider navigation with improved centering
   const handleSlideChange = (direction: "next" | "prev") => {
     const images = mainRef.current;
-    if (!images) return;
+    const redDiv = redDivRef.current;
+    if (!images || !redDiv) return;
 
     const totalSlides = imageData.length + 1; // +1 for the collection div
 
@@ -81,23 +84,48 @@ const Hero = () => {
 
     setCurrentSlide(newSlide);
 
-    // Get the initial offset
-    const { initialOffset } = calculateSliderPositions();
+    // Get all image containers including the collection div
+    const allContainers = Array.from(
+      images.querySelectorAll(".img-container")
+    ) as HTMLElement[];
 
-    // Apply the initial offset when calculating the position
+    if (allContainers.length === 0) return;
+
+    const targetContainer = allContainers[newSlide];
+
+    if (!targetContainer) return;
+
+    // Calculate the exact position needed to center the target with the red div
+    const redDivRect = redDiv.getBoundingClientRect();
+    const redDivCenter = redDivRect.left + redDivRect.width / 2;
+
+    const targetRect = targetContainer.getBoundingClientRect();
+    const targetCenter = targetRect.left + targetRect.width / 2;
+
+    // Calculate the offset needed
+    const exactOffset = redDivCenter - targetCenter;
+    const currentTransform = gsap.getProperty(images, "x") as number;
+    const newPosition = currentTransform + exactOffset;
+
+    // Animate to the position
     gsap.to(images, {
-      x: initialOffset - newSlide * slideWidth,
+      x: newPosition,
       duration: 0.7,
       ease: "power2.out",
       onUpdate: updateSpotlight,
+      onComplete: () => {
+        updateSpotlight();
+      },
     });
   };
 
+  // Improved spotlight function with desktop mode fix
   const updateSpotlight = () => {
     const images = mainRef.current;
     const redDiv = redDivRef.current;
 
     if (!images || !redDiv) {
+      console.log("Missing references for spotlight");
       if (redDiv) {
         gsap.to(redDiv, { opacity: 0, duration: 0.2 });
       }
@@ -108,20 +136,29 @@ const Hero = () => {
       images.querySelectorAll(".img-detection")
     ) as HTMLElement[];
 
+    if (imgDetectionPoints.length === 0) {
+      console.log("No detection points found");
+      return;
+    }
+
     const redDivRect = redDiv.getBoundingClientRect();
+    const redDivCenter = redDivRect.left + redDivRect.width / 2;
     let isOverlapping = false;
 
     imgDetectionPoints.forEach((imgPoint) => {
       const imgPointRect = imgPoint.getBoundingClientRect();
-      const parentContainer = imgPoint.parentElement as HTMLElement;
+      const parentContainer = imgPoint.closest(".img-container") as HTMLElement;
 
-      const overlapping =
-        imgPointRect.right >= redDivRect.left &&
-        imgPointRect.left <= redDivRect.right &&
-        imgPointRect.bottom >= redDivRect.top &&
-        imgPointRect.top <= redDivRect.bottom;
+      if (!parentContainer) return;
 
-      if (overlapping && parentContainer) {
+      // Calculate center distance
+      const imgPointCenter = imgPointRect.left + imgPointRect.width / 2;
+
+      // Different thresholds for desktop and mobile
+      const threshold = isDesktop ? 100 : 50; // wider threshold for desktop
+      const overlapping = Math.abs(redDivCenter - imgPointCenter) < threshold;
+
+      if (overlapping) {
         isOverlapping = true;
         gsap.to(parentContainer, {
           opacity: 1,
@@ -129,7 +166,16 @@ const Hero = () => {
           duration: 0.2,
           ease: "power2.out",
         });
-      } else if (parentContainer) {
+
+        // Ensure we set the current slide based on the active element
+        const allContainers = Array.from(
+          images.querySelectorAll(".img-container")
+        ) as HTMLElement[];
+        const slideIndex = allContainers.indexOf(parentContainer);
+        if (slideIndex >= 0 && slideIndex !== currentSlide) {
+          setCurrentSlide(slideIndex);
+        }
+      } else {
         gsap.to(parentContainer, {
           opacity: 0.6,
           scale: 1,
@@ -139,11 +185,21 @@ const Hero = () => {
       }
     });
 
-    gsap.to(redDiv, {
-      opacity: isOverlapping ? 1 : 0,
-      duration: 0.2,
-      ease: "power2.out",
-    });
+    // DESKTOP FIX: Always show the red div at full opacity when in desktop mode
+    if (isDesktop) {
+      gsap.to(redDiv, {
+        opacity: 1,
+        duration: 0.2,
+        ease: "power2.out",
+      });
+    } else {
+      // Mobile behavior remains the same
+      gsap.to(redDiv, {
+        opacity: isOverlapping ? 1 : 0,
+        duration: 0.2,
+        ease: "power2.out",
+      });
+    }
   };
 
   const resetSpotlight = () => {
@@ -163,6 +219,11 @@ const Hero = () => {
         ease: "power2.out",
       });
     });
+
+    // Reset red beam opacity
+    if (redDivRef.current) {
+      gsap.to(redDivRef.current, { opacity: 0 });
+    }
   };
 
   // Setup for desktop scrolling behavior
@@ -246,8 +307,6 @@ const Hero = () => {
         handleScroll();
       } else {
         handleScroll();
-        console.log(lastScrollY);
-        console.log(isPinned);
       }
     };
 
@@ -383,7 +442,8 @@ const Hero = () => {
 
     pinTriggerRef.current = pinTrigger;
 
-    gsap.set(redDiv, { opacity: 0 });
+    // Set desktop red div opacity to full immediately if it's a desktop
+    gsap.set(redDiv, { opacity: isDesktop ? 1 : 0 });
     initializeScroll();
 
     window.addEventListener("scroll", handleScroll);
@@ -428,28 +488,17 @@ const Hero = () => {
     };
   };
 
-  // Setup for mobile slider behavior
+  // Improved setup for mobile slider behavior with touch swipe
   const setupMobileSlider = () => {
     const images = mainRef.current;
     const redDiv = redDivRef.current;
     const wrapper = wrapperRef.current;
+    const heroContainer = heroContainerRef.current;
 
-    if (!images || !redDiv || !wrapper) return;
+    if (!images || !redDiv || !wrapper || !heroContainer) return;
 
     // Set wrapper to be visible
     gsap.set(wrapper, { opacity: 1 });
-
-    // Calculate slide width based on image container width and margins
-    const imageContainer = images.querySelector(
-      ".img-container"
-    ) as HTMLElement;
-    if (imageContainer) {
-      const containerWidth = imageContainer.offsetWidth;
-      const containerStyle = window.getComputedStyle(imageContainer);
-      const marginRightValue = containerStyle.marginRight || "0";
-      const marginRight = parseInt(marginRightValue, 10);
-      setSlideWidth(containerWidth + marginRight);
-    }
 
     // Calculate initial position to center first image
     const { initialOffset } = calculateSliderPositions();
@@ -458,12 +507,71 @@ const Hero = () => {
     setCurrentSlide(0);
     gsap.set(images, { x: initialOffset });
 
-    // Setup spotlight effect for initial slide
-    updateSpotlight();
+    // Add touch event handlers for mobile swipe functionality
+    const handleTouchStart = (e: TouchEvent) => {
+      setTouchStartX(e.touches[0].clientX);
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      setTouchEndX(e.changedTouches[0].clientX);
+      handleSwipe();
+    };
+
+    const handleSwipe = () => {
+      const swipeThreshold = 50;
+      const touchDiff = touchStartX - touchEndX;
+
+      if (Math.abs(touchDiff) > swipeThreshold) {
+        if (touchDiff > 0) {
+          // Swipe left - next slide
+          handleSlideChange("next");
+        } else {
+          // Swipe right - previous slide
+          handleSlideChange("prev");
+        }
+      }
+    };
+
+    // Add event listeners for mobile swiping
+    heroContainer.addEventListener("touchstart", handleTouchStart, {
+      passive: true,
+    });
+    heroContainer.addEventListener("touchend", handleTouchEnd, {
+      passive: true,
+    });
+
+    // Add forced rendering to ensure elements appear
+    setTimeout(() => {
+      if (images && redDiv) {
+        // Force redraw by accessing offsetHeight
+        images.offsetHeight;
+        redDiv.offsetHeight;
+
+        // Run initial spotlight update
+        updateSpotlight();
+
+        // Measure all image containers
+        const imgContainers = Array.from(
+          images.querySelectorAll(".img-container")
+        ) as HTMLElement[];
+
+        // Make sure first image starts at full opacity
+        if (imgContainers.length > 0) {
+          gsap.set(imgContainers[0], {
+            opacity: 1,
+            scale: 1.1,
+          });
+        }
+      }
+    }, 100);
 
     return () => {
       gsap.set(images, { x: 0 });
       resetSpotlight();
+
+      // Remove event listeners
+      heroContainer.removeEventListener("touchstart", handleTouchStart);
+      heroContainer.removeEventListener("touchend", handleTouchEnd);
     };
   };
 
@@ -552,7 +660,7 @@ const Hero = () => {
               }`}
               disabled={currentSlide === 0}
             >
-              <Icon className="text-xl" icon="tabler:arrow-left" />
+              <Icon className="text-2xl" icon="tabler:arrow-left" />
             </button>
             <button
               onClick={() => handleSlideChange("next")}
@@ -563,11 +671,7 @@ const Hero = () => {
               }`}
               disabled={currentSlide === imageData.length}
             >
-              <img
-                src="/homepage/arrow-right.svg"
-                alt="Next"
-                className="w-6 h-6"
-              />
+              <Icon className="text-2xl" icon="tabler:arrow-right" />
             </button>
           </div>
         )}
@@ -576,16 +680,20 @@ const Hero = () => {
           ref={mainRef}
           className="flex pt-60 px-4 whitespace-nowrap will-change-transform md:pt-50 md:px-40 relative z-20"
         >
-          <div className="inline-block flex-shrink-0">
+          {/* Spacer for better initial positioning */}
+          <div className="hidden lg:inline-block flex-shrink-0">
             <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 md:w-[405px] md:h-[450px] md:mx-4"></div>
           </div>
+
+          {/* Map through image data with key elements fixed */}
           {imageData.map((item, index) => (
             <div key={index} className="inline-block flex-shrink-0">
               <div className="img-container w-[300px] h-[300px] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mr-120 md:mx-4">
                 <img
-                  className="w-full h-full object-cover absolute ml-5 md:ml-0 inset-0 rounded-lg shadow-lg z-20"
+                  className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20"
                   src={item.src}
-                  alt={`Slide ${index}`}
+                  alt={`Gate ${index + 1}`}
+                  loading="eager" // Force eager loading
                 />
                 <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
               </div>
@@ -594,10 +702,12 @@ const Hero = () => {
               </p>
             </div>
           ))}
+
+          {/* Collection div at the end */}
           <div ref={collectionDivRef} className="inline-block flex-shrink-0">
             <div className="img-container w-[300px] h-[300px] px-2 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mx-4">
               <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
-              <div className="w-full h-full flex flex-col items-center justify-center absolute inset-0 z-20">
+              <div className="w-full h-full flex flex-col items-center justify-center absolute inset-0 z-20 rounded-lg ">
                 <h2 className="text-3xl text-center font-bold text-white mt-10 md:text-5xl md:mt-0">
                   Please View Our <br /> Gate Collection.
                 </h2>

@@ -291,14 +291,14 @@ const MainGateHero = ({ isClicked, setIsClicked }: any) => {
           <div ref={box1} className="h-full w-1/2">
             <img
               src="/homepage/left-gate.jpg"
-              className="h-full w-full md:object-cover"
+              className="h-full w-full"
               alt="Left gate"
             />
           </div>
           <div ref={box2} className="h-full w-1/2">
             <img
               src="/homepage/right-gate.jpg"
-              className="h-full w-full md:object-cover"
+              className="h-full w-full"
               alt="Right gate"
             />
           </div>

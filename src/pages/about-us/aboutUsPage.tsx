@@ -6,7 +6,9 @@ import OurTeam from "../../components/ui/our-team/ourTeam";
 const AboutUsPage = () => {
   return (
     <>
-      <About />
+      <div className="mt-60 lg:mt-0">
+        <About />
+      </div>
       <Counter />
       <ChairmanMessage />
       <OurTeam />

@@ -23,6 +23,7 @@ const Nav = () => {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
     navigate("/contact");
+    handleCloseHamburger();
   };
 
   const handleNavClick = (e: React.MouseEvent, path: string) => {
@@ -164,7 +165,7 @@ const Nav = () => {
                 <Link
                   to={k.path}
                   onClick={(e) => handleNavClick(e, k.path)}
-                  className={`hover:text-primary transition-colors duration-300
+                  className={`hover:text-primary text-sm xl:text-base text-nowrap transition-colors duration-300
                    ${location.pathname === k.path && "text-primary"}`}
                 >
                   {k.title}

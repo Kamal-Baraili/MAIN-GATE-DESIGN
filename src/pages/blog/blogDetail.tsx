@@ -12,7 +12,7 @@ interface Props {
 const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
   return (
     <>
-      <div className="w-5/11 mx-auto mt-25">
+      <div className="w-11/12 md:w-7/11 lg:w-5/11 mx-auto mt-25">
         <div className="w-12">
           <Link to="/blog">
             <div className=" flex gap-2 text-zinc-300 opacity-70 hover:opacity-90 hover:text-zinc-100 hover:gap-3 transition-all ease-in-out duration-100">
@@ -37,7 +37,7 @@ const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
             <span className="text-sm">{date}</span>
           </div>
           <img
-            className={`w-full rounded-2xl opacity-75 h-[60vh] object-cover`}
+            className={`w-full rounded-2xl opacity-75 h-[40vh] sm:h-[50vh] md:h-[60vh] object-cover`}
             src={imgSrc}
             alt="blog-image"
           />

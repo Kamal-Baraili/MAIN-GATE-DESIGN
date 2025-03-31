@@ -73,13 +73,15 @@ const Counter = () => {
   return (
     <>
       <div className="w-11/12 mx-auto ">
-        <h2 className="text-6xl text-amber-50 tracking-wide">Achievements</h2>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl text-amber-50 tracking-wide">
+          Achievements
+        </h2>
       </div>
       <div
         className="w-11/12 mx-auto relative py-20 text-white"
         ref={combinedRef}
       >
-        <div className="grid grid-cols-2 gap-x-20 gap-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-20 gap-y-8 overflow-hidden">
           {services.map((item, index) => (
             <div
               key={index}
@@ -105,7 +107,7 @@ const Counter = () => {
                 <span className="text-5xl">+</span>
               </div>
               <div className="flex flex-col justify-end h-full">
-                <div className="text-[1.8vw] font-thebold text-zinc-400 group-hover:text-black ease-in-out duration-100 uppercase font-medium flex flex-col justify-start">
+                <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-thebold text-zinc-400 group-hover:text-black ease-in-out duration-100 uppercase font-medium flex flex-col justify-start">
                   {item.title}
                 </div>
               </div>
