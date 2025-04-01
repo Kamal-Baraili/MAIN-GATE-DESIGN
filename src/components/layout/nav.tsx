@@ -146,8 +146,8 @@ const Nav = () => {
 
   return (
     <div className="w-full fixed top-0 left-0 z-60 border-b border-b-zinc-800 bg-black">
-      <div className="w-11/12 mx-auto flex items-center">
-        <div className="w-full p-4 bg-black flex gap-16 justify-start">
+      <div className="w-11/12 mx-auto flex items-center justify-between">
+        <div className="p-4 bg-black flex gap-16 justify-start">
           <div className="flex items-center gap-24 bg-transparent">
             <Link onClick={handleLogoClick} to="/">
               <img
@@ -159,23 +159,23 @@ const Nav = () => {
           </div>
 
           {/* Desktop menus */}
-          <div className="hidden lg:flex justify-center gap-12 capitalize items-center">
-            {navMenus.map((k: any, ind: number) => (
-              <div key={ind}>
-                <Link
-                  to={k.path}
-                  onClick={(e) => handleNavClick(e, k.path)}
-                  className={`hover:text-primary text-sm xl:text-base text-nowrap transition-colors duration-300
+        </div>
+        <div className="hidden lg:flex justify-center gap-12 capitalize items-center">
+          {navMenus.map((k: any, ind: number) => (
+            <div key={ind}>
+              <Link
+                to={k.path}
+                onClick={(e) => handleNavClick(e, k.path)}
+                className={`hover:text-primary text-sm xl:text-base text-nowrap transition-colors duration-300
                    ${location.pathname === k.path && "text-primary"}`}
-                >
-                  {k.title}
-                </Link>
-              </div>
-            ))}
-          </div>
+              >
+                {k.title}
+              </Link>
+            </div>
+          ))}
         </div>
         {/* Desktop contact button */}
-        <div className="w-[40%] flex justify-end items-center">
+        <div className="flex justify-end items-center">
           <div className="hidden lg:flex items-center gap-6">
             <Link onClick={handleContactClick} to="/contact">
               <Button

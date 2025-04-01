@@ -1,10 +1,5 @@
-import About from "../../components/ui/about-us/about";
 import Hero from "../../components/ui/homepage/Hero";
 import MainGateHero from "../../components/ui/homepage/mainGateHero";
-import { Services } from "../../components/ui/our-services/services";
-import Parallax from "../../components/ui/Parallax/parallax";
-import Testimonial from "../../components/ui/testimonial/testimonial";
-import Video from "../../components/ui/video/video";
 import { Helmet } from "react-helmet";
 
 const Homepage = ({ isClicked, setIsClicked }: any) => {
@@ -59,11 +54,10 @@ const Homepage = ({ isClicked, setIsClicked }: any) => {
       <div className="relative -top-21">
         <Hero />
       </div>
-      <About />
+      {/* <About />
       <Parallax />
       <Services />
-      <Video />
-      <Testimonial />
+       */}
     </>
   );
 };

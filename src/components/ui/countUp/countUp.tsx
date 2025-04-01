@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useGSAP } from "@gsap/react";
+// import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import CountUp from "react-countup";
@@ -18,40 +18,40 @@ const Counter = () => {
   });
 
   // Animation for card movements
-  useGSAP(
-    () => {
-      const cards = gsap.utils.toArray<HTMLDivElement>(".card");
+  // useGSAP(
+  //   () => {
+  //     const cards = gsap.utils.toArray<HTMLDivElement>(".card");
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: servicepointsRef.current,
-          start: "25% 100%",
-          end: "bottom bottom",
-          scrub: 1,
-          // markers: true,
-        },
-      });
+  //     const tl = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: servicepointsRef.current,
+  //         start: "25% 100%",
+  //         end: "bottom bottom",
+  //         scrub: 1,
+  //         // markers: true,
+  //       },
+  //     });
 
-      cards.forEach((card, index) => {
-        const isEvenIndex = index % 2 === 0;
-        tl.fromTo(
-          card,
-          {
-            x: isEvenIndex ? -160 : 160,
-            rotate: isEvenIndex ? -20 : 20,
-            opacity: 0,
-          },
-          {
-            x: 0,
-            rotate: 0,
-            opacity: 1,
-          }
-          // index * 0.1
-        );
-      });
-    },
-    { scope: servicepointsRef }
-  );
+  //     cards.forEach((card, index) => {
+  //       const isEvenIndex = index % 2 === 0;
+  //       tl.fromTo(
+  //         card,
+  //         {
+  //           x: isEvenIndex ? -160 : 160,
+  //           rotate: isEvenIndex ? -20 : 20,
+  //           opacity: 0,
+  //         },
+  //         {
+  //           x: 0,
+  //           rotate: 0,
+  //           opacity: 1,
+  //         }
+  //         // index * 0.1
+  //       );
+  //     });
+  //   },
+  //   { scope: servicepointsRef }
+  // );
 
   // Update counters when in view
   React.useEffect(() => {

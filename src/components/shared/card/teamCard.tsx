@@ -1,3 +1,5 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
+
 interface Props {
   imgSrc: string;
   memberName: string;
@@ -28,11 +30,17 @@ const TeamCard = ({ item, index }: Item) => {
           <h3 className="text-3xl text-zinc-400 font-semibold">
             {item.memberName}
           </h3>
-          <img
-            className="w-6 h-6 opacity-65"
-            src="/footer/instagram.svg"
-            alt=""
-          />
+          <div className="w-1/3 my-2 flex justify-center gap-4">
+            <span className="text-4xl text-[#3d5a98]">
+              <Icon icon="basil:facebook-solid" />
+            </span>
+            <span className="text-4xl text-[#55acee]">
+              <Icon icon="mdi:twitter" />
+            </span>
+            <span className="text-4xl">
+              <Icon icon="skill-icons:instagram" />
+            </span>
+          </div>
         </div>
         <h4 className="pt-2 text-zinc-400 italic text-lg">{item.memberPost}</h4>
       </div>

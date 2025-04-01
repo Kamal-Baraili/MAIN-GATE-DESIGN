@@ -71,7 +71,6 @@ const MainGateHero = ({ isClicked, setIsClicked }: any) => {
           localStorage.setItem("hasViewedMainGateHero", "true");
           setHasViewed(true);
           setShowSkipButton(false);
-          console.log(isClicked);
         },
       });
 
@@ -211,12 +210,62 @@ const MainGateHero = ({ isClicked, setIsClicked }: any) => {
     }
   }, [hasViewed]);
 
+  // Play audio when the button is clicked
+  const playUnlockSound = () => {
+    return new Promise((resolve) => {
+      const unlockAudio = new Audio("/homepage/unlock.mp3");
+
+      // Listen for when unlock sound ends
+      unlockAudio.addEventListener("ended", () => {
+        resolve(true);
+        console.log(isClicked);
+      });
+
+      // Or resolve after a certain time if the audio is too long
+      setTimeout(() => {
+        resolve(true);
+      }, 1500); // Adjust timeout based on unlock.mp3 duration
+
+      unlockAudio.play().catch((error) => {
+        console.log("Unlock audio playback failed:", error);
+        resolve(true); // Resolve anyway to continue the sequence
+      });
+    });
+  };
+
+  // Function to start the main background audio
+  const startMainAudio = () => {
+    // Get the main audio element
+    const mainAudio = document.getElementById(
+      "main-hero-audio"
+    ) as HTMLAudioElement | null;
+
+    if (mainAudio) {
+      mainAudio.muted = false;
+      mainAudio.play().catch((error) => {
+        console.log("Main audio playback failed:", error);
+      });
+    }
+  };
+
   // Handle click event
-  const handlePlayClick = () => {
+  const handlePlayClick = async () => {
+    // First play the unlock sound
+    await playUnlockSound();
+
+    // After unlock sound completes or timeout, start main audio
+    setTimeout(() => {
+      startMainAudio();
+    }, 500); // Add a small additional delay for better effect
+
+    // Start the animation
     if (tlRef.current) {
       tlRef.current.restart();
       setPlayClicked(true);
     }
+
+    // Toggle the audio control state for App component
+    setIsClicked(false); // Set to false to start playing in App component
   };
 
   // Handle skip button click
@@ -226,6 +275,9 @@ const MainGateHero = ({ isClicked, setIsClicked }: any) => {
       tlRef.current.progress(1);
       // Complete the animation
       tlRef.current.play();
+
+      // Make sure main audio is playing
+      startMainAudio();
     }
   };
 
@@ -243,12 +295,7 @@ const MainGateHero = ({ isClicked, setIsClicked }: any) => {
             isPlayClicked ? "hidden" : ""
           }`}
         >
-          <div
-            onClick={() => {
-              handlePlayClick();
-              setIsClicked((prev: boolean) => !prev);
-            }}
-          >
+          <div onClick={handlePlayClick}>
             <Button
               text="Open The Gate"
               color="text-black"

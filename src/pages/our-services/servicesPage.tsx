@@ -1,4 +1,4 @@
-import ServicesCard from "../../components/shared/card/servicesCard";
+import { HoverEffect } from "../../components/ui/hover-effect/cardHoverEffect";
 import { servicesCardData } from "../../db/mockdata";
 
 const ServicesPage = () => {
@@ -16,10 +16,8 @@ const ServicesPage = () => {
             </p>
           </div>
         </header>
-        <div className="pt-30 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-          {servicesCardData.map((item: any, index: any) => (
-            <ServicesCard key={index} item={item} />
-          ))}
+        <div className="">
+          <HoverEffect items={servicesCardData} />
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { WorksData } from "../../../db/mockdata";
-import { useGSAP } from "@gsap/react";
+// import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import React, { useEffect } from "react";
@@ -9,9 +9,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 
 const OurWorks = () => {
-  const recentworkRef = React.useRef<HTMLDivElement>(null);
+  // const recentworkRef = React.useRef<HTMLDivElement>(null);
   const recentRef = React.useRef<HTMLDivElement>(null);
-  const workRef = React.useRef<HTMLDivElement>(null);
+  // const workRef = React.useRef<HTMLDivElement>(null);
   const recentDescRef = React.useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate(); // Hook to navigate programmatically
@@ -23,93 +23,93 @@ const OurWorks = () => {
     }
   }, [locat]);
 
-  useGSAP(
-    () => {
-      // Header animation
-      const headerTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: recentworkRef.current,
-          start: "top 70%",
-          end: "20% 50%",
-          scrub: 1,
-          // markers: true,
-        },
-      });
+  // useGSAP(
+  //   () => {
+  //     // Header animation
+  //     const headerTl = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: recentworkRef.current,
+  //         start: "top 70%",
+  //         end: "20% 50%",
+  //         scrub: 1,
+  //         // markers: true,
+  //       },
+  //     });
 
-      headerTl.from(recentRef.current, {
-        // x: 80,
-        duration: 2,
-      });
+  //     headerTl.from(recentRef.current, {
+  //       // x: 80,
+  //       duration: 2,
+  //     });
 
-      headerTl.from(
-        workRef.current,
-        {
-          x: 120,
-          duration: 1,
-        },
-        "<"
-      );
+  //     headerTl.from(
+  //       workRef.current,
+  //       {
+  //         x: 120,
+  //         duration: 1,
+  //       },
+  //       "<"
+  //     );
 
-      headerTl.from(
-        recentDescRef.current,
-        {
-          height: 0,
-          transformOrigin: "bottom",
-          duration: 1,
-        },
-        "<"
-      );
+  //     headerTl.from(
+  //       recentDescRef.current,
+  //       {
+  //         height: 0,
+  //         transformOrigin: "bottom",
+  //         duration: 1,
+  //       },
+  //       "<"
+  //     );
 
-      // Cards animation
-      const cards = gsap.utils.toArray<HTMLDivElement>(".card");
+  //     // Cards animation
+  //     const cards = gsap.utils.toArray<HTMLDivElement>(".card");
 
-      cards.forEach((card, index) => {
-        const content = card.querySelector(".content") as HTMLDivElement;
-        const image = card.querySelector(".image") as HTMLDivElement;
-        const isEvenIndex = index % 2 === 0;
+  //     cards.forEach((card, index) => {
+  //       const content = card.querySelector(".content") as HTMLDivElement;
+  //       const image = card.querySelector(".image") as HTMLDivElement;
+  //       const isEvenIndex = index % 2 === 0;
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: card,
-            start: "top 70%",
-            end: "top 40%",
-            // markers: true,
-            scrub: 2,
-          },
-        });
+  //       const tl = gsap.timeline({
+  //         scrollTrigger: {
+  //           trigger: card,
+  //           start: "top 70%",
+  //           end: "top 40%",
+  //           // markers: true,
+  //           scrub: 2,
+  //         },
+  //       });
 
-        tl.from(content, {
-          x: isEvenIndex ? -120 : 120,
-          opacity: 0,
-          duration: 0.2,
-        });
+  //       tl.from(content, {
+  //         x: isEvenIndex ? -120 : 120,
+  //         opacity: 0,
+  //         duration: 0.2,
+  //       });
 
-        tl.from(
-          image,
-          {
-            x: isEvenIndex ? 200 : -200,
-            rotate: isEvenIndex ? 10 : -10,
-            duration: 0.2,
-          },
-          "<"
-        );
-      });
-    },
-    { scope: recentworkRef }
-  );
+  //       tl.from(
+  //         image,
+  //         {
+  //           x: isEvenIndex ? 200 : -200,
+  //           rotate: isEvenIndex ? 10 : -10,
+  //           duration: 0.2,
+  //         },
+  //         "<"
+  //       );
+  //     });
+  //   },
+  //   { scope: recentworkRef }
+  // );
 
   const handleNavigateToDetails = (
     slug: string,
     event: React.MouseEvent<HTMLDivElement>
   ) => {
     event.preventDefault(); // Optional, if you want to prevent the default behavior of the click.
-    navigate(`/works/${slug.replace(/\s+/g, "-")}`, { replace: true });
+    navigate(`/catalogue/${slug.replace(/\s+/g, "-")}`, { replace: true });
     window.scrollTo(0, 0); // Scroll to top of the page
   };
 
   return (
     <main
-      ref={recentworkRef}
+      // ref={recentworkRef}
       className="w-11/12 mx-auto mt-20 relative pt-10 text-zinc-300"
     >
       <header className="md:flex items-center gap-40">
@@ -117,7 +117,7 @@ const OurWorks = () => {
           className="uppercase md:leading-[1] text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-amber-50 text-center md:text-left"
           ref={recentRef}
         >
-          Recent Works
+          Our Designs
         </h1>
         <div className="md:flex justify-end items-center">
           <p
@@ -156,7 +156,7 @@ const OurWorks = () => {
                   src={item.img}
                   alt={item.title}
                   width={800}
-                  className="rounded-3xl h-[40vh] sm:h-[50vh] md:h-[60vh] object-cover group-hover:scale-[1.3] opacity-65 group-hover:opacity-80 transition-all ease-in-out duration-200"
+                  className="rounded-3xl h-[40vh] sm:h-[50vh] md:h-[60vh] object-cover group-hover:scale-[1.1] opacity-65 group-hover:opacity-80 transition-all ease-in-out duration-200"
                 />
                 <div className="hidden w-full rounded-3xl h-[60vh] transition-all ease-in-out duration-200 absolute group-hover:flex justify-end items-start text-2xl">
                   <div className="flex gap-2">

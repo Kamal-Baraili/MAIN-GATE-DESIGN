@@ -11,16 +11,17 @@ import {
 import Loading from "./loading";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import OurWorkDetails from "./pages/our-work/ourWorkDetails";
+import Testimonial from "./components/ui/testimonial/testimonial";
 
 // Lazy load the pages and components
 const AboutUsPage = lazy(() => import("./pages/about-us/aboutUsPage"));
 const BlogDetail = lazy(() => import("./pages/blog/blogDetail"));
 const BlogsPage = lazy(() => import("./pages/blog/blogsPage"));
 const ContactUsPage = lazy(() => import("./pages/contact-us/contactUsPage"));
-const GetInTouch = lazy(() => import("./components/ui/contact/getInTouch"));
+// const GetInTouch = lazy(() => import("./components/ui/contact/getInTouch"));
 const Homepage = lazy(() => import("./pages/homepage/homepage"));
 const ServicesPage = lazy(() => import("./pages/our-services/servicesPage"));
-const OurWorks = lazy(() => import("./components/ui/our-work/ourWorks"));
+const OurWorkPage = lazy(() => import("./pages/our-work/ourWorkPage"));
 const NotFound = lazy(() => import("./not-found"));
 
 const App = () => {
@@ -34,33 +35,43 @@ const App = () => {
     ) as HTMLAudioElement | null;
 
     if (audio) {
-      // Automatically play audio once it's ready
-      audio.play().catch((error) => {
-        console.log("Audio playback failed:", error);
-        console.log(audioReady);
-      });
+      // Set up the audio element but don't play automatically
+      // The MainGateHero component will control when to start playing
 
       audio.addEventListener("canplay", () => {
         setAudioReady(true);
       });
 
-      // Add event listeners for click or touch to toggle audio play/pause
-      const playAudio = () => {
-        if (audio) {
-          if (isClicked) {
-            audio.pause(); // Mute/Stop the audio
-          } else {
-            audio.play(); // Start playing the audio
+      // We'll keep this event for pages other than homepage
+      // or after the gate animation has completed
+      const toggleAudio = () => {
+        const hasViewed = localStorage.getItem("hasViewedMainGateHero");
+        const isHomepage = window.location.pathname === "/";
+
+        // Only enable automatic play/pause for non-homepage or after gate animation
+        if (!isHomepage || hasViewed === "true") {
+          if (audio && !isClicked) {
+            audio.pause();
+          } else if (audio && isClicked) {
+            audio.play().catch((error) => {
+              console.log("Audio playback failed:", error);
+            });
           }
         }
       };
 
-      window.addEventListener("click", playAudio);
-      window.addEventListener("touchstart", playAudio);
+      // Only add these listeners for non-homepage or after animation
+      if (
+        window.location.pathname !== "/" ||
+        localStorage.getItem("hasViewedMainGateHero") === "true"
+      ) {
+        window.addEventListener("click", toggleAudio);
+        window.addEventListener("touchstart", toggleAudio);
+      }
 
       return () => {
-        window.removeEventListener("click", playAudio);
-        window.removeEventListener("touchstart", playAudio);
+        window.removeEventListener("click", toggleAudio);
+        window.removeEventListener("touchstart", toggleAudio);
       };
     } else {
       console.log("Audio element not found");
@@ -85,10 +96,10 @@ const App = () => {
         <audio
           id="main-hero-audio"
           className="hidden relative"
-          autoPlay
           loop
-          muted={isMuted}
+          muted={true} // Start muted - will be enabled by MainGateHero
           src="/main-hero-sound.mp3"
+          preload="auto"
         ></audio>
         <div
           className="cursor-pointer absolute -top-[60%] xl:-top-0 lg:bottom-10 right-[5%] xl:right-0 lg:left-10 z-40"
@@ -118,8 +129,8 @@ const App = () => {
 
 const Main = ({ isClicked, setIsClicked }: any) => {
   const location = useLocation();
-  const isNotFoundPage =
-    location.pathname === "/404" || location.pathname === "/*";
+  const isHomepage = location.pathname === "/";
+  const isNotFoundPage = location.pathname === "/*";
 
   return (
     <>
@@ -131,10 +142,11 @@ const Main = ({ isClicked, setIsClicked }: any) => {
             <Homepage isClicked={isClicked} setIsClicked={setIsClicked} />
           }
         />
+        <Route path="/testimonials" element={<Testimonial />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
-        <Route path="/works" element={<OurWorks />} />
+        <Route path="/catalogue" element={<OurWorkPage />} />
         <Route path="blog" element={<BlogsPage />} />
         {blogCardData.map((item: any, index: any) => (
           <Route
@@ -155,14 +167,14 @@ const Main = ({ isClicked, setIsClicked }: any) => {
         {WorksData.map((item: any, index: any) => (
           <Route
             key={index}
-            path={`/works/${item.slug.replace(/\s+/g, "-")}`}
+            path={`/catalogue/${item.slug.replace(/\s+/g, "-")}`}
             element={<OurWorkDetails item={item} />}
           />
         ))}
         <Route path="/*" element={<NotFound />} />
       </Routes>
-      {!isNotFoundPage && <GetInTouch />}
-      {!isNotFoundPage && <Footer />}
+      {/* {!isNotFoundPage && !isHomepage && <GetInTouch />} */}
+      {!isNotFoundPage && !isHomepage && <Footer />}
     </>
   );
 };

@@ -18,7 +18,7 @@ const ChairmanMessage = () => {
         </div>
         <div>
           <h2 className="capitalize text-4xl md:text-5xl lg:text-6xl text-amber-50 tracking-wide">
-            What our Chairman has to say?
+            What our Founder & Chairperson has to say?
           </h2>
           <p className="py-5 text-zinc-400 text-sm sm:text-base">
             As we move forward in an ever-evolving world, it is with great pride
@@ -40,17 +40,17 @@ const ChairmanMessage = () => {
             <div className="mt-4">
               <h3 className="text-xl text-zinc-400">Warm Regards,</h3>
               <h3 className="my-2 text-2xl text-zinc-300">John Doe</h3>
-              <h4 className="italic text-zinc-300">Chairman & CEO</h4>
+              <h4 className="italic text-zinc-300">Founder & Chairperson</h4>
             </div>
-            <div className="w-1/3 my-2 flex justify-between">
-              <span className="text-4xl text-zinc-500">
+            <div className="w-1/3 my-2 flex justify-center gap-6">
+              <span className="text-4xl text-[#3d5a98]">
                 <Icon icon="basil:facebook-solid" />
               </span>
-              <span className="text-4xl text-zinc-500">
+              <span className="text-4xl text-[#55acee]">
                 <Icon icon="mdi:twitter" />
               </span>
-              <span className="text-4xl text-zinc-500">
-                <Icon icon="mingcute:instagram-fill" />
+              <span className="text-4xl">
+                <Icon icon="skill-icons:instagram" />
               </span>
             </div>
           </div>

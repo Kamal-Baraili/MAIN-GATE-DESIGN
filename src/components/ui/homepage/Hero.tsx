@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../../shared/button/button";
-import { imageData } from "../../../db/mockdata";
+import { WorksData } from "../../../db/mockdata";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,6 +15,7 @@ const Hero = () => {
   const redDivRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const collectionDivRef = useRef<HTMLDivElement | null>(null);
+  const hangingLampRef = useRef<HTMLImageElement | null>(null);
   const [isPinned, setIsPinned] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -61,8 +62,17 @@ const Hero = () => {
     return { initialOffset, finalOffset };
   };
 
+  const handleNavigateToDetails = (
+    slug: string,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    event.preventDefault(); // Optional, if you want to prevent the default behavior of the click.
+    navigate(`/catalogue/${slug.replace(/\s+/g, "-")}`, { replace: true });
+    window.scrollTo(0, 0); // Scroll to top of the page
+  };
+
   const handleViewMoreClick = () => {
-    navigate("/works", { state: { scrollToTop: true } });
+    navigate("/catalogue", { state: { scrollToTop: true } });
   };
 
   // Updated function for mobile slider navigation with improved centering
@@ -71,7 +81,7 @@ const Hero = () => {
     const redDiv = redDivRef.current;
     if (!images || !redDiv) return;
 
-    const totalSlides = imageData.length + 1; // +1 for the collection div
+    const totalSlides = WorksData.length + 1; // +1 for the collection div
 
     let newSlide = currentSlide;
     if (direction === "next") {
@@ -119,81 +129,145 @@ const Hero = () => {
     });
   };
 
-  // Improved spotlight function with desktop mode fix
+  // Improved spotlight function with more reliable detection for desktop
   const updateSpotlight = () => {
     const images = mainRef.current;
     const redDiv = redDivRef.current;
+    const hangingLamp = hangingLampRef.current;
 
     if (!images || !redDiv) {
       console.log("Missing references for spotlight");
+      console.log(hangingLamp)
       if (redDiv) {
         gsap.to(redDiv, { opacity: 0, duration: 0.2 });
       }
       return;
     }
 
-    const imgDetectionPoints = Array.from(
-      images.querySelectorAll(".img-detection")
+    // Get all image containers for more reliable container-based detection
+    const imgContainers = Array.from(
+      images.querySelectorAll(".img-container")
     ) as HTMLElement[];
 
-    if (imgDetectionPoints.length === 0) {
-      console.log("No detection points found");
+    if (imgContainers.length === 0) {
+      console.log("No image containers found");
       return;
     }
 
     const redDivRect = redDiv.getBoundingClientRect();
     const redDivCenter = redDivRect.left + redDivRect.width / 2;
     let isOverlapping = false;
+    let closestContainer = null;
+    let minDistance = Infinity;
 
-    imgDetectionPoints.forEach((imgPoint) => {
-      const imgPointRect = imgPoint.getBoundingClientRect();
-      const parentContainer = imgPoint.closest(".img-container") as HTMLElement;
+    // Different detection method for desktop and mobile
+    if (isDesktop) {
+      // For desktop: Find the closest container to the spotlight center
+      imgContainers.forEach((container) => {
+        const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.left + containerRect.width / 2;
 
-      if (!parentContainer) return;
+        // Calculate distance between centers
+        const distance = Math.abs(redDivCenter - containerCenter);
 
-      // Calculate center distance
-      const imgPointCenter = imgPointRect.left + imgPointRect.width / 2;
-
-      // Different thresholds for desktop and mobile
-      const threshold = isDesktop ? 100 : 50; // wider threshold for desktop
-      const overlapping = Math.abs(redDivCenter - imgPointCenter) < threshold;
-
-      if (overlapping) {
-        isOverlapping = true;
-        gsap.to(parentContainer, {
-          opacity: 1,
-          scale: 1.1,
-          duration: 0.2,
-          ease: "power2.out",
-        });
-
-        // Ensure we set the current slide based on the active element
-        const allContainers = Array.from(
-          images.querySelectorAll(".img-container")
-        ) as HTMLElement[];
-        const slideIndex = allContainers.indexOf(parentContainer);
-        if (slideIndex >= 0 && slideIndex !== currentSlide) {
-          setCurrentSlide(slideIndex);
+        // Track the closest container
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestContainer = container;
         }
-      } else {
-        gsap.to(parentContainer, {
+
+        // Reset all containers first
+        gsap.to(container, {
           opacity: 0.6,
           scale: 1,
           duration: 0.2,
           ease: "power2.out",
         });
-      }
-    });
-
-    // DESKTOP FIX: Always show the red div at full opacity when in desktop mode
-    if (isDesktop) {
-      gsap.to(redDiv, {
-        opacity: 1,
-        duration: 0.2,
-        ease: "power2.out",
       });
+
+      // Threshold for considering a container as "under" the spotlight
+      const threshold = Math.min(170, window.innerWidth * 0.12); // Adaptive threshold
+
+      // If we found a container close enough to the spotlight
+      if (closestContainer && minDistance < threshold) {
+        isOverlapping = true;
+
+        // Highlight the closest container
+        gsap.to(closestContainer, {
+          opacity: 1,
+          scale: 1.1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+
+        // Show the red beam
+        gsap.to(redDiv, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+
+        // Update current slide
+        const slideIndex = imgContainers.indexOf(closestContainer);
+        if (slideIndex >= 0 && slideIndex !== currentSlide) {
+          setCurrentSlide(slideIndex);
+        }
+      } else {
+        // Hide the red beam if no container is close enough
+        gsap.to(redDiv, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      }
     } else {
-      // Mobile behavior remains the same
+      // For mobile: Keep the original center-based detection with detection points
+      const imgDetectionPoints = Array.from(
+        images.querySelectorAll(".img-detection")
+      ) as HTMLElement[];
+
+      const threshold = 50; // mobile threshold
+
+      imgDetectionPoints.forEach((imgPoint) => {
+        const imgPointRect = imgPoint.getBoundingClientRect();
+        const parentContainer = imgPoint.closest(
+          ".img-container"
+        ) as HTMLElement;
+
+        if (!parentContainer) return;
+
+        // Calculate center distance
+        const imgPointCenter = imgPointRect.left + imgPointRect.width / 2;
+        const overlapping = Math.abs(redDivCenter - imgPointCenter) < threshold;
+
+        if (overlapping) {
+          isOverlapping = true;
+          gsap.to(parentContainer, {
+            opacity: 1,
+            scale: 1.1,
+            duration: 0.2,
+            ease: "power2.out",
+          });
+
+          // Ensure we set the current slide based on the active element
+          const allContainers = Array.from(
+            images.querySelectorAll(".img-container")
+          ) as HTMLElement[];
+          const slideIndex = allContainers.indexOf(parentContainer);
+          if (slideIndex >= 0 && slideIndex !== currentSlide) {
+            setCurrentSlide(slideIndex);
+          }
+        } else {
+          gsap.to(parentContainer, {
+            opacity: 0.6,
+            scale: 1,
+            duration: 0.2,
+            ease: "power2.out",
+          });
+        }
+      });
+
+      // Mobile behavior for red div
       gsap.to(redDiv, {
         opacity: isOverlapping ? 1 : 0,
         duration: 0.2,
@@ -351,7 +425,16 @@ const Hero = () => {
         translateX = targetX;
 
         gsap.set(images, { x: translateX });
-        updateSpotlight();
+
+        // Throttle the spotlight updates for better performance
+        // Use requestAnimationFrame to ensure smooth updates
+        if (!window.requestAnimationFrame) {
+          updateSpotlight();
+        } else {
+          window.requestAnimationFrame(() => {
+            updateSpotlight();
+          });
+        }
       }
       lastScrollY = currentScrollY;
     };
@@ -444,8 +527,8 @@ const Hero = () => {
 
     pinTriggerRef.current = pinTrigger;
 
-    // Set desktop red div opacity to full immediately if it's a desktop
-    gsap.set(redDiv, { opacity: isDesktop ? 1 : 0 });
+    // FIXED: Set initial red div opacity to 0 for both desktop and mobile
+    gsap.set(redDiv, { opacity: 0 });
     initializeScroll();
 
     window.addEventListener("scroll", handleScroll);
@@ -635,6 +718,7 @@ const Hero = () => {
         }}
       >
         <img
+          ref={hangingLampRef}
           className="w-[100px] h-[40px] absolute top-40 lg:top-21 left-1/2 -translate-x-1/2 z-70 lg:w-[170px] lg:h-[50px] lg:object-cover"
           src="/homepage/hanging-lamp.png"
           alt="Hanging Lamp"
@@ -652,7 +736,7 @@ const Hero = () => {
 
         {/* Mobile navigation buttons - only show on smaller screens */}
         {!isDesktop && (
-          <div className="flex justify-center gap-10 md:gap-30 w-full absolute bottom-5 px-4 z-30">
+          <div className="flex justify-center gap-10 md:gap-30 w-full absolute bottom-0 px-4 z-30">
             <button
               onClick={() => handleSlideChange("prev")}
               className={`bg-amber-300 p-3 rounded-full shadow-lg ${
@@ -667,11 +751,11 @@ const Hero = () => {
             <button
               onClick={() => handleSlideChange("next")}
               className={`bg-amber-300 p-3 rounded-full shadow-lg ${
-                currentSlide === imageData.length
+                currentSlide === WorksData.length
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-amber-400"
               }`}
-              disabled={currentSlide === imageData.length}
+              disabled={currentSlide === WorksData.length}
             >
               <Icon className="text-2xl" icon="tabler:arrow-right" />
             </button>
@@ -688,19 +772,20 @@ const Hero = () => {
           </div>
 
           {/* Map through image data with key elements fixed */}
-          {imageData.map((item, index) => (
+          {WorksData.map((item, index) => (
             <div key={index} className="inline-block flex-shrink-0">
               <div className="img-container w-[300px] h-[300px] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 lg:w-[450px] lg:h-[450px] lg:px-5 lg:mr-120 lg:mx-4">
                 <img
-                  className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20"
-                  src={item.src}
+                  className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20 cursor-pointer"
+                  src={item.img}
                   alt={`Gate ${index + 1}`}
                   loading="eager" // Force eager loading
+                  onClick={(event) => handleNavigateToDetails(item.slug, event)}
                 />
                 <div className="img-detection w-[1px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
               </div>
-              <p className="w-[80%] mt-5 lg:w-1/2 uppercase text-wrap text-center text-white font-bold -z-20 font-ursb text-4xl">
-                {item.gateName}
+              <p className="w-[80%] mt-5 lg:w-1/2 uppercase text-wrap text-center text-white font-bold -z-20 font-ursb text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                {item.title}
               </p>
             </div>
           ))}

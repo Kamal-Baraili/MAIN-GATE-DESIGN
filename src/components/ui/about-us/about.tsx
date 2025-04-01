@@ -10,8 +10,8 @@ const About = () => {
           location.pathname == "/about" ? "pb-10 lg:pb-30" : "pb-30"
         }`}
       >
-        <div className="w-11/12 mx-auto flex flex-col-reverse lg:flex-row justify-center gap-20 xl:gap-50">
-          <div className="w-full lg:w-1/2 flex flex-col gap-3 items-start">
+        <div className="w-11/12 mx-auto flex flex-col-reverse lg:flex-row justify-center gap-20 xl:gap-30">
+          <div className="w-full lg:w-1/2 flex flex-col gap-8 items-start">
             <h4 className="text-lg md:text-xl text-primary">About Us</h4>
             <h2 className="text-4xl md:text-5xl lg:text-6xl text-amber-50 tracking-wide">
               Welcome To Main Gate Design
@@ -39,7 +39,7 @@ const About = () => {
           </div>
           <div className="w-full lg:w-1/2 relative z-0">
             <img
-              className="w-full h-[40vh] sm:h-[50vh] lg:h-full rounded-lg lg:rounded-2xl object-cover"
+              className="w-full h-[40vh] sm:h-[50vh] lg:h-[60vh] rounded-lg lg:rounded-2xl object-cover"
               src="/homepage/about/about-img.jpeg"
               alt=""
             />

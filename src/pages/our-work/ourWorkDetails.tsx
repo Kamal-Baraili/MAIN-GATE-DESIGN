@@ -1,4 +1,9 @@
 import { Link } from "react-router-dom";
+import TestimonialCard from "../../components/shared/card/testimonialCard";
+import { DesignReviewData } from "../../db/mockdata";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 interface Items {
   title: string;
@@ -13,11 +18,53 @@ interface Key {
 }
 
 const OurWorkDetails = ({ item }: Key) => {
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    autoplay: true,
+    pauseOnHover: false,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 1500,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+
+      {
+        breakpoint: 1120,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <div className="w-11/12 mx-auto pt-24">
         <div className="w-12 my-5">
-          <Link to="/works">
+          <Link to="/catalogue">
             <div className=" flex gap-2 text-zinc-300 opacity-70 hover:opacity-90 hover:text-zinc-100 hover:gap-3 transition-all ease-in-out duration-100">
               <img className="" src="/blog/arrow-left.svg" alt="" />
               <span className="">Back</span>
@@ -50,6 +97,37 @@ const OurWorkDetails = ({ item }: Key) => {
               />
             </div>
           ))}
+        </div>
+        <div className="my-20 flex flex-col items-center">
+          <h2 className="md:leading-[1] text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-amber-50 text-center md:text-left">
+            Have a Question?
+          </h2>
+          <div className="mt-10 flex flex-col justify-start items-center gap-5">
+            <a
+              className="px-4 sm:px-6 py-4 bg-green-500 hover:bg-green-400 rounded-4xl flex items-center gap-2"
+              href="https://wa.me/?text=Hello%2C%20I%20need%20assistance" // Enter whatsapp number between / and ?
+              target="_blank"
+            >
+              <img src="/homepage/whatsapp-icon.svg" alt="" />
+              <span className="text-sm sm:text-base">Whatsapp Us</span>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <Slider {...settings}>
+            {DesignReviewData.map((k: any, ind: number) => (
+              <div className="p-4">
+                <TestimonialCard
+                  key={ind}
+                  imgSrc={k.imgSrc}
+                  reviewDesc={k.reviewDesc}
+                  reviewName={k.reviewName}
+                  reviewPost={k.reviewPost}
+                />
+              </div>
+            ))}
+          </Slider>
         </div>
       </div>
     </>

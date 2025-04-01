@@ -2,52 +2,11 @@ import { Icon } from "@iconify/react";
 
 export const navMenus: any = [
   { title: "home", path: "/" },
-  { title: "about us", path: "/about" },
-  { title: "our works", path: "/works" },
   { title: "services", path: "/services" },
+  { title: "Catalogue", path: "/catalogue" },
+  { title: "testimonials", path: "/testimonials" },
+  { title: "about us", path: "/about" },
   { title: "blog", path: "/blog" },
-];
-
-export const imageData = [
-  {
-    gateName: "mild gate",
-    src: "/homepage/gate1.png",
-  },
-
-  {
-    gateName: "steel gate",
-    src: "/homepage/gate2.png",
-  },
-
-  {
-    gateName: "iron gate",
-    src: "/homepage/gate3.png",
-  },
-
-  {
-    gateName: "sliding gate",
-    src: "/homepage/gate4.png",
-  },
-
-  {
-    gateName: "Vertical pivot gate",
-    src: "/homepage/gate1.png",
-  },
-
-  {
-    gateName: "folding gate",
-    src: "/homepage/gate2.png",
-  },
-
-  {
-    gateName: "swing gate",
-    src: "/homepage/gate3.png",
-  },
-
-  {
-    gateName: "aluminium gate",
-    src: "/homepage/gate4.png",
-  },
 ];
 
 export const servicesTitles = [
@@ -140,13 +99,61 @@ export const reviewCardData: any = [
     reviewName: "Rachel Adams",
     reviewPost: "Business Consultant",
   },
+
+  {
+    imgSrc: "/homepage/review_img1.svg",
+    reviewDesc:
+      "I had a custom gate installed by Elegant Gates Designs, and I'm thrilled with the result. The design is stunning, and the quality is exceptional. The team was professional and easy to work with. Highly recommended!",
+    reviewName: "Martha Thompson",
+    reviewPost: "UI/UX Designer",
+  },
+
+  {
+    imgSrc: "/homepage/review_img2.svg",
+    reviewDesc:
+      "I'm really impressed with the gate I had installed by Ironclad Gate Creations. The design is exactly what I wanted, and the craftsmanship is outstanding. The whole process was smooth and efficient. Highly recommend them!",
+    reviewName: "Mark Evans",
+    reviewPost: "Sales Executive",
+  },
+
+  {
+    imgSrc: "/homepage/review_img3.svg",
+    reviewDesc:
+      "Working with Prestige Gate Works was a fantastic experience. The team listened to my ideas and created a beautiful, durable gate that perfectly matches my home. Great service and top-quality work. Highly recommended!",
+    reviewName: "Rachel Adams",
+    reviewPost: "Business Consultant",
+  },
+
+  {
+    imgSrc: "/homepage/review_img1.svg",
+    reviewDesc:
+      "I had a custom gate installed by Elegant Gates Designs, and I'm thrilled with the result. The design is stunning, and the quality is exceptional. The team was professional and easy to work with. Highly recommended!",
+    reviewName: "Martha Thompson",
+    reviewPost: "UI/UX Designer",
+  },
+
+  {
+    imgSrc: "/homepage/review_img2.svg",
+    reviewDesc:
+      "I'm really impressed with the gate I had installed by Ironclad Gate Creations. The design is exactly what I wanted, and the craftsmanship is outstanding. The whole process was smooth and efficient. Highly recommend them!",
+    reviewName: "Mark Evans",
+    reviewPost: "Sales Executive",
+  },
+
+  {
+    imgSrc: "/homepage/review_img3.svg",
+    reviewDesc:
+      "Working with Prestige Gate Works was a fantastic experience. The team listened to my ideas and created a beautiful, durable gate that perfectly matches my home. Great service and top-quality work. Highly recommended!",
+    reviewName: "Rachel Adams",
+    reviewPost: "Business Consultant",
+  },
 ];
 
 export const WorksData = [
   {
-    title: "Mild Steel",
+    title: "Folding Gate",
     desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
-    img: "/homepage/gate1.png",
+    img: "/homepage/gate-types/folding-gate.png",
     imgCollection: [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img2.jpg",
@@ -155,12 +162,12 @@ export const WorksData = [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img3.jpg",
     ],
-    slug: "Mild Steel",
+    slug: "Folding Gate",
   },
   {
-    title: "MS Plus WPC",
+    title: "Sliding Gate",
     desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
-    img: "/homepage/gate2.png",
+    img: "/homepage/gate-types/sliding-gate.png",
     imgCollection: [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img2.jpg",
@@ -169,12 +176,12 @@ export const WorksData = [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img3.jpg",
     ],
-    slug: "MS Plus WPC",
+    slug: "Sliding Gate",
   },
   {
-    title: "Custom Gate",
+    title: "Double Opening gate",
     desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
-    img: "/homepage/gate3.png",
+    img: "/homepage/gate-types/double-opening-gate.png",
     imgCollection: [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img2.jpg",
@@ -183,13 +190,13 @@ export const WorksData = [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img3.jpg",
     ],
-    slug: "Custom Gate",
+    slug: "Double Opening gate",
   },
 
   {
-    title: "Folding Gate Design",
+    title: "EWC Pannel Modern Gate",
     desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
-    img: "/homepage/gate4.png",
+    img: "/homepage/gate-types/ewc-gate.png",
     imgCollection: [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img2.jpg",
@@ -198,12 +205,12 @@ export const WorksData = [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img3.jpg",
     ],
-    slug: "Folding Gate Design",
+    slug: "EWC Pannel Modern Gate",
   },
   {
-    title: "Silver Gate Design",
+    title: "Classical Luxurious Gate",
     desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
-    img: "/homepage/gate2.png",
+    img: "/homepage/gate-types/classical-luxurious-gate.png",
     imgCollection: [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img2.jpg",
@@ -212,12 +219,12 @@ export const WorksData = [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img3.jpg",
     ],
-    slug: "Silver Gate Design",
+    slug: "Classical Luxurious Gate",
   },
   {
-    title: "Hotel Gate Design",
+    title: "Luxurious Gate",
     desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
-    img: "/homepage/gate3.png",
+    img: "/homepage/gate-types/luxurious-gate.png",
     imgCollection: [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img2.jpg",
@@ -226,7 +233,126 @@ export const WorksData = [
       "/our works/our-works-img1.jpg",
       "/our works/our-works-img3.jpg",
     ],
-    slug: "Hotel Gate Design",
+    slug: "Luxurious Gate",
+  },
+
+  {
+    title: "Steel Gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/steel-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "Steel Gate",
+  },
+
+  {
+    title: "Hotel Gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/hotel-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "Hotel Gate",
+  },
+
+  {
+    title: "Entrance Gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/entrance-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "Entrance Gate",
+  },
+];
+
+export const DesignReviewData: any = [
+  {
+    imgSrc: "/homepage/review_img1.svg",
+    reviewDesc:
+      "I had a custom gate installed by Elegant Gates Designs, and I'm thrilled with the result. The design is stunning, and the quality is exceptional. The team was professional and easy to work with. Highly recommended!",
+    reviewName: "Martha Thompson",
+    reviewPost: "UI/UX Designer",
+  },
+
+  {
+    imgSrc: "/homepage/review_img2.svg",
+    reviewDesc:
+      "I'm really impressed with the gate I had installed by Ironclad Gate Creations. The design is exactly what I wanted, and the craftsmanship is outstanding. The whole process was smooth and efficient. Highly recommend them!",
+    reviewName: "Mark Evans",
+    reviewPost: "Sales Executive",
+  },
+
+  {
+    imgSrc: "/homepage/review_img3.svg",
+    reviewDesc:
+      "Working with Prestige Gate Works was a fantastic experience. The team listened to my ideas and created a beautiful, durable gate that perfectly matches my home. Great service and top-quality work. Highly recommended!",
+    reviewName: "Rachel Adams",
+    reviewPost: "Business Consultant",
+  },
+
+  {
+    imgSrc: "/homepage/review_img1.svg",
+    reviewDesc:
+      "I had a custom gate installed by Elegant Gates Designs, and I'm thrilled with the result. The design is stunning, and the quality is exceptional. The team was professional and easy to work with. Highly recommended!",
+    reviewName: "Martha Thompson",
+    reviewPost: "UI/UX Designer",
+  },
+
+  {
+    imgSrc: "/homepage/review_img2.svg",
+    reviewDesc:
+      "I'm really impressed with the gate I had installed by Ironclad Gate Creations. The design is exactly what I wanted, and the craftsmanship is outstanding. The whole process was smooth and efficient. Highly recommend them!",
+    reviewName: "Mark Evans",
+    reviewPost: "Sales Executive",
+  },
+
+  {
+    imgSrc: "/homepage/review_img3.svg",
+    reviewDesc:
+      "Working with Prestige Gate Works was a fantastic experience. The team listened to my ideas and created a beautiful, durable gate that perfectly matches my home. Great service and top-quality work. Highly recommended!",
+    reviewName: "Rachel Adams",
+    reviewPost: "Business Consultant",
+  },
+
+  {
+    imgSrc: "/homepage/review_img1.svg",
+    reviewDesc:
+      "I had a custom gate installed by Elegant Gates Designs, and I'm thrilled with the result. The design is stunning, and the quality is exceptional. The team was professional and easy to work with. Highly recommended!",
+    reviewName: "Martha Thompson",
+    reviewPost: "UI/UX Designer",
+  },
+
+  {
+    imgSrc: "/homepage/review_img2.svg",
+    reviewDesc:
+      "I'm really impressed with the gate I had installed by Ironclad Gate Creations. The design is exactly what I wanted, and the craftsmanship is outstanding. The whole process was smooth and efficient. Highly recommend them!",
+    reviewName: "Mark Evans",
+    reviewPost: "Sales Executive",
+  },
+
+  {
+    imgSrc: "/homepage/review_img3.svg",
+    reviewDesc:
+      "Working with Prestige Gate Works was a fantastic experience. The team listened to my ideas and created a beautiful, durable gate that perfectly matches my home. Great service and top-quality work. Highly recommended!",
+    reviewName: "Rachel Adams",
+    reviewPost: "Business Consultant",
   },
 ];
 
