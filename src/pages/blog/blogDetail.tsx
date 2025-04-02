@@ -23,7 +23,7 @@ const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
         </div>
         <div className=" mx-auto mt-10 rounded-2xl flex flex-col gap-4 items-start">
           <div className="flex flex-col gap-20">
-            <h3 className="text-4xl mb-2 pt-2 text-zinc-400">{title}</h3>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl mb-2 pt-2 text-zinc-400">{title}</h3>
           </div>
           <div className="w-full mx-auto my-5 flex justify-between pb-10 border-b border-b-zinc-700 text-zinc-400">
             <div className="flex gap-2 items-center">
@@ -32,9 +32,9 @@ const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
                 src={authorImg}
                 alt="author-image"
               />
-              <span>{author}</span>
+              <span className="text-sm sm:text-base">{author}</span>
             </div>
-            <span className="text-sm">{date}</span>
+            <span className="text-[13px] sm:text-sm">{date}</span>
           </div>
           <img
             className={`w-full rounded-2xl opacity-75 h-[40vh] sm:h-[50vh] md:h-[60vh] object-cover`}

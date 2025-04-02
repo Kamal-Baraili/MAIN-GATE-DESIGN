@@ -36,20 +36,20 @@ const ChairmanMessage = () => {
             commitment to our shared success. Together, we will continue to make
             a meaningful impact.
           </p>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-center">
             <div className="mt-4">
               <h3 className="text-xl text-zinc-400">Warm Regards,</h3>
               <h3 className="my-2 text-2xl text-zinc-300">John Doe</h3>
               <h4 className="italic text-zinc-300">Founder & Chairperson</h4>
             </div>
-            <div className="w-1/3 my-2 flex justify-center gap-6">
-              <span className="text-4xl text-[#3d5a98]">
+            <div className="w-2/3 sm:w-1/3 my-4 sm:my-2 flex sm:justify-center gap-4 sm:gap-6">
+              <span className="text-2xl md:text-4xl text-[#3d5a98]">
                 <Icon icon="basil:facebook-solid" />
               </span>
-              <span className="text-4xl text-[#55acee]">
+              <span className="text-2xl md:text-4xl text-[#55acee]">
                 <Icon icon="mdi:twitter" />
               </span>
-              <span className="text-4xl">
+              <span className="text-2xl md:text-4xl">
                 <Icon icon="skill-icons:instagram" />
               </span>
             </div>

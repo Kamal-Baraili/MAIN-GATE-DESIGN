@@ -44,11 +44,13 @@ const BlogCard = ({ imgSrc, author, date, title, authorImg, slug }: Props) => {
             src={authorImg}
             alt="author-img"
           />
-          <span>{author}</span>
+          <span className="text-sm md:text-base">{author}</span>
         </div>{" "}
-        <span className="text-sm">{date}</span>
+        <span className="text-[12px] md:text-sm">{date}</span>
       </div>
-      <h3 className="text-2xl mb-2 pt-2 border-t border-t-zinc-700">{title}</h3>
+      <h3 className="text-xl md:text-2xl mb-2 pt-2 border-t border-t-zinc-700">
+        {title}
+      </h3>
       <div
         className={`mt-2 px-3 py-2 text-sm text-zinc-200 rounded cursor-pointer flex gap-2 items-center`}
       >

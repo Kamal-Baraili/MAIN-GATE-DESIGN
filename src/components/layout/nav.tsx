@@ -160,7 +160,7 @@ const Nav = () => {
 
           {/* Desktop menus */}
         </div>
-        <div className="hidden lg:flex justify-center gap-12 capitalize items-center">
+        <div className="hidden lg:flex justify-center gap-8 xl:gap-12 capitalize items-center">
           {navMenus.map((k: any, ind: number) => (
             <div key={ind}>
               <Link

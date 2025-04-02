@@ -40,6 +40,7 @@ const App = () => {
 
       audio.addEventListener("canplay", () => {
         setAudioReady(true);
+        console.log(audioReady);
       });
 
       // We'll keep this event for pages other than homepage

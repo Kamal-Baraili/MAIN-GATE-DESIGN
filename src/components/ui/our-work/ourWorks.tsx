@@ -134,7 +134,7 @@ const OurWorks = () => {
         {WorksData.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col-reverse md:flex-row justify-between items-center gap-8 card"
+            className="flex flex-col-reverse md:flex-row justify-between items-center gap-2 md:gap-8 card"
           >
             <div
               className={`w-full ${
@@ -143,7 +143,7 @@ const OurWorks = () => {
                   : "md:order-2 flex md:flex-col items-center text-center justify-center"
               } content`}
             >
-              <h1 className="uppercase text-4xl mb-4 text-center">
+              <h1 className="uppercase text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 text-center">
                 {item.title}
               </h1>
             </div>

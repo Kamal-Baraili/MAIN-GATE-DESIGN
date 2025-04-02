@@ -4,6 +4,7 @@ import { DesignReviewData } from "../../db/mockdata";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { useLocation } from "react-router-dom";
 
 interface Items {
   title: string;
@@ -18,6 +19,8 @@ interface Key {
 }
 
 const OurWorkDetails = ({ item }: Key) => {
+  const locate = useLocation();
+
   const settings = {
     dots: false,
     infinite: true,
@@ -65,7 +68,7 @@ const OurWorkDetails = ({ item }: Key) => {
       <div className="w-11/12 mx-auto pt-24">
         <div className="w-12 my-5">
           <Link to="/catalogue">
-            <div className=" flex gap-2 text-zinc-300 opacity-70 hover:opacity-90 hover:text-zinc-100 hover:gap-3 transition-all ease-in-out duration-100">
+            <div className=" flex gap-2 text-zinc-300 opacity-70 hover:opacity-90 hover:text-zinc-100 hover:gap-3 transition-all ease-in-out duration-100 cursor-pointer">
               <img className="" src="/blog/arrow-left.svg" alt="" />
               <span className="">Back</span>
             </div>
@@ -105,7 +108,7 @@ const OurWorkDetails = ({ item }: Key) => {
           <div className="mt-10 flex flex-col justify-start items-center gap-5">
             <a
               className="px-4 sm:px-6 py-4 bg-green-500 hover:bg-green-400 rounded-4xl flex items-center gap-2"
-              href="https://wa.me/?text=Hello%2C%20I%20need%20assistance" // Enter whatsapp number between / and ?
+              href={`https://wa.me/+9779865366391?text=${window.origin}${locate.pathname}`} // Enter whatsapp number between / and ?
               target="_blank"
             >
               <img src="/homepage/whatsapp-icon.svg" alt="" />

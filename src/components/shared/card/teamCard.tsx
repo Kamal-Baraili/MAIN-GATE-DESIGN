@@ -27,22 +27,24 @@ const TeamCard = ({ item, index }: Item) => {
           />
         </div>
         <div className="py-5 flex justify-between items-center gap-3 border-b border-b-zinc-600">
-          <h3 className="text-3xl text-zinc-400 font-semibold">
+          <h3 className="text-xl sm:text-2xl md:text-3xl text-zinc-400 font-semibold">
             {item.memberName}
           </h3>
           <div className="w-1/3 my-2 flex justify-center gap-4">
-            <span className="text-4xl text-[#3d5a98]">
+            <span className="text-2xl md:text-4xl text-[#3d5a98]">
               <Icon icon="basil:facebook-solid" />
             </span>
-            <span className="text-4xl text-[#55acee]">
+            <span className="text-2xl md:text-4xl text-[#55acee]">
               <Icon icon="mdi:twitter" />
             </span>
-            <span className="text-4xl">
+            <span className="text-2xl md:text-4xl">
               <Icon icon="skill-icons:instagram" />
             </span>
           </div>
         </div>
-        <h4 className="pt-2 text-zinc-400 italic text-lg">{item.memberPost}</h4>
+        <h4 className="pt-2 text-zinc-400 italic text-md md:text-lg">
+          {item.memberPost}
+        </h4>
       </div>
     </>
   );
