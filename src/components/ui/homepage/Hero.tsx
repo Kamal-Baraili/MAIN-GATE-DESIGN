@@ -133,8 +133,9 @@ const Hero = () => {
     if (imgContainers.length === 0) return;
 
     if (isDesktop) {
-      // Desktop: Check overlap with redDiv container
-      const redDivRect = redDiv.getBoundingClientRect();
+      // Desktop: Check position relative to hanging lamp
+      const lampRect = hangingLamp.getBoundingClientRect();
+      const lampBottom = lampRect.bottom;
       let isHighlighted = false;
 
       // Reset all containers first
@@ -147,20 +148,16 @@ const Hero = () => {
         });
       });
 
-      // Check each image container against redDiv boundaries
+      // Check each image container against lamp position
       imgContainers.forEach((container, index) => {
         const containerRect = container.getBoundingClientRect();
 
-        // Calculate overlap between container and redDiv
-        const overlapHorizontal =
-          containerRect.right > redDivRect.left &&
-          containerRect.left < redDivRect.right;
+        // Check if container top is below lamp bottom and container is visible
+        const isBelowLamp = containerRect.top >= lampBottom;
+        const isVisible =
+          containerRect.bottom > 0 && containerRect.top < window.innerHeight;
 
-        const overlapVertical =
-          containerRect.bottom > redDivRect.top &&
-          containerRect.top < redDivRect.bottom;
-
-        if (overlapHorizontal && overlapVertical) {
+        if (isBelowLamp && isVisible) {
           isHighlighted = true;
           gsap.to(container, {
             opacity: 1,
@@ -174,7 +171,7 @@ const Hero = () => {
         }
       });
 
-      // Update redDiv visibility based on overlap
+      // Update redDiv visibility based on highlight
       gsap.to(redDiv, {
         opacity: isHighlighted ? 1 : 0,
         duration: 0.3,
@@ -270,7 +267,7 @@ const Hero = () => {
     const savedScrollPosition = sessionStorage.getItem("heroScrollPosition");
     const { initialOffset } = calculateSliderPositions();
 
-    gsap.set(wrapper, { opacity: 0 });
+    gsap.set(wrapper, { opacity: 1 }); // Changed to always visible
     gsap.set(images, { x: initialOffset });
 
     let totalWidth = images.scrollWidth;
@@ -298,6 +295,7 @@ const Hero = () => {
       totalWidth = images.scrollWidth;
       scrollDistance = calculateScrollDistance();
       wrapper.style.height = `${window.innerHeight + scrollDistance}px`;
+      updateSpotlight(); // Ensure spotlight updates on resize
     };
 
     const initializeScroll = () => {
@@ -327,7 +325,7 @@ const Hero = () => {
         scrolledDistance = 0;
         translateX = initialOffset;
         gsap.set(images, { x: initialOffset });
-        resetSpotlight();
+        updateSpotlight(); // Changed from resetSpotlight to updateSpotlight
         heroPinPosition = 0;
         lastScrollY = currentScrollY;
         return;
@@ -351,7 +349,7 @@ const Hero = () => {
         translateX = targetX;
 
         gsap.set(images, { x: translateX });
-        updateSpotlight(); // Call directly instead of requestAnimationFrame
+        updateSpotlight();
       }
       lastScrollY = currentScrollY;
     };
@@ -399,6 +397,7 @@ const Hero = () => {
 
     const handleTouchEnd = () => {
       isTouching = false;
+      updateSpotlight();
     };
 
     const tl = gsap.timeline();
@@ -416,9 +415,7 @@ const Hero = () => {
           ease: "power2.inOut",
           onComplete: () => {
             setIsPinned(true);
-            console.log(isPinned);
-            console.log(totalWidth);
-            console.log(lastScrollY);
+            updateSpotlight();
           },
         });
       },
@@ -429,16 +426,18 @@ const Hero = () => {
           ease: "power2.inOut",
           onComplete: () => {
             setIsPinned(true);
+            updateSpotlight();
           },
         });
       },
       onLeaveBack: () => {
         tl.to(wrapper, {
-          opacity: 0,
+          opacity: 1, // Keep visible
           duration: 1,
           ease: "power2.inOut",
           onComplete: () => {
             setIsPinned(false);
+            updateSpotlight();
           },
         });
       },
@@ -446,7 +445,6 @@ const Hero = () => {
 
     pinTriggerRef.current = pinTrigger;
 
-    gsap.set(redDiv, { opacity: 0 });
     initializeScroll();
 
     window.addEventListener("scroll", handleScroll);
@@ -458,6 +456,9 @@ const Hero = () => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
         initializeScroll();
+        console.log(totalWidth);
+        console.log(lastScrollY);
+        console.log(isPinned);
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -471,9 +472,6 @@ const Hero = () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
 
       sessionStorage.removeItem("heroScrollPosition");
-
-      gsap.set(images, { x: 0 });
-      resetSpotlight();
 
       if (pinTriggerRef.current) {
         pinTriggerRef.current.kill();
@@ -662,7 +660,7 @@ const Hero = () => {
 
         <div
           ref={mainRef}
-          className="flex pt-[45vh] md:pt-[38vh] px-4 whitespace-nowrap will-change-transform lg:pt-[35vh] lg:px-40 relative z-20"
+          className="flex pt-[45vh] md:pt-[38vh] px-4 whitespace-nowrap will-change-transform lg:pt-[24vh] xl:pt-[30vh] lg:px-40 relative z-20"
         >
           <div className="hidden lg:inline-block flex-shrink-0">
             <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 lg:w-[405px] lg:h-[450px] lg:mx-4 2xl:w-[700px]"></div>
@@ -670,7 +668,7 @@ const Hero = () => {
 
           {WorksData.map((item, index) => (
             <div key={index} className="inline-block flex-shrink-0">
-              <div className="img-container w-[300px] h-[35vh] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 lg:w-[570px] lg:h-[450px] lg:px-5 lg:mr-120 lg:mx-4">
+              <div className="img-container w-[300px] h-[35vh] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 lg:w-[550px] lg:h-[450px] lg:px-5 lg:mr-120 lg:mx-4">
                 <img
                   className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20 cursor-pointer"
                   src={item.img}
