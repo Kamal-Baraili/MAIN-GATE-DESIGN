@@ -38,15 +38,15 @@ const Homepage = ({ isClicked, setIsClicked }: any) => {
         {/* Twitter Card Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
-          property="twitter:title Content-Type"
+          name="twitter:title"
           content="Main Gate Design | Leading Industries in Nepal"
         />
         <meta
-          property="twitter:description"
+          name="twitter:description"
           content="Main Gate Design is the top leading company in Nepal, offering exceptional services and products across various industries."
         />
         <meta
-          property="twitter:image"
+          name="twitter:image"
           content="https://main-gate-two.vercel.app/og/home.png"
         />
         {/* Additional SEO */}

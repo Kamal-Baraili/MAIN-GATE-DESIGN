@@ -137,7 +137,7 @@ const Hero = () => {
 
     if (!images || !redDiv) {
       console.log("Missing references for spotlight");
-      console.log(hangingLamp)
+      console.log(hangingLamp);
       if (redDiv) {
         gsap.to(redDiv, { opacity: 0, duration: 0.2 });
       }
@@ -590,7 +590,12 @@ const Hero = () => {
 
     // Reset to first slide with correct initial position
     setCurrentSlide(0);
+
+    // FIXED: Apply the initial offset immediately to position the first slide correctly
     gsap.set(images, { x: initialOffset });
+
+    // FIXED: Immediately show the red beam for the first image
+    gsap.set(redDiv, { opacity: 1 });
 
     // Add touch event handlers for mobile swipe functionality
     const handleTouchStart = (e: TouchEvent) => {
@@ -625,30 +630,42 @@ const Hero = () => {
       passive: true,
     });
 
-    // Add forced rendering to ensure elements appear
-    setTimeout(() => {
-      if (images && redDiv) {
-        // Force redraw by accessing offsetHeight
-        images.offsetHeight;
-        redDiv.offsetHeight;
+    // FIXED: Immediate initialization for mobile
+    const initializeMobileSlider = () => {
+      // Reset any existing transformations and make sure first image is centered
+      const { initialOffset } = calculateSliderPositions();
+      gsap.set(images, { x: initialOffset });
 
-        // Run initial spotlight update
-        updateSpotlight();
+      // Force immediate update to highlight first image
+      const imgContainers = Array.from(
+        images.querySelectorAll(".img-container")
+      ) as HTMLElement[];
 
-        // Measure all image containers
-        const imgContainers = Array.from(
-          images.querySelectorAll(".img-container")
-        ) as HTMLElement[];
+      // Reset all containers first
+      imgContainers.forEach((container) => {
+        gsap.set(container, {
+          opacity: 0.6,
+          scale: 1,
+        });
+      });
 
-        // Make sure first image starts at full opacity
-        if (imgContainers.length > 0) {
-          gsap.set(imgContainers[0], {
-            opacity: 1,
-            scale: 1.1,
-          });
-        }
+      // Make sure first image starts highlighted
+      if (imgContainers.length > 0) {
+        gsap.set(imgContainers[0], {
+          opacity: 1,
+          scale: 1.1,
+        });
+
+        // Show the red beam for the first image
+        gsap.set(redDiv, { opacity: 1 });
       }
-    }, 100);
+    };
+
+    // Run initialization immediately
+    initializeMobileSlider();
+
+    // Also run it after a small delay to ensure DOM is fully rendered
+    setTimeout(initializeMobileSlider, 100);
 
     return () => {
       gsap.set(images, { x: 0 });
