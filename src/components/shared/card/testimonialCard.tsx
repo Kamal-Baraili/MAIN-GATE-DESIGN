@@ -13,7 +13,7 @@ const TestimonialCard = ({
 }: Props) => {
   return (
     <>
-      <div className="p-8 border border-zinc-800 rounded-2xl">
+      <div className="p-8 border border-zinc-800 rounded-2xl hover:bg-[#121212] cursor-default hover:border-zinc-700">
         <div className="flex gap-4 items-center">
           <img className="w-10 h-10 rounded-full" src={imgSrc} alt="" />
           <div>
