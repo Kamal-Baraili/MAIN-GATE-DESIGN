@@ -710,7 +710,7 @@ const Hero = () => {
           className="flex pt-[45vh] md:pt-[38vh] px-4 whitespace-nowrap will-change-transform lg:pt-[24vh] xl:pt-[30vh] lg:px-40 relative z-20"
         >
           <div className="hidden lg:inline-block flex-shrink-0">
-            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 lg:w-[600px] 2xl:w-[37vw] lg:h-[450px] lg:mx-4"></div>
+            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 lg:w-[600px] 2xl:w-[36vw] lg:h-[450px] lg:mx-4"></div>
           </div>
 
           {HeroWorksData.map((item, index) => (
