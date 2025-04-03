@@ -78,7 +78,7 @@ const Counter = () => {
         </h2>
       </div>
       <div
-        className="w-11/12 mx-auto relative py-20 text-white"
+        className="w-11/12 mx-auto relative py-10 text-white"
         ref={combinedRef}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-20 gap-y-8 overflow-hidden">

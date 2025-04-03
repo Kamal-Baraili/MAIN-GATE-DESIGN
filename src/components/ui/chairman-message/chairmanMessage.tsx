@@ -6,15 +6,15 @@ const ChairmanMessage = () => {
       <div className="w-11/12 mx-auto py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="relative">
           <div className="w-full h-50 bg-gradient-to-b from-black via-black/50 to-transparent absolute top-0"></div>
-          <div className="w-[14%] lg:w-[20%] h-[40vh] md:h-[60vh] lg:h-[70vh] bg-gradient-to-r from-black via-black/50 to-transparent absolute left-0"></div>
+          <div className="w-[14%] lg:w-[20%] h-[40vh] md:h-[60vh] lg:h-[90vh] bg-gradient-to-r from-black via-black/50 to-transparent absolute left-0"></div>
 
           <img
-            className="h-[40vh] md:h-[60vh] lg:h-[70vh] object-cover rounded-lg"
+            className="w-full h-[40vh] md:h-[60vh] lg:h-fit object-cover rounded-lg"
             src="/homepage/about/chairman.jpg"
             alt=""
           />
           <div className="w-full h-50 bg-gradient-to-t from-black via-black/50 to-transparent absolute bottom-0"></div>
-          <div className="w-[14%] lg:w-[20%] h-[40vh] md:h-[60vh] lg:h-[70vh] bg-gradient-to-l from-black via-black/50 to-transparent absolute top-0 right-0"></div>
+          <div className="w-[14%] lg:w-[20%] h-[40vh] md:h-[60vh] lg:h-[90vh] bg-gradient-to-l from-black via-black/50 to-transparent absolute top-0 right-0"></div>
         </div>
         <div>
           <h2 className="capitalize text-4xl md:text-5xl lg:text-6xl text-amber-50 tracking-wide">

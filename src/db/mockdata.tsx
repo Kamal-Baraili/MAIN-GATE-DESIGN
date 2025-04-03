@@ -2,10 +2,10 @@ import { Icon } from "@iconify/react";
 
 export const navMenus: any = [
   { title: "home", path: "/" },
+  { title: "catalogue", path: "/catalogue" },
   { title: "services", path: "/services" },
-  { title: "Catalogue", path: "/catalogue" },
-  { title: "testimonials", path: "/testimonials" },
   { title: "about us", path: "/about" },
+  { title: "testimonials", path: "/testimonials" },
   { title: "blog", path: "/blog" },
 ];
 
@@ -146,6 +146,94 @@ export const reviewCardData: any = [
       "Working with Prestige Gate Works was a fantastic experience. The team listened to my ideas and created a beautiful, durable gate that perfectly matches my home. Great service and top-quality work. Highly recommended!",
     reviewName: "Rachel Adams",
     reviewPost: "Business Consultant",
+  },
+];
+
+export const HeroWorksData = [
+  {
+    title: "Folding Gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/folding-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "Folding Gate",
+  },
+  {
+    title: "Sliding Gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/sliding-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "Sliding Gate",
+  },
+  {
+    title: "Double Opening gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/double-opening-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "Double Opening gate",
+  },
+
+  {
+    title: "EWC Pannel Modern Gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/ewc-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "EWC Pannel Modern Gate",
+  },
+  {
+    title: "Classical Luxurious Gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/classical-luxurious-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "Classical Luxurious Gate",
+  },
+  {
+    title: "Luxurious Gate",
+    desc: "A mild gate type refers to a type of gate or barrier designed forlight or moderate use, often found in residential or low-traffic areas. It is typically constructed using less heavy-duty materials compared to more robust gate types and is intended for easy operation, offering basic security and privacy. These gates are ideal for environments where durability is important, but extreme strength and heavy usage are not required.",
+    img: "/homepage/gate-types/luxurious-gate.png",
+    imgCollection: [
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img2.jpg",
+      "/our works/our-works-img3.jpg",
+      "/our works/our-works-img4.jpg",
+      "/our works/our-works-img1.jpg",
+      "/our works/our-works-img3.jpg",
+    ],
+    slug: "Luxurious Gate",
   },
 ];
 

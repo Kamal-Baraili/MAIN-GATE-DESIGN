@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../../shared/button/button";
-import { WorksData } from "../../../db/mockdata";
+import { HeroWorksData } from "../../../db/mockdata";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,7 +72,7 @@ const Hero = () => {
     const redDiv = redDivRef.current;
     if (!images || !redDiv) return;
 
-    const totalSlides = WorksData.length + 1;
+    const totalSlides = HeroWorksData.length + 1;
 
     let newSlide = currentSlide;
     if (direction === "next") {
@@ -133,9 +133,14 @@ const Hero = () => {
     if (imgContainers.length === 0) return;
 
     if (isDesktop) {
-      // Desktop: Check position relative to hanging lamp
-      const lampRect = hangingLamp.getBoundingClientRect();
-      const lampBottom = lampRect.bottom;
+      // Desktop: Use light beam (redDiv) as the detection point
+      const redDivRect = redDiv.getBoundingClientRect();
+      const redDivCenter = redDivRect.left + redDivRect.width / 2;
+      const redDivBottom = redDivRect.bottom;
+
+      // Increased detection threshold for desktop from 450 to 600px for a wider range
+      const detectionThreshold = 600;
+
       let isHighlighted = false;
 
       // Reset all containers first
@@ -148,16 +153,28 @@ const Hero = () => {
         });
       });
 
-      // Check each image container against lamp position
+      // Check each image container against the light beam position
       imgContainers.forEach((container, index) => {
         const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.left + containerRect.width / 2;
+        const containerTop = containerRect.top;
 
-        // Check if container top is below lamp bottom and container is visible
-        const isBelowLamp = containerRect.top >= lampBottom;
+        // Horizontal distance between container center and light beam center
+        const horizontalDistance = Math.abs(containerCenter - redDivCenter);
+
+        // Check if container is within the path of the light beam
+        const isBelowLightBeam = containerTop <= redDivBottom;
+
+        // Container should be visible on screen
         const isVisible =
           containerRect.bottom > 0 && containerRect.top < window.innerHeight;
 
-        if (isBelowLamp && isVisible) {
+        // Highlight if container is in the light beam's path and horizontally aligned
+        if (
+          isVisible &&
+          isBelowLightBeam &&
+          horizontalDistance < detectionThreshold
+        ) {
           isHighlighted = true;
           gsap.to(container, {
             opacity: 1,
@@ -171,16 +188,16 @@ const Hero = () => {
         }
       });
 
-      // Update redDiv visibility based on highlight
+      // Update light beam visibility based on highlight
       gsap.to(redDiv, {
         opacity: isHighlighted ? 1 : 0,
         duration: 0.3,
         ease: "power2.out",
       });
     } else {
-      // Mobile: Keep existing detection point logic
+      // Mobile: Increase detection threshold from 50 to 150px for a wider range
       const redDivRect = redDiv.getBoundingClientRect();
-      const threshold = 50;
+      const threshold = 150; // Increased from 50 to 150
       let isOverlapping = false;
       const imgDetectionPoints = Array.from(
         images.querySelectorAll(".img-detection")
@@ -267,8 +284,34 @@ const Hero = () => {
     const savedScrollPosition = sessionStorage.getItem("heroScrollPosition");
     const { initialOffset } = calculateSliderPositions();
 
-    gsap.set(wrapper, { opacity: 1 }); // Changed to always visible
+    gsap.set(wrapper, { opacity: 1 });
     gsap.set(images, { x: initialOffset });
+
+    const highlightFirstImage = () => {
+      const imgContainers = Array.from(
+        images.querySelectorAll(".img-container")
+      ) as HTMLElement[];
+
+      if (imgContainers.length > 0) {
+        imgContainers.forEach((container) => {
+          gsap.set(container, {
+            opacity: 0.6,
+            scale: 1,
+          });
+        });
+
+        gsap.set(imgContainers[0], {
+          opacity: 1,
+          scale: 1.1,
+        });
+
+        gsap.set(redDiv, { opacity: 1 });
+        setCurrentSlide(0);
+      }
+    };
+
+    highlightFirstImage();
+    setTimeout(highlightFirstImage, 100);
 
     let totalWidth = images.scrollWidth;
     let lastElementOffset = 0;
@@ -295,7 +338,7 @@ const Hero = () => {
       totalWidth = images.scrollWidth;
       scrollDistance = calculateScrollDistance();
       wrapper.style.height = `${window.innerHeight + scrollDistance}px`;
-      updateSpotlight(); // Ensure spotlight updates on resize
+      updateSpotlight();
     };
 
     const initializeScroll = () => {
@@ -303,6 +346,9 @@ const Hero = () => {
       gsap.set(images, { x: initialOffset });
       ScrollTrigger.refresh();
       updateSpotlight();
+
+      highlightFirstImage();
+
       if (savedScrollPosition) {
         const savedPosition = parseInt(savedScrollPosition, 10);
         window.scrollTo(0, savedPosition);
@@ -325,7 +371,7 @@ const Hero = () => {
         scrolledDistance = 0;
         translateX = initialOffset;
         gsap.set(images, { x: initialOffset });
-        updateSpotlight(); // Changed from resetSpotlight to updateSpotlight
+        updateSpotlight();
         heroPinPosition = 0;
         lastScrollY = currentScrollY;
         return;
@@ -432,12 +478,13 @@ const Hero = () => {
       },
       onLeaveBack: () => {
         tl.to(wrapper, {
-          opacity: 1, // Keep visible
+          opacity: 1,
           duration: 1,
           ease: "power2.inOut",
           onComplete: () => {
             setIsPinned(false);
             updateSpotlight();
+            highlightFirstImage();
           },
         });
       },
@@ -457,8 +504,8 @@ const Hero = () => {
       if (document.visibilityState === "visible") {
         initializeScroll();
         console.log(totalWidth);
-        console.log(lastScrollY);
         console.log(isPinned);
+        console.log(lastScrollY);
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -604,7 +651,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div ref={wrapperRef} className="w-11/12 mx-auto relative">
+    <div ref={wrapperRef} className="w-full mx-auto relative">
       <div
         ref={heroContainerRef}
         className={`relative h-screen overflow-hidden touch-pan-y ${
@@ -647,11 +694,11 @@ const Hero = () => {
             <button
               onClick={() => handleSlideChange("next")}
               className={`bg-amber-300 p-3 rounded-full shadow-lg ${
-                currentSlide === WorksData.length
+                currentSlide === HeroWorksData.length
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-amber-400"
               }`}
-              disabled={currentSlide === WorksData.length}
+              disabled={currentSlide === HeroWorksData.length}
             >
               <Icon className="text-2xl" icon="tabler:arrow-right" />
             </button>
@@ -663,12 +710,12 @@ const Hero = () => {
           className="flex pt-[45vh] md:pt-[38vh] px-4 whitespace-nowrap will-change-transform lg:pt-[24vh] xl:pt-[30vh] lg:px-40 relative z-20"
         >
           <div className="hidden lg:inline-block flex-shrink-0">
-            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 lg:w-[405px] lg:h-[450px] lg:mx-4 2xl:w-[700px]"></div>
+            <div className="w-[50px] h-[250px] transition-all duration-300 transform mx-2 lg:w-[600px] 2xl:w-[37vw] lg:h-[450px] lg:mx-4"></div>
           </div>
 
-          {WorksData.map((item, index) => (
+          {HeroWorksData.map((item, index) => (
             <div key={index} className="inline-block flex-shrink-0">
-              <div className="img-container w-[300px] h-[35vh] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 lg:w-[550px] lg:h-[450px] lg:px-5 lg:mr-120 lg:mx-4">
+              <div className="img-container w-[300px] h-[35vh] mr-40 transition-all duration-300 transform mx-2 relative opacity-60 lg:w-[550px] lg:h-[450px] lg:px-5 lg:mr-70 lg:mx-4">
                 <img
                   className="w-full h-full object-cover absolute inset-0 rounded-lg shadow-lg z-20 cursor-pointer"
                   src={item.img}
@@ -676,9 +723,9 @@ const Hero = () => {
                   loading="eager"
                   onClick={(event) => handleNavigateToDetails(item.slug, event)}
                 />
-                <div className="img-detection w-[0] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
+                <div className="img-detection w-[300px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
               </div>
-              <p className="w-[68%] mt-5 lg:w-1/2 uppercase text-wrap text-center text-white font-bold -z-20 font-ursb text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+              <p className="w-[68%] mt-5 lg:w-[70%] uppercase text-wrap text-center text-white font-bold -z-20 font-ursb text-xl sm:text-2xl md:text-3xl lg:text-4xl">
                 {item.title}
               </p>
             </div>
@@ -686,7 +733,7 @@ const Hero = () => {
 
           <div ref={collectionDivRef} className="inline-block flex-shrink-0">
             <div className="img-container w-[300px] h-[300px] px-2 transition-all duration-300 transform mx-2 relative opacity-60 md:w-[450px] md:h-[450px] md:px-5 md:mx-4">
-              <div className="img-detection w-[200px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
+              <div className="img-detection w-[300px] h-5 absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
               <div className="w-full h-full flex flex-col items-center justify-center absolute inset-0 z-20 rounded-lg ">
                 <h2 className="text-3xl text-center font-bold text-white mt-10 md:text-5xl md:mt-0">
                   Please View Our <br /> Gate Collection.

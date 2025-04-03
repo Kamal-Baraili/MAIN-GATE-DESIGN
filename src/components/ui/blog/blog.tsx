@@ -5,16 +5,13 @@ const Blog = () => {
   return (
     <>
       <div className="w-11/12 mx-auto border-t border-t-zinc-800 pt-5 mt-20">
-        <div className="md:flex">
+        <div className="mt-40">
           <div className="w-full">
-            <h2 className="uppercase md:leading-[1] text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-amber-50 text-center md:text-left">
-              Latest
-            </h2>
-            <h2 className="uppercase md:leading-[1] text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-amber-50 text-center md:text-left">
-              from news
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-amber-50 tracking-wide text-center">
+              Latest from <span className="text-primary">news</span>
             </h2>
           </div>
-          <p className="w-full md:w-[70%] text-md md:text-lg lg:text-3xl text-center md:text-left mt-4 md:mt-0 font-light text-zinc-400 overflow-hidde">
+          <p className="text-sm md:text-base text-zinc-400 text-center">
             Stay informed with the latest updates and insights from around the
             world.
           </p>

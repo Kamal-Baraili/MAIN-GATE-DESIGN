@@ -92,11 +92,28 @@ const Testimonial = () => {
 
   return (
     <>
-      <div className="w-11/12 mx-auto mt-12 pt-20 pb-10 rounded-t-4xl -mt-10">
-        <h2 className="text-amber-50 text-5xl lg:text-6xl text-center">
-          What Our <span className="text-primary">Clients</span> Say?
-        </h2>
-        <div className="w-full mx-auto mt-5 md:mt-10 relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="w-11/12 mx-auto mt-20 sm:mt-50 pt-20 pb-10 rounded-t-4xl -mt-10">
+        <div>
+          <h2 className="text-amber-50 text-5xl lg:text-6xl text-center">
+            What Our <span className="text-primary">Clients</span> Say?
+          </h2>
+          <p className="text-zinc-400 pt-4 w-full sm:w-9/11 mx-auto  text-center leading-6 text-sm sm:text-base">
+            At Main Gate Design, we are committed to providing exceptional
+            service and going above and beyond to meet the unique needs of every
+            client. We believe that the best way to showcase the value we bring
+            is through the voices of the people who have experienced our work
+            firsthand.{" "}
+            <span className="hidden sm:inline-bloc">
+              Our clients’ feedback is invaluable to us and reflects the
+              dedication, care, and expertise we invest into every project we
+              undertake. We’re proud to say that our clients’ success stories
+              speak volumes about our passion for excellence, our attention to
+              detail, and our ability to deliver results that make a real
+              difference.{" "}
+            </span>
+          </p>
+        </div>
+        <div className="w-full mx-auto mt-5 md:mt-30 relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* <Slider {...settings} ref={sliderRef}> */}
           {reviewCardData.map((key: any, index: any) => (
             <TestimonialCard
