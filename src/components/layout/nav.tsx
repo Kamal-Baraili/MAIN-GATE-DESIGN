@@ -147,11 +147,11 @@ const Nav = () => {
   return (
     <div className="w-full fixed top-0 left-0 z-60 border-b border-b-zinc-800 bg-black">
       <div className="w-11/12 mx-auto flex items-center justify-between">
-        <div className="p-4 bg-black flex gap-16 justify-start">
+        <div className="py-4 bg-black flex gap-16 justify-start">
           <div className="flex items-center gap-24 bg-transparent">
             <Link onClick={handleLogoClick} to="/">
               <img
-                className="w-35 h-12 lg:w-40 object-contain"
+                className="w-35 h-[6.2vh] lg:w-[10.4vw] object-contain"
                 src="/main-gate-design-logo.png"
                 alt="main-gate-design-logo"
               />
@@ -160,13 +160,13 @@ const Nav = () => {
 
           {/* Desktop menus */}
         </div>
-        <div className="hidden lg:flex justify-center gap-8 xl:gap-12 capitalize items-center">
+        <div className="hidden lg:flex justify-center gap-8 xl:gap-[3.5vw] capitalize items-center">
           {navMenus.map((k: any, ind: number) => (
             <div key={ind}>
               <Link
                 to={k.path}
                 onClick={(e) => handleNavClick(e, k.path)}
-                className={`hover:text-primary text-sm xl:text-base text-nowrap transition-colors duration-300
+                className={`hover:text-primary text-sm xl:text-[1.04vw] text-nowrap transition-colors duration-300
                    ${location.pathname === k.path && "text-primary"}`}
               >
                 {k.title}

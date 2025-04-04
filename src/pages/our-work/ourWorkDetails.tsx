@@ -65,23 +65,25 @@ const OurWorkDetails = ({ item }: Key) => {
 
   return (
     <>
-      <div className="w-11/12 mx-auto pt-24">
+      <div className="w-11/12 mx-auto pt-[12.5vh]">
         <div className="w-12 my-5">
           <Link to="/catalogue">
             <div className=" flex gap-2 text-zinc-300 opacity-70 hover:opacity-90 hover:text-zinc-100 hover:gap-3 transition-all ease-in-out duration-100 cursor-pointer">
               <img className="" src="/blog/arrow-left.svg" alt="" />
-              <span className="">Back</span>
+              <span className="text-base lg:text-[1.05vw]">Back</span>
             </div>
           </Link>
         </div>
-        <div className="flex flex-col-reverse lg:flex-row items-center gap-8">
-          <div className="w-full lg:w-1/2">
-            <h2 className="text-4xl mb-2 pt-2 text-zinc-400">{item.title}</h2>
-            <p className="mt-10 leading-7 tracking-wider text-zinc-500">
+        <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-8">
+          <div className="w-full">
+            <h2 className="text-4xl lg:text-[2.3vw] mb-2 pt-2 text-zinc-400">
+              {item.title}
+            </h2>
+            <p className="mt-10 tracking-wider text-zinc-500 text-base lg:text-[1.05vw]">
               {item.desc}
             </p>
           </div>
-          <div>
+          <div className="w-full">
             <img
               className="w-full rounded-2xl h-[40vh] sm:h-[50vh] md:h-[60vh] object-cover opacity-85"
               src={item.img}
@@ -102,7 +104,7 @@ const OurWorkDetails = ({ item }: Key) => {
           ))}
         </div>
         <div className="my-20 flex flex-col items-center">
-          <h2 className="md:leading-[1] text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-amber-50 text-center md:text-left">
+          <h2 className="md:leading-[1] text-4xl md:text-5xl lg:text-6xl xl:text-7xl lg:text-[3.9vw] text-amber-50 text-center md:text-left">
             Have a Question?
           </h2>
           <div className="mt-10 flex flex-col justify-start items-center gap-5">
@@ -112,7 +114,9 @@ const OurWorkDetails = ({ item }: Key) => {
               target="_blank"
             >
               <img src="/homepage/whatsapp-icon.svg" alt="" />
-              <span className="text-sm sm:text-base">Whatsapp Us</span>
+              <span className="text-sm sm:text-base lg-text-[]1.05vw">
+                Whatsapp Us
+              </span>
             </a>
           </div>
         </div>

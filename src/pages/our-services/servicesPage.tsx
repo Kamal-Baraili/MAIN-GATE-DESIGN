@@ -12,11 +12,11 @@ const ServicesPage = () => {
     <>
       <div className="w-full mt-70">
         <header className="w-11/12 mx-auto mb-10">
-          <h1 className="uppercase md:leading-[1] text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-amber-50">
+          <h1 className="uppercase md:leading-[1] text-4xl md:text-5xl lg:text-[4.7vw] text-amber-50">
             Our <span className="text-primary">Services</span>
           </h1>
           <div className="p-0">
-            <p className="w-2/3 lg:w-3/11 mt-4 text-zinc-400 text-xl">
+            <p className="w-2/3 lg:w-3/11 mt-4 text-zinc-400 text-xl lg:text-[1.25vw]">
               Main Gate Design offers custom gates, expert installation, and
               reliable repairs for enhanced security and style.
             </p>

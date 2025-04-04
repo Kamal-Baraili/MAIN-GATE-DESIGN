@@ -1,7 +1,7 @@
 import TestimonialCard from "../../shared/card/testimonialCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import Slider from "react-slick";
+import Slider from "react-slick";
 // import { SetStateAction, useEffect, useRef, useState } from "react";
 import { reviewCardData } from "../../../db/mockdata";
 import { gsap } from "gsap";
@@ -14,55 +14,108 @@ const Testimonial = () => {
   // const titleRef = useRef<HTMLHeadingElement>(null);
   // const [currentSlide, setCurrentSlide] = useState(0);
 
-  // const settings = {
-  //   dots: false,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  //   arrows: false,
-  //   autoplay: true,
-  //   pauseOnHover: false,
-  //   autoplaySpeed: 3000,
-  //   beforeChange: (_oldIndex: any, newIndex: SetStateAction<number>) =>
-  //     setCurrentSlide(newIndex),
-  //   responsive: [
-  //     {
-  //       breakpoint: 1500,
-  //       settings: {
-  //         slidesToShow: 1,
-  //         slidesToScroll: 1,
-  //         infinite: true,
-  //         dots: true,
-  //       },
-  //     },
+  const settings1 = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    speed: 6000, // Reduced speed for smoother transition
+    autoplaySpeed: 60, // Keeping the autoplay speed as per your request
+    cssEase: "linear", // Smooth easing
+    responsive: [
+      {
+        breakpoint: 1500,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          autoplaySpeed: 3000,
+          speed: 3000,
+          cssEase: "ease",
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplaySpeed: 3000,
+          speed: 3000,
+          cssEase: "ease",
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplaySpeed: 3000,
+          speed: 3000,
+          cssEase: "ease",
+        },
+      },
+    ],
+  };
 
-  //     {
-  //       breakpoint: 1024,
-  //       settings: {
-  //         slidesToShow: 2,
-  //         slidesToScroll: 1,
-  //         infinite: true,
-  //         dots: true,
-  //       },
-  //     },
-  //     {
-  //       breakpoint: 600,
-  //       settings: {
-  //         slidesToShow: 1,
-  //         slidesToScroll: 1,
-  //       },
-  //     },
-  //     {
-  //       breakpoint: 480,
-  //       settings: {
-  //         slidesToShow: 1,
-  //         slidesToScroll: 1,
-  //       },
-  //     },
-  //   ],
-  // };
-
+  const settings2 = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    speed: 6000, // Reduced speed for smoother transition
+    autoplaySpeed: 60,
+    cssEase: "linear", // Smooth easing
+    rtl: true,
+    responsive: [
+      {
+        breakpoint: 1500,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          autoplaySpeed: 3000,
+          speed: 3000,
+          cssEase: "ease",
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplaySpeed: 3000,
+          speed: 3000,
+          cssEase: "ease",
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplaySpeed: 3000,
+          speed: 3000,
+          cssEase: "ease",
+        },
+      },
+    ],
+  };
   // const goToSlide = (index: number) => {
   //   if (sliderRef.current) {
   //     sliderRef.current.slickGoTo(index);
@@ -94,10 +147,10 @@ const Testimonial = () => {
     <>
       <div className="w-11/12 mx-auto mt-20 sm:mt-50 pt-20 pb-10 rounded-t-4xl -mt-10">
         <div>
-          <h2 className="text-amber-50 text-5xl lg:text-6xl text-center">
+          <h2 className="text-amber-50 text-5xl lg:text-[3.9vw] text-center">
             What Our <span className="text-primary">Clients</span> Say?
           </h2>
-          <p className="text-zinc-400 pt-4 w-full sm:w-9/11 mx-auto  text-center leading-6 text-sm sm:text-base">
+          <p className="text-zinc-400 pt-4 w-full sm:w-9/11 mx-auto  text-center text-sm sm:text-base lg:text-[1.1vw]">
             At Main Gate Design, we are committed to providing exceptional
             service and going above and beyond to meet the unique needs of every
             client. We believe that the best way to showcase the value we bring
@@ -113,18 +166,54 @@ const Testimonial = () => {
             </span>
           </p>
         </div>
-        <div className="w-full mx-auto mt-5 md:mt-30 relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* <Slider {...settings} ref={sliderRef}> */}
-          {reviewCardData.map((key: any, index: any) => (
-            <TestimonialCard
-              key={index}
-              imgSrc={key.imgSrc}
-              reviewDesc={key.reviewDesc}
-              reviewName={key.reviewName}
-              reviewPost={key.reviewPost}
-            />
-          ))}
-          {/* </Slider> */}
+        <div className="w-full mx-auto mt-5 md:mt-30 relative">
+          <div className="py-2">
+            <Slider {...settings1}>
+              {reviewCardData.map((key: any, index: any) => (
+                <div className="px-2">
+                  <TestimonialCard
+                    key={index}
+                    imgSrc={key.imgSrc}
+                    reviewDesc={key.reviewDesc}
+                    reviewName={key.reviewName}
+                    reviewPost={key.reviewPost}
+                  />
+                </div>
+              ))}
+            </Slider>
+          </div>
+
+          <div className="py-2">
+            <Slider {...settings2}>
+              {reviewCardData.map((key: any, index: any) => (
+                <div className="px-2">
+                  <TestimonialCard
+                    key={index}
+                    imgSrc={key.imgSrc}
+                    reviewDesc={key.reviewDesc}
+                    reviewName={key.reviewName}
+                    reviewPost={key.reviewPost}
+                  />
+                </div>
+              ))}
+            </Slider>
+          </div>
+
+          <div className="py-2">
+            <Slider {...settings1}>
+              {reviewCardData.map((key: any, index: any) => (
+                <div className="px-2">
+                  <TestimonialCard
+                    key={index}
+                    imgSrc={key.imgSrc}
+                    reviewDesc={key.reviewDesc}
+                    reviewName={key.reviewName}
+                    reviewPost={key.reviewPost}
+                  />
+                </div>
+              ))}
+            </Slider>
+          </div>
 
           {/* <div className="absolute top-0 left-[40%] flex md:gap-4 gap-2 z-[10]">
             {reviewCardData.map((k: any, index: number) => (

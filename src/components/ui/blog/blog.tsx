@@ -7,11 +7,11 @@ const Blog = () => {
       <div className="w-11/12 mx-auto border-t border-t-zinc-800 pt-5 mt-20">
         <div className="mt-40">
           <div className="w-full">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-amber-50 tracking-wide text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-[3.9vw] text-amber-50 tracking-wide text-center">
               Latest from <span className="text-primary">news</span>
             </h2>
           </div>
-          <p className="text-sm md:text-base text-zinc-400 text-center">
+          <p className="text-sm md:text-base text-zinc-400 text-center lg:text-[1.1vw]">
             Stay informed with the latest updates and insights from around the
             world.
           </p>

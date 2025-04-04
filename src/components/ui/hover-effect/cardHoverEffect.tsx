@@ -43,7 +43,7 @@ export const HoverEffect = ({
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "20% 30%",
+          start: "top 20%",
           end: "bottom top",
           pin: true,
           scrub: 0.5,
@@ -74,7 +74,7 @@ export const HoverEffect = ({
         style={{
           // Only apply maxWidth on desktop
           ...(window.innerWidth >= 1024 && {
-            maxWidth: `${300 * 3 + 6 * 2}px`, // 3 cards * 300px + 2 gaps * 6px
+            maxWidth: `${((400 * 3 + 6 * 2) / window.innerWidth) * 100}vw`, // Use vw calculation instead of px
           }),
         }}
       >
@@ -83,8 +83,8 @@ export const HoverEffect = ({
             key={idx}
             className="relative group block p-2 h-full w-full"
             style={{
-              width: window.innerWidth >= 1024 ? "450px" : "auto", // Fixed width for desktop only, auto width for mobile
-              flex: window.innerWidth >= 1024 ? "0 0 450px" : "1 1 100%", // Flex on desktop, full width on mobile
+              width: window.innerWidth >= 1024 ? "29.44vw" : "full", // Use vw for desktop width
+              flex: window.innerWidth >= 1024 ? "0 0 29.44vw" : "1 1 100%", // Flex on desktop, full width on mobile
             }}
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
@@ -128,7 +128,7 @@ export const Card = ({
       )}
       style={{
         width: "100%", // Fill the parent container
-        maxWidth: "450px", // Match the parent width on desktop
+        maxWidth: window.innerWidth >= 1024 ? "29.44vw" : "full", // Use vw for maxWidth instead of px
       }}
     >
       <div className="relative z-50">

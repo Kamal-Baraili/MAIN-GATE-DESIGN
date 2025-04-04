@@ -12,29 +12,35 @@ interface Props {
 const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
   return (
     <>
-      <div className="w-11/12 md:w-7/11 lg:w-5/11 mx-auto mt-25">
+      <div className="w-11/12 md:w-7/11 lg:w-5/11 mx-auto mt-25 lg:mt-[13vh]">
         <div className="w-12">
           <Link to="/blog">
             <div className=" flex gap-2 text-zinc-300 opacity-70 hover:opacity-90 hover:text-zinc-100 hover:gap-3 transition-all ease-in-out duration-100">
               <img className="" src="/blog/arrow-left.svg" alt="" />
-              <span className="">Back</span>
+              <span className="text-base lg:text-[1.05vw]">Back</span>
             </div>
           </Link>
         </div>
         <div className=" mx-auto mt-10 rounded-2xl flex flex-col gap-4 items-start">
           <div className="flex flex-col gap-20">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl mb-2 pt-2 text-zinc-400">{title}</h3>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.3vw]  mb-2 pt-2 text-zinc-400">
+              {title}
+            </h3>
           </div>
           <div className="w-full mx-auto my-5 flex justify-between pb-10 border-b border-b-zinc-700 text-zinc-400">
             <div className="flex gap-2 items-center">
               <img
-                className="w-8 h-8 rounded-full"
+                className="w-8 h-8 lg:w-[2vw] lg:h-[4vh] rounded-full"
                 src={authorImg}
                 alt="author-image"
               />
-              <span className="text-sm sm:text-base">{author}</span>
+              <span className="text-sm sm:text-base lg:text-[1.05vw]">
+                {author}
+              </span>
             </div>
-            <span className="text-[13px] sm:text-sm">{date}</span>
+            <span className="text-[13px] sm:text-sm lg:text-[0.9125vw]">
+              {date}
+            </span>
           </div>
           <img
             className={`w-full rounded-2xl opacity-75 h-[40vh] sm:h-[50vh] md:h-[60vh] object-cover`}
@@ -42,7 +48,7 @@ const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
             alt="blog-image"
           />
         </div>
-        <p className="mt-10 leading-7 tracking-wider text-zinc-500">
+        <p className="mt-10 tracking-wider text-zinc-500 text-base lg:text-[1.05vw]">
           Unveiling the Mysteries of Vaastu Shastra for Main Gate Are you
           seeking harmony and positive energy in your home? If so, then
           understanding the ancient art of Vaastu Shastra for your main gate
@@ -55,11 +61,11 @@ const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
           significance as it serves as the primary entry point for energy to
           flow into the home.
         </p>
-        <h2 className="text-2xl my-5 pt-2 text-zinc-400 capitalize">
+        <h2 className="text-2xl lg:text-[1.6vw] my-5 pt-2 text-zinc-400 capitalize">
           What really are the The Importance of Main Gate Design and Fabrication
           in Nepal
         </h2>
-        <p className="leading-7 tracking-wider text-zinc-500">
+        <p className="tracking-wider text-zinc-500 text-base lg:text-[1.05vw]">
           Each direction corresponds to different elements and energies,
           impacting various aspects of life. For example, a main gate facing
           east attracts abundance and prosperity, while a gate facing west
@@ -81,10 +87,10 @@ const BlogDetail = ({ imgSrc, author, date, title, authorImg }: Props) => {
           Shastra, the main gate should ideally face a favorable direction based
           on the owner’s birth chart.
         </p>
-        <h2 className="text-2xl my-5 pt-2 text-zinc-400 capitalize">
+        <h2 className="text-2xl lg:text-[1.6vw] my-5 pt-2 text-zinc-400 capitalize">
           Conclusion
         </h2>
-        <p className="leading-7 tracking-wider text-zinc-500">
+        <p className="tracking-wider text-zinc-500 text-base lg:text-[1.05vw]">
           Implementing Vaastu Shastra Principles for Your Main Gate Now that you
           understand the fundamental aspects of Vaastu Shastra for your main
           gate, it’s time to put these principles into practice. By following

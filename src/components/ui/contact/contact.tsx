@@ -4,16 +4,16 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 const Contact = () => {
   return (
     <>
-      <div className="w-10/11 mx-auto mt-20">
+      <div className="w-10/11 mx-auto mt-10 lg:mt-[10.5vh]">
         <div className="w-full py-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="">
             <div className="w-full">
-              <h2 className="text-amber-50 text-4xl md:text-5xl lg:text-6xl">
+              <h2 className="text-amber-50 text-4xl md:text-5xl lg:text-[3.9vw]">
                 Get in touch
               </h2>
             </div>
             <div className="mt-3">
-              <p className="text-zinc-400 text-sm sm:text-base">
+              <p className="text-zinc-400 text-sm sm:text-base lg:text-[1.05vw]">
                 Reach out today to discover how our custom gate designs can
                 transform your property, combining security with style. We're
                 here to help safeguard your future and create a lasting
@@ -21,13 +21,13 @@ const Contact = () => {
               </p>
             </div>
             <div className="w-2/3 sm:w-1/3 my-10 flex justify-between">
-              <span className="text-4xl text-zinc-500">
+              <span className="text-4xl lg:text-[2.3vw] text-zinc-500">
                 <Icon icon="basil:facebook-solid" />
               </span>
-              <span className="text-4xl text-zinc-500">
+              <span className="text-4xl lg:text-[2.3vw] text-zinc-500">
                 <Icon icon="mdi:twitter" />
               </span>
-              <span className="text-4xl text-zinc-500">
+              <span className="text-4xl lg:text-[2.3vw] text-zinc-500">
                 <Icon icon="mingcute:instagram-fill" />
               </span>
             </div>
@@ -46,7 +46,9 @@ const Contact = () => {
             </div>
           </div>
           <div className="">
-            <h2 className="text-xl md:text-4xl text-zinc-300">Send us a message</h2>
+            <h2 className="text-xl md:text-4xl lg:text-[2.3vw] text-zinc-300">
+              Send us a message
+            </h2>
             <div className="p-[1px] mt-5 rounded-md bg-gradient-to-r from-yellow-200 via-amber-50 to-amber-300">
               <div className="rounded-lg bg-black p-4 text-amber-50">
                 <form

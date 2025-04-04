@@ -5,20 +5,16 @@ const About = () => {
   const location = useLocation();
   return (
     <>
-      <div
-        className={`-mt-20 lg:mt-60 pt-0 lg:pt-10 text-zinc-300 ${
-          location.pathname == "/about" ? "pb-10 lg:pb-30" : "pb-30"
-        }`}
-      >
-        <div className="w-11/12 mx-auto flex flex-col-reverse lg:flex-row justify-center gap-20 xl:gap-30">
-          <div className="w-full lg:w-8/11 flex flex-col gap-3 items-center">
+      <div className={`-mt-20 lg:mt-40 pt-0 lg:pt-10 text-zinc-300 pb-10`}>
+        <div className="w-11/12 mx-auto flex gap-2 items-center">
+          <div className="w-full flex flex-col gap-8">
             {/* <h4 className="text-lg md:text-xl text-primary text-center">
               About Us
             </h4> */}
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-amber-50 tracking-wide text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-[3.9vw] text-amber-50 tracking-wide">
               Welcome To <span className="text-primary">Main Gate Design</span>
             </h2>
-            <p className="text-sm md:text-base text-zinc-400 text-center">
+            <p className="w-9/11 text-sm md:text-base lg:text-[1.05vw] text-zinc-400">
               Our team of experienced professionals will work closely with you
               to understand your requirements and provide innovative solutions
               that align with your vision. With our expertise and commitment to
@@ -38,6 +34,13 @@ const About = () => {
                 />
               )}
             </a>
+          </div>
+          <div className="w-full">
+            <img
+              className="w-full h-[60vh] rounded-2xl opacity-80 rotate-90 animate-pulse"
+              src="/homepage/about-img.jpg"
+              alt=""
+            />
           </div>
         </div>
       </div>

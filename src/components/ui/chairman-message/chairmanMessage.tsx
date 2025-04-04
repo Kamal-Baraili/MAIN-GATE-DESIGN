@@ -17,10 +17,10 @@ const ChairmanMessage = () => {
           <div className="w-[14%] lg:w-[20%] h-[40vh] md:h-[60vh] lg:h-[90vh] bg-gradient-to-l from-black via-black/50 to-transparent absolute top-0 right-0"></div>
         </div>
         <div>
-          <h2 className="capitalize text-4xl md:text-5xl lg:text-6xl text-amber-50 tracking-wide">
+          <h2 className="capitalize text-4xl md:text-5xl lg:text-[3.9vw] text-amber-50 tracking-wide">
             What our Founder & Chairperson has to say?
           </h2>
-          <p className="py-5 text-zinc-400 text-sm sm:text-base">
+          <p className="py-5 text-zinc-400 text-sm sm:text-base lg:text-[1.05vw]">
             As we move forward in an ever-evolving world, it is with great pride
             that I share my reflections on our journey and the exciting road
             ahead. Our organization has always been driven by a passion for
@@ -38,19 +38,19 @@ const ChairmanMessage = () => {
           </p>
           <div className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-center">
             <div className="mt-4">
-              <h3 className="text-xl text-zinc-400">Warm Regards,</h3>
-              <h3 className="my-2 text-2xl text-zinc-300">John Doe</h3>
-              <h4 className="italic text-zinc-300">Founder & Chairperson</h4>
+              <h3 className="text-xl text-zinc-400 lg:text-[1.3vw]">Warm Regards,</h3>
+              <h3 className="my-2 text-2xl lg:text-[1.6vw] text-zinc-300">John Doe</h3>
+              <h4 className="italic text-zinc-300 text-base lg:text-[1.125vw]">Founder & Chairperson</h4>
             </div>
             <div className="w-2/3 sm:w-1/3 my-4 sm:my-2 flex sm:justify-center gap-4 sm:gap-6">
-              <span className="text-2xl md:text-4xl text-[#3d5a98]">
-                <Icon icon="basil:facebook-solid" />
+              <span className="text-zinc-400 text-4xl lg:text-[2.5vw]">
+                <Icon icon="line-md:facebook" />
               </span>
-              <span className="text-2xl md:text-4xl text-[#55acee]">
-                <Icon icon="mdi:twitter" />
+              <span className="text-zinc-400 text-4xl lg:text-[2.5vw]">
+                <Icon icon="ri:twitter-fill" />
               </span>
-              <span className="text-2xl md:text-4xl">
-                <Icon icon="skill-icons:instagram" />
+              <span className="text-zinc-400 text-4xl lg:text-[2.5vw]">
+                <Icon icon="ant-design:instagram-filled" />
               </span>
             </div>
           </div>

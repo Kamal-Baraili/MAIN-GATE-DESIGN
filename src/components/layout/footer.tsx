@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter } from "../icons/socialHandles";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="w-11/12 mx-auto py-10">
         <div className="flex justify-center">
           <img
-            className="w-150 h-80"
+            className="w-150 lg:w-[39vw] h-80 lg:h-[42vh]"
             src="/footer/milky-way-footer.gif"
             alt=""
           />
@@ -44,13 +44,17 @@ const Footer = () => {
 
               <div className="">
                 <div className="flex gap-10">
-                  <Facebook />
-
-                  <Twitter />
-
-                  <Instagram />
+                  <span className="text-zinc-300 text-3xl lg:text-[2.05vw]">
+                    <Icon icon="line-md:facebook" />
+                  </span>
+                  <span className="text-zinc-300 text-3xl lg:text-[2.05vw]">
+                    <Icon icon="ri:twitter-fill" />
+                  </span>
+                  <span className="text-zinc-300 text-3xl lg:text-[2.05vw]">
+                    <Icon icon="ant-design:instagram-filled" />
+                  </span>
                 </div>
-                <h2 className="text-xl text-zinc-200 text-center mt-5">
+                <h2 className="text-xl lg:text-[1.33vw] text-zinc-200 text-center mt-5">
                   Find Us At
                 </h2>
               </div>
@@ -88,14 +92,14 @@ const Footer = () => {
           </div>
         </div>
         <div className="w-full mt-5 pt-8 flex flex-col gap-2 items-center border-t border-t-zinc-800">
-          <p className="text-zinc-400 capitalize text-sm text-center sm:text-left">
+          <p className="text-zinc-400 capitalize text-sm lg:text-[0.92vw] text-center sm:text-left">
             &copy; Copyright {currentYear} | All Rights Reserved | Main Gate
             Design Pvt. Ltd.
           </p>
           <div className="flex items-center justify-end gap-2 text-zinc-300 text-sm">
-            <span>Designed & Developed by</span>
+            <span className="text-base lg:text-[0.9125vw]">Designed & Developed by</span>
             <a href="https://www.webxnep.com/" target="blank">
-              <img className="w-12" src="/footer/webxlogo.svg" alt="" />
+              <img className="w-12 lg:w-[3.2vw]" src="/footer/webxlogo.svg" alt="" />
             </a>
           </div>
         </div>

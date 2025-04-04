@@ -108,12 +108,12 @@ const App = () => {
         >
           {isMuted ? (
             <Icon
-              className="text-2xl text-primary"
+              className="text-2xl lg:text-[1.6vw] text-primary"
               icon="streamline:volume-mute-solid"
             />
           ) : (
             <Icon
-              className="text-2xl text-primary"
+              className="text-2xl lg:text-[1.6vw] text-primary"
               icon="garden:volume-unmuted-fill-16"
             />
           )}
